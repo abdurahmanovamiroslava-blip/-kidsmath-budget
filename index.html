@@ -3,261 +3,217 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>KidsMath — Финансовая панель</title>
 
 <style>
+*{box-sizing:border-box}
 
-* {
-    box-sizing: border-box;
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f6fa;
+    color:#222;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f6fa;
-    color: #222;
+.header{
+    background:#fff;
+    padding:22px;
+    border-bottom:1px solid #eee;
 }
 
-.header {
-    background: white;
-    padding: 22px;
-    border-bottom: 1px solid #eee;
+.header h1{
+    margin:0;
+    font-size:28px;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 26px;
+.header p{
+    margin:6px 0 0;
+    color:#777;
 }
 
-.header p {
-    margin: 6px 0 0;
-    color: #777;
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
 }
 
-.container {
-    max-width: 1150px;
-    margin: auto;
-    padding: 20px;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+.card{
+    background:#fff;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
-.card {
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.06);
+.card-title{
+    color:#777;
+    font-size:14px;
 }
 
-.card-title {
-    color: #777;
-    font-size: 14px;
+.card-value{
+    font-size:23px;
+    font-weight:bold;
+    margin-top:10px;
 }
 
-.card-value {
-    font-size: 23px;
-    font-weight: bold;
-    margin-top: 10px;
+.section{
+    background:#fff;
+    margin-top:20px;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 3px 12px rgba(0,0,0,.04);
 }
 
-.section {
-    background: white;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.04);
+.section h2{
+    margin-top:0;
 }
 
-.section h2 {
-    margin-top: 0;
+.form{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
 }
 
-.form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+label{
+    display:block;
+    color:#666;
+    font-size:14px;
 }
 
-label {
-    display: block;
-    color: #666;
-    font-size: 14px;
+input,select{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:16px;
 }
 
-input,
-select {
-    width: 100%;
-    padding: 12px;
-    margin-top: 6px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
+button{
+    border:none;
+    border-radius:10px;
+    padding:12px 18px;
+    color:white;
+    background:#111827;
+    font-size:15px;
+    cursor:pointer;
 }
 
-button {
-    border: none;
-    border-radius: 10px;
-    padding: 12px 18px;
-    color: white;
-    background: #111827;
-    font-size: 15px;
-    cursor: pointer;
+.add-btn{
+    width:100%;
+    margin-top:20px;
 }
 
-.add-btn {
-    width: 100%;
-    margin-top: 20px;
+.delete{
+    background:#dc2626;
+    padding:7px 10px;
+    font-size:13px;
 }
 
-.delete {
-    background: #dc2626;
-    padding: 7px 10px;
-    font-size: 13px;
+.table-wrapper{
+    overflow-x:auto;
 }
 
-.table-wrapper {
-    overflow-x: auto;
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+th,td{
+    padding:12px 8px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+    white-space:nowrap;
 }
 
-th,
-td {
-    padding: 12px 8px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-    white-space: nowrap;
+.empty{
+    text-align:center;
+    color:#777;
+    padding:20px;
 }
 
-.empty {
-    text-align: center;
-    color: #777;
-    padding: 20px;
+.summary{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:15px;
 }
 
-.expense-summary {
-    margin-top: 15px;
-    font-size: 18px;
-    font-weight: bold;
+.summary-box{
+    background:#f5f6fa;
+    padding:15px;
+    border-radius:12px;
 }
 
-@media(max-width:800px) {
+.summary-box strong{
+    display:block;
+    font-size:20px;
+    margin-top:6px;
+}
 
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
+@media(max-width:800px){
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 
+    .summary{
+        grid-template-columns:1fr;
+    }
 }
 
-@media(max-width:500px) {
-
-    .cards {
-        grid-template-columns: 1fr;
+@media(max-width:500px){
+    .cards,.form{
+        grid-template-columns:1fr;
     }
 
-    .form {
-        grid-template-columns: 1fr;
+    .container{
+        padding:12px;
     }
 
-    .container {
-        padding: 12px;
+    table{
+        font-size:13px;
     }
-
-    table {
-        font-size: 13px;
-    }
-
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="header">
-
     <h1>KidsMath 📊</h1>
-
-    <p>
-        Финансовая панель учебного центра
-    </p>
-
+    <p>Финансовая панель учебного центра</p>
 </div>
 
-
 <div class="container">
-
 
 <!-- ================= DASHBOARD ================= -->
 
 <div class="cards">
 
     <div class="card">
-
-        <div class="card-title">
-            💰 Выручка
-        </div>
-
-        <div
-            class="card-value"
-            id="revenue">
-            0 сум
-        </div>
-
+        <div class="card-title">💰 Выручка</div>
+        <div class="card-value" id="revenue">0 сум</div>
     </div>
 
-
     <div class="card">
-
-        <div class="card-title">
-            💸 Расходы
-        </div>
-
-        <div
-            class="card-value"
-            id="expenses">
-            0 сум
-        </div>
-
+        <div class="card-title">💸 Расходы</div>
+        <div class="card-value" id="expenses">0 сум</div>
     </div>
 
-
     <div class="card">
-
-        <div class="card-title">
-            📈 Прибыль
-        </div>
-
-        <div
-            class="card-value"
-            id="profit">
-            0 сум
-        </div>
-
+        <div class="card-title">📈 Прибыль</div>
+        <div class="card-value" id="profit">0 сум</div>
     </div>
 
-
     <div class="card">
-
-        <div class="card-title">
-            🧾 Количество операций
-        </div>
-
-        <div
-            class="card-value"
-            id="operations">
-            0
-        </div>
-
+        <div class="card-title">👨‍🎓 Ученики</div>
+        <div class="card-value" id="studentCount">0</div>
     </div>
 
 </div>
@@ -267,116 +223,51 @@ td {
 
 <div class="section">
 
-    <h2>💰 Доходы</h2>
+<h2>💰 Доходы</h2>
 
-    <div class="form">
+<div class="form">
 
-        <div>
+<div>
+<label>Дата</label>
+<input type="date" id="incomeDate">
+</div>
 
-            <label>
-                Дата
-            </label>
+<div>
+<label>Ученик</label>
+<input type="text" id="incomeStudent" placeholder="Имя ученика">
+</div>
 
-            <input
-                type="date"
-                id="incomeDate">
+<div>
+<label>Группа</label>
+<input type="text" id="incomeGroup" placeholder="Например: Math 5">
+</div>
 
-        </div>
+<div>
+<label>Сумма</label>
+<input type="number" id="incomeAmount" placeholder="500000">
+</div>
 
+<div>
+<label>Способ оплаты</label>
+<select id="incomePayment">
+<option>Наличные</option>
+<option>Карта</option>
+<option>Перевод</option>
+</select>
+</div>
 
-        <div>
+<div>
+<label>Комментарий</label>
+<input type="text" id="incomeComment" placeholder="Оплата за месяц">
+</div>
 
-            <label>
-                Ученик
-            </label>
+</div>
 
-            <input
-                type="text"
-                id="incomeStudent"
-                placeholder="Имя ученика">
+<button class="add-btn" onclick="addIncome()">
+➕ Добавить доход
+</button>
 
-        </div>
-
-
-        <div>
-
-            <label>
-                Группа
-            </label>
-
-            <input
-                type="text"
-                id="incomeGroup"
-                placeholder="Например: Math 5">
-
-        </div>
-
-
-        <div>
-
-            <label>
-                Сумма
-            </label>
-
-            <input
-                type="number"
-                id="incomeAmount"
-                placeholder="500000">
-
-        </div>
-
-
-        <div>
-
-            <label>
-                Способ оплаты
-            </label>
-
-            <select id="incomePayment">
-
-                <option>
-                    Наличные
-                </option>
-
-                <option>
-                    Карта
-                </option>
-
-                <option>
-                    Перевод
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div>
-
-            <label>
-                Комментарий
-            </label>
-
-            <input
-                type="text"
-                id="incomeComment"
-                placeholder="Оплата за сентябрь">
-
-        </div>
-
-    </div>
-
-
-    <button
-        class="add-btn"
-        onclick="addIncome()">
-
-        ➕ Добавить доход
-
-    </button>
-
-
-    <div id="incomeTable"></div>
+<div id="incomeTable"></div>
 
 </div>
 
@@ -385,761 +276,704 @@ td {
 
 <div class="section">
 
-    <h2>💸 Расходы</h2>
+<h2>💸 Расходы</h2>
 
-    <div class="form">
+<div class="form">
 
-        <div>
+<div>
+<label>Дата</label>
+<input type="date" id="expenseDate">
+</div>
 
-            <label>
-                Дата
-            </label>
+<div>
+<label>Категория</label>
+<select id="expenseCategory">
+<option>Аренда</option>
+<option>Зарплата</option>
+<option>Реклама</option>
+<option>Коммунальные услуги</option>
+<option>Заправка</option>
+<option>Оборудование</option>
+<option>Кредит</option>
+<option>Прочее</option>
+</select>
+</div>
 
-            <input
-                type="date"
-                id="expenseDate">
+<div>
+<label>Сумма</label>
+<input type="number" id="expenseAmount" placeholder="1000000">
+</div>
 
-        </div>
+<div>
+<label>Способ оплаты</label>
+<select id="expensePayment">
+<option>Наличные</option>
+<option>Карта</option>
+<option>Перевод</option>
+</select>
+</div>
 
+<div>
+<label>Комментарий</label>
+<input type="text" id="expenseComment" placeholder="Описание расхода">
+</div>
 
-        <div>
+</div>
 
-            <label>
-                Категория
-            </label>
+<button class="add-btn" onclick="addExpense()">
+➕ Добавить расход
+</button>
 
-            <select id="expenseCategory">
-
-                <option>
-                    Аренда
-                </option>
-
-                <option>
-                    Зарплата
-                </option>
-
-                <option>
-                    Реклама
-                </option>
-
-                <option>
-                    Коммунальные услуги
-                </option>
-
-                <option>
-                    Заправка
-                </option>
-
-                <option>
-                    Оборудование
-                </option>
-
-                <option>
-                    Кредит
-                </option>
-
-                <option>
-                    Прочее
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div>
-
-            <label>
-                Сумма
-            </label>
-
-            <input
-                type="number"
-                id="expenseAmount"
-                placeholder="1000000">
-
-        </div>
-
-
-        <div>
-
-            <label>
-                Способ оплаты
-            </label>
-
-            <select id="expensePayment">
-
-                <option>
-                    Наличные
-                </option>
-
-                <option>
-                    Карта
-                </option>
-
-                <option>
-                    Перевод
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <div>
-
-            <label>
-                Комментарий
-            </label>
-
-            <input
-                type="text"
-                id="expenseComment"
-                placeholder="Описание расхода">
-
-        </div>
-
-    </div>
-
-
-    <button
-        class="add-btn"
-        onclick="addExpense()">
-
-        ➕ Добавить расход
-
-    </button>
-
-
-    <div id="expenseTable"></div>
+<div id="expenseTable"></div>
 
 </div>
 
 
-<!-- ================= PROFIT ================= -->
+<!-- ================= STUDENTS ================= -->
 
 <div class="section">
 
-    <h2>📊 Финансовый результат</h2>
+<h2>👨‍🎓 Ученики и долги</h2>
 
-    <div class="expense-summary">
+<div class="summary">
 
-        Выручка:
-        <span id="resultRevenue">
-            0 сум
-        </span>
+<div class="summary-box">
+Всего учеников
+<strong id="studentsTotal">0</strong>
+</div>
 
-    </div>
+<div class="summary-box">
+Оплачено
+<strong id="studentsPaid">0 сум</strong>
+</div>
 
-
-    <div class="expense-summary">
-
-        Расходы:
-        <span id="resultExpenses">
-            0 сум
-        </span>
-
-    </div>
-
-
-    <div class="expense-summary">
-
-        Прибыль:
-        <span id="resultProfit">
-            0 сум
-        </span>
-
-    </div>
+<div class="summary-box">
+Общий долг
+<strong id="studentsDebt">0 сум</strong>
+</div>
 
 </div>
 
+
+<div class="form" style="margin-top:20px">
+
+<div>
+<label>Имя и фамилия</label>
+<input type="text" id="studentName" placeholder="Алиса Абдуллаева">
+</div>
+
+<div>
+<label>Группа</label>
+<input type="text" id="studentGroup" placeholder="Math 5">
+</div>
+
+<div>
+<label>Стоимость обучения</label>
+<input type="number" id="studentPrice" placeholder="500000">
+</div>
+
+<div>
+<label>Оплачено</label>
+<input type="number" id="studentPaidInput" placeholder="500000">
+</div>
+
+<div>
+<label>Период</label>
+<input type="text" id="studentPeriod" placeholder="Сентябрь 2026">
+</div>
+
+<div>
+<label>Комментарий</label>
+<input type="text" id="studentComment" placeholder="Комментарий">
+</div>
+
+</div>
+
+<button class="add-btn" onclick="addStudent()">
+➕ Добавить ученика
+</button>
+
+<div id="studentTable"></div>
+
+</div>
+
+
+<!-- ================= RESULT ================= -->
+
+<div class="section">
+
+<h2>📊 Финансовый результат</h2>
+
+<div class="summary">
+
+<div class="summary-box">
+Выручка
+<strong id="resultRevenue">0 сум</strong>
+</div>
+
+<div class="summary-box">
+Расходы
+<strong id="resultExpenses">0 сум</strong>
+</div>
+
+<div class="summary-box">
+Прибыль
+<strong id="resultProfit">0 сум</strong>
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 
 <script>
 
-
 /* ================= DATA ================= */
 
 let incomes =
-    JSON.parse(
-        localStorage.getItem(
-            "kidsmathIncomes"
-        ) || "[]"
-    );
-
+JSON.parse(localStorage.getItem("kidsmathIncomes") || "[]");
 
 let expenses =
-    JSON.parse(
-        localStorage.getItem(
-            "kidsmathExpenses"
-        ) || "[]"
-    );
+JSON.parse(localStorage.getItem("kidsmathExpenses") || "[]");
+
+let students =
+JSON.parse(localStorage.getItem("kidsmathStudents") || "[]");
 
 
 /* ================= HELPERS ================= */
 
-function money(number) {
+function money(number){
+return Number(number).toLocaleString("ru-RU") + " сум";
+}
 
-    return Number(number)
-        .toLocaleString("ru-RU")
-        + " сум";
+function saveData(){
+
+localStorage.setItem(
+"kidsmathIncomes",
+JSON.stringify(incomes)
+);
+
+localStorage.setItem(
+"kidsmathExpenses",
+JSON.stringify(expenses)
+);
+
+localStorage.setItem(
+"kidsmathStudents",
+JSON.stringify(students)
+);
 
 }
 
 
-function saveData() {
+/* ================= INCOME ================= */
 
-    localStorage.setItem(
-        "kidsmathIncomes",
-        JSON.stringify(incomes)
-    );
+function addIncome(){
 
-    localStorage.setItem(
-        "kidsmathExpenses",
-        JSON.stringify(expenses)
-    );
+const date =
+document.getElementById("incomeDate").value;
+
+const student =
+document.getElementById("incomeStudent").value.trim();
+
+const group =
+document.getElementById("incomeGroup").value.trim();
+
+const amount =
+Number(document.getElementById("incomeAmount").value);
+
+const payment =
+document.getElementById("incomePayment").value;
+
+const comment =
+document.getElementById("incomeComment").value.trim();
+
+if(!date || !student || !amount){
+
+alert("Заполни дату, ученика и сумму.");
+
+return;
+}
+
+incomes.push({
+id:Date.now(),
+date,
+student,
+group,
+amount,
+payment,
+comment
+});
+
+saveData();
+
+document.getElementById("incomeStudent").value="";
+document.getElementById("incomeGroup").value="";
+document.getElementById("incomeAmount").value="";
+document.getElementById("incomeComment").value="";
+
+render();
 
 }
 
 
-/* ================= ADD INCOME ================= */
+/* ================= EXPENSE ================= */
 
-function addIncome() {
+function addExpense(){
 
-    const date =
-        document.getElementById(
-            "incomeDate"
-        ).value;
+const date =
+document.getElementById("expenseDate").value;
 
+const category =
+document.getElementById("expenseCategory").value;
 
-    const student =
-        document.getElementById(
-            "incomeStudent"
-        ).value.trim();
+const amount =
+Number(document.getElementById("expenseAmount").value);
 
+const payment =
+document.getElementById("expensePayment").value;
 
-    const group =
-        document.getElementById(
-            "incomeGroup"
-        ).value.trim();
+const comment =
+document.getElementById("expenseComment").value.trim();
 
+if(!date || !amount){
 
-    const amount =
-        Number(
-            document.getElementById(
-                "incomeAmount"
-            ).value
-        );
+alert("Заполни дату и сумму.");
 
+return;
+}
 
-    const payment =
-        document.getElementById(
-            "incomePayment"
-        ).value;
+expenses.push({
+id:Date.now(),
+date,
+category,
+amount,
+payment,
+comment
+});
 
+saveData();
 
-    const comment =
-        document.getElementById(
-            "incomeComment"
-        ).value.trim();
+document.getElementById("expenseAmount").value="";
+document.getElementById("expenseComment").value="";
 
-
-    if (
-        !date ||
-        !student ||
-        !amount
-    ) {
-
-        alert(
-            "Заполни дату, ученика и сумму."
-        );
-
-        return;
-
-    }
-
-
-    incomes.push({
-
-        id: Date.now(),
-
-        date,
-
-        student,
-
-        group,
-
-        amount,
-
-        payment,
-
-        comment
-
-    });
-
-
-    saveData();
-
-
-    document.getElementById(
-        "incomeStudent"
-    ).value = "";
-
-
-    document.getElementById(
-        "incomeGroup"
-    ).value = "";
-
-
-    document.getElementById(
-        "incomeAmount"
-    ).value = "";
-
-
-    document.getElementById(
-        "incomeComment"
-    ).value = "";
-
-
-    render();
+render();
 
 }
 
 
-/* ================= ADD EXPENSE ================= */
+/* ================= STUDENTS ================= */
 
-function addExpense() {
+function addStudent(){
 
-    const date =
-        document.getElementById(
-            "expenseDate"
-        ).value;
+const name =
+document.getElementById("studentName").value.trim();
 
+const group =
+document.getElementById("studentGroup").value.trim();
 
-    const category =
-        document.getElementById(
-            "expenseCategory"
-        ).value;
+const price =
+Number(document.getElementById("studentPrice").value);
 
+const paid =
+Number(document.getElementById("studentPaidInput").value);
 
-    const amount =
-        Number(
-            document.getElementById(
-                "expenseAmount"
-            ).value
-        );
+const period =
+document.getElementById("studentPeriod").value.trim();
 
+const comment =
+document.getElementById("studentComment").value.trim();
 
-    const payment =
-        document.getElementById(
-            "expensePayment"
-        ).value;
+if(!name || !price){
 
+alert("Заполни имя ученика и стоимость обучения.");
 
-    const comment =
-        document.getElementById(
-            "expenseComment"
-        ).value.trim();
+return;
+}
 
+const debt =
+Math.max(price - paid, 0);
 
-    if (
-        !date ||
-        !amount
-    ) {
+students.push({
+id:Date.now(),
+name,
+group,
+price,
+paid,
+debt,
+period,
+comment
+});
 
-        alert(
-            "Заполни дату и сумму."
-        );
+saveData();
 
-        return;
+document.getElementById("studentName").value="";
+document.getElementById("studentGroup").value="";
+document.getElementById("studentPrice").value="";
+document.getElementById("studentPaidInput").value="";
+document.getElementById("studentPeriod").value="";
+document.getElementById("studentComment").value="";
 
-    }
-
-
-    expenses.push({
-
-        id: Date.now(),
-
-        date,
-
-        category,
-
-        amount,
-
-        payment,
-
-        comment
-
-    });
-
-
-    saveData();
-
-
-    document.getElementById(
-        "expenseAmount"
-    ).value = "";
-
-
-    document.getElementById(
-        "expenseComment"
-    ).value = "";
-
-
-    render();
+render();
 
 }
 
 
 /* ================= DELETE ================= */
 
-function deleteIncome(id) {
+function deleteIncome(id){
 
-    incomes =
-        incomes.filter(
-            item =>
-                item.id !== id
-        );
+incomes =
+incomes.filter(item => item.id !== id);
 
-    saveData();
+saveData();
 
-    render();
+render();
 
 }
 
 
-function deleteExpense(id) {
+function deleteExpense(id){
 
-    expenses =
-        expenses.filter(
-            item =>
-                item.id !== id
-        );
+expenses =
+expenses.filter(item => item.id !== id);
 
-    saveData();
+saveData();
 
-    render();
+render();
 
 }
 
 
-/* ================= RENDER INCOME ================= */
+function deleteStudent(id){
 
-function renderIncome() {
+students =
+students.filter(item => item.id !== id);
 
-    const container =
-        document.getElementById(
-            "incomeTable"
-        );
+saveData();
 
-
-    if (
-        incomes.length === 0
-    ) {
-
-        container.innerHTML =
-            '<div class="empty">Пока нет доходов</div>';
-
-        return;
-
-    }
-
-
-    let html = `
-
-        <div class="table-wrapper">
-
-        <table>
-
-        <thead>
-
-        <tr>
-
-        <th>Дата</th>
-
-        <th>Ученик</th>
-
-        <th>Группа</th>
-
-        <th>Сумма</th>
-
-        <th>Оплата</th>
-
-        <th></th>
-
-        </tr>
-
-        </thead>
-
-        <tbody>
-
-    `;
-
-
-    incomes
-        .slice()
-        .reverse()
-        .forEach(
-            income => {
-
-                html += `
-
-                <tr>
-
-                <td>
-                    ${income.date}
-                </td>
-
-                <td>
-                    ${income.student}
-                </td>
-
-                <td>
-                    ${income.group}
-                </td>
-
-                <td>
-                    ${money(
-                        income.amount
-                    )}
-                </td>
-
-                <td>
-                    ${income.payment}
-                </td>
-
-                <td>
-
-                    <button
-                        class="delete"
-                        onclick="deleteIncome(${income.id})">
-
-                        Удалить
-
-                    </button>
-
-                </td>
-
-                </tr>
-
-                `;
-
-            }
-        );
-
-
-    html += `
-
-        </tbody>
-
-        </table>
-
-        </div>
-
-    `;
-
-
-    container.innerHTML =
-        html;
+render();
 
 }
 
 
-/* ================= RENDER EXPENSE ================= */
+/* ================= INCOME TABLE ================= */
 
-function renderExpenses() {
+function renderIncome(){
 
-    const container =
-        document.getElementById(
-            "expenseTable"
-        );
+const container =
+document.getElementById("incomeTable");
 
+if(incomes.length === 0){
 
-    if (
-        expenses.length === 0
-    ) {
+container.innerHTML =
+'<div class="empty">Пока нет доходов</div>';
 
-        container.innerHTML =
-            '<div class="empty">Пока нет расходов</div>';
+return;
+}
 
-        return;
+let html = `
 
-    }
+<div class="table-wrapper">
 
+<table>
 
-    let html = `
+<thead>
 
-        <div class="table-wrapper">
+<tr>
+<th>Дата</th>
+<th>Ученик</th>
+<th>Группа</th>
+<th>Сумма</th>
+<th>Оплата</th>
+<th></th>
+</tr>
 
-        <table>
+</thead>
 
-        <thead>
+<tbody>
+`;
 
-        <tr>
+incomes.slice().reverse().forEach(item => {
 
-        <th>Дата</th>
+html += `
 
-        <th>Категория</th>
+<tr>
 
-        <th>Сумма</th>
+<td>${item.date}</td>
 
-        <th>Оплата</th>
+<td>${item.student}</td>
 
-        <th>Комментарий</th>
+<td>${item.group}</td>
 
-        <th></th>
+<td>${money(item.amount)}</td>
 
-        </tr>
+<td>${item.payment}</td>
 
-        </thead>
+<td>
+<button
+class="delete"
+onclick="deleteIncome(${item.id})">
+Удалить
+</button>
+</td>
 
-        <tbody>
+</tr>
+`;
 
-    `;
+});
 
+html += `
+</tbody>
+</table>
+</div>
+`;
 
-    expenses
-        .slice()
-        .reverse()
-        .forEach(
-            expense => {
+container.innerHTML = html;
 
-                html += `
-
-                <tr>
-
-                <td>
-                    ${expense.date}
-                </td>
-
-                <td>
-                    ${expense.category}
-                </td>
-
-                <td>
-                    ${money(
-                        expense.amount
-                    )}
-                </td>
-
-                <td>
-                    ${expense.payment}
-                </td>
-
-                <td>
-                    ${expense.comment}
-                </td>
-
-                <td>
-
-                    <button
-                        class="delete"
-                        onclick="deleteExpense(${expense.id})">
-
-                        Удалить
-
-                    </button>
-
-                </td>
-
-                </tr>
-
-                `;
-
-            }
-        );
+}
 
 
-    html += `
+/* ================= EXPENSE TABLE ================= */
 
-        </tbody>
+function renderExpenses(){
 
-        </table>
+const container =
+document.getElementById("expenseTable");
 
-        </div>
+if(expenses.length === 0){
 
-    `;
+container.innerHTML =
+'<div class="empty">Пока нет расходов</div>';
+
+return;
+}
+
+let html = `
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Дата</th>
+<th>Категория</th>
+<th>Сумма</th>
+<th>Оплата</th>
+<th>Комментарий</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+expenses.slice().reverse().forEach(item => {
+
+html += `
+
+<tr>
+
+<td>${item.date}</td>
+
+<td>${item.category}</td>
+
+<td>${money(item.amount)}</td>
+
+<td>${item.payment}</td>
+
+<td>${item.comment}</td>
+
+<td>
+<button
+class="delete"
+onclick="deleteExpense(${item.id})">
+Удалить
+</button>
+</td>
+
+</tr>
+`;
+
+});
+
+html += `
+</tbody>
+</table>
+</div>
+`;
+
+container.innerHTML = html;
+
+}
 
 
-    container.innerHTML =
-        html;
+/* ================= STUDENT TABLE ================= */
+
+function renderStudents(){
+
+const container =
+document.getElementById("studentTable");
+
+if(students.length === 0){
+
+container.innerHTML =
+'<div class="empty">Пока нет учеников</div>';
+
+return;
+}
+
+let html = `
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ученик</th>
+<th>Группа</th>
+<th>Стоимость</th>
+<th>Оплачено</th>
+<th>Долг</th>
+<th>Период</th>
+<th>Статус</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+students.slice().reverse().forEach(item => {
+
+let status = "Долг";
+
+if(item.debt === 0){
+status = "Оплачено";
+}
+else if(item.paid > 0){
+status = "Частично";
+}
+
+html += `
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>${item.group}</td>
+
+<td>${money(item.price)}</td>
+
+<td>${money(item.paid)}</td>
+
+<td>${money(item.debt)}</td>
+
+<td>${item.period}</td>
+
+<td>${status}</td>
+
+<td>
+
+<button
+class="delete"
+onclick="deleteStudent(${item.id})">
+Удалить
+</button>
+
+</td>
+
+</tr>
+`;
+
+});
+
+html += `
+</tbody>
+</table>
+</div>
+`;
+
+container.innerHTML = html;
 
 }
 
 
 /* ================= DASHBOARD ================= */
 
-function render() {
+function render(){
 
-    const revenue =
-        incomes.reduce(
-            (sum, item) =>
-                sum + item.amount,
-            0
-        );
+const revenue =
+incomes.reduce(
+(sum,item) => sum + item.amount,
+0
+);
 
+const totalExpenses =
+expenses.reduce(
+(sum,item) => sum + item.amount,
+0
+);
 
-    const totalExpenses =
-        expenses.reduce(
-            (sum, item) =>
-                sum + item.amount,
-            0
-        );
+const profit =
+revenue - totalExpenses;
 
+const totalPaid =
+students.reduce(
+(sum,item) => sum + item.paid,
+0
+);
 
-    const profit =
-        revenue -
-        totalExpenses;
-
-
-    document.getElementById(
-        "revenue"
-    ).textContent =
-        money(revenue);
-
-
-    document.getElementById(
-        "expenses"
-    ).textContent =
-        money(totalExpenses);
+const totalDebt =
+students.reduce(
+(sum,item) => sum + item.debt,
+0
+);
 
 
-    document.getElementById(
-        "profit"
-    ).textContent =
-        money(profit);
+document.getElementById("revenue").textContent =
+money(revenue);
 
+document.getElementById("expenses").textContent =
+money(totalExpenses);
 
-    document.getElementById(
-        "operations"
-    ).textContent =
-        incomes.length +
-        expenses.length;
+document.getElementById("profit").textContent =
+money(profit);
 
+document.getElementById("studentCount").textContent =
+students.length;
 
-    document.getElementById(
-        "resultRevenue"
-    ).textContent =
-        money(revenue);
+document.getElementById("studentsTotal").textContent =
+students.length;
 
+document.getElementById("studentsPaid").textContent =
+money(totalPaid);
 
-    document.getElementById(
-        "resultExpenses"
-    ).textContent =
-        money(totalExpenses);
+document.getElementById("studentsDebt").textContent =
+money(totalDebt);
 
+document.getElementById("resultRevenue").textContent =
+money(revenue);
 
-    document.getElementById(
-        "resultProfit"
-    ).textContent =
-        money(profit);
+document.getElementById("resultExpenses").textContent =
+money(totalExpenses);
 
+document.getElementById("resultProfit").textContent =
+money(profit);
 
-    renderIncome();
+renderIncome();
 
-    renderExpenses();
+renderExpenses();
+
+renderStudents();
 
 }
 
@@ -1147,19 +981,13 @@ function render() {
 /* ================= DATE ================= */
 
 const today =
-    new Date()
-        .toISOString()
-        .split("T")[0];
+new Date().toISOString().split("T")[0];
 
+document.getElementById("incomeDate").value =
+today;
 
-document.getElementById(
-    "incomeDate"
-).value = today;
-
-
-document.getElementById(
-    "expenseDate"
-).value = today;
+document.getElementById("expenseDate").value =
+today;
 
 
 /* ================= START ================= */
