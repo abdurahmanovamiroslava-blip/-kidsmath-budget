@@ -3,144 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KidsMath — Бюджет</title>
+<title>KidsMath — Финансы</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f5f6fa;
+    color:#222;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f6fa;
-    color: #222;
+.header{
+    background:#fff;
+    padding:20px;
+    border-bottom:1px solid #eee;
 }
 
-.header {
-    background: #ffffff;
-    padding: 20px;
-    border-bottom: 1px solid #eee;
+.header h1{margin:0}
+.header p{color:#777}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:20px;
 }
 
-.header h1 {
-    margin: 0;
-    font-size: 26px;
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
 }
 
-.header p {
-    margin: 6px 0 0;
-    color: #777;
+.card{
+    background:#fff;
+    border-radius:16px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
+.card-title{
+    color:#777;
+    font-size:14px;
 }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+.card-value{
+    font-size:24px;
+    font-weight:bold;
+    margin-top:10px;
 }
 
-.card {
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+.section{
+    background:#fff;
+    margin-top:20px;
+    padding:20px;
+    border-radius:16px;
 }
 
-.card-title {
-    color: #777;
-    font-size: 14px;
+.form{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
 }
 
-.card-value {
-    font-size: 25px;
-    font-weight: bold;
-    margin-top: 10px;
+label{
+    display:block;
+    color:#666;
+    font-size:14px;
 }
 
-.section {
-    background: white;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 16px;
+input,select{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:16px;
 }
 
-.section h2 {
-    margin-top: 0;
+button{
+    padding:12px 18px;
+    border:0;
+    border-radius:10px;
+    background:#111827;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
 }
 
-.form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+.add-btn{
+    margin-top:20px;
+    width:100%;
 }
 
-label {
-    font-size: 14px;
-    color: #666;
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    margin-top: 6px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    font-size: 16px;
+th,td{
+    padding:12px 8px;
+    border-bottom:1px solid #eee;
+    text-align:left;
 }
 
-button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    background: #111827;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+.delete{
+    background:#dc2626;
+    padding:7px 10px;
+    font-size:13px;
 }
 
-button:hover {
-    opacity: 0.9;
+.empty{
+    color:#777;
+    text-align:center;
+    padding:20px;
 }
 
-.progress {
-    height: 12px;
-    background: #eee;
-    border-radius: 20px;
-    overflow: hidden;
-    margin-top: 12px;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: #111827;
-}
-
-@media (max-width: 800px) {
-    .cards {
-        grid-template-columns: repeat(2, 1fr);
+@media(max-width:800px){
+    .cards{
+        grid-template-columns:repeat(2,1fr);
     }
 }
 
-@media (max-width: 500px) {
-    .cards {
-        grid-template-columns: 1fr;
+@media(max-width:500px){
+    .cards,.form{
+        grid-template-columns:1fr;
     }
 
-    .form {
-        grid-template-columns: 1fr;
+    .container{
+        padding:12px;
     }
 
-    .container {
-        padding: 12px;
+    table{
+        font-size:13px;
     }
 }
 </style>
@@ -150,7 +147,7 @@ button:hover {
 
 <div class="header">
     <h1>KidsMath 📊</h1>
-    <p>Бюджетная панель учебного центра</p>
+    <p>Финансовая панель учебного центра</p>
 </div>
 
 <div class="container">
@@ -158,7 +155,7 @@ button:hover {
     <div class="cards">
 
         <div class="card">
-            <div class="card-title">Выручка за месяц</div>
+            <div class="card-title">Выручка</div>
             <div class="card-value" id="revenue">0 сум</div>
         </div>
 
@@ -173,200 +170,224 @@ button:hover {
         </div>
 
         <div class="card">
-            <div class="card-title">Остаток денег</div>
-            <div class="card-value" id="balance">0 сум</div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">Долги учеников</div>
-            <div class="card-value" id="debts">0 сум</div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">Количество учеников</div>
-            <div class="card-value" id="students">0</div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">Средний чек</div>
-            <div class="card-value" id="average">0 сум</div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">План</div>
-            <div class="card-value" id="planResult">0 сум</div>
+            <div class="card-title">Количество оплат</div>
+            <div class="card-value" id="payments">0</div>
         </div>
 
     </div>
 
+
     <div class="section">
 
-        <h2>✏️ Ввести данные</h2>
+        <h2>💰 Доходы</h2>
 
         <div class="form">
 
             <div>
-                <label>Выручка</label>
-                <input id="revenueInput" type="number" placeholder="Например: 50000000">
+                <label>Дата</label>
+                <input type="date" id="date">
             </div>
 
             <div>
-                <label>Расходы</label>
-                <input id="expensesInput" type="number" placeholder="Например: 30000000">
+                <label>Ученик</label>
+                <input type="text" id="student" placeholder="Имя ученика">
             </div>
 
             <div>
-                <label>Остаток денег</label>
-                <input id="balanceInput" type="number" placeholder="Например: 20000000">
+                <label>Группа</label>
+                <input type="text" id="group" placeholder="Например: Math 5">
             </div>
 
             <div>
-                <label>Долги учеников</label>
-                <input id="debtsInput" type="number" placeholder="Например: 5000000">
+                <label>Сумма</label>
+                <input type="number" id="amount" placeholder="500000">
             </div>
 
             <div>
-                <label>Количество учеников</label>
-                <input id="studentsInput" type="number" placeholder="Например: 120">
+                <label>Способ оплаты</label>
+                <select id="payment">
+                    <option value="Наличные">Наличные</option>
+                    <option value="Карта">Карта</option>
+                    <option value="Перевод">Перевод</option>
+                </select>
             </div>
 
             <div>
-                <label>План по выручке</label>
-                <input id="planInput" type="number" placeholder="Например: 60000000">
+                <label>Комментарий</label>
+                <input type="text" id="comment" placeholder="Например: оплата за сентябрь">
             </div>
 
         </div>
 
-        <button onclick="updateDashboard()">
-            Сохранить данные
+        <button class="add-btn" onclick="addIncome()">
+            ➕ Добавить доход
         </button>
 
     </div>
 
+
     <div class="section">
 
-        <h2>📈 План / факт</h2>
+        <h2>📋 История доходов</h2>
 
-        <div>
-            Факт: <strong id="factText">0 сум</strong>
-        </div>
-
-        <div>
-            План: <strong id="planText">0 сум</strong>
-        </div>
-
-        <div class="progress">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-
-        <p id="progressText">0% выполнения плана</p>
+        <div id="incomeTable"></div>
 
     </div>
 
 </div>
 
+
 <script>
 
-function formatMoney(number) {
-    return Number(number || 0).toLocaleString('ru-RU') + ' сум';
+let incomes = JSON.parse(
+    localStorage.getItem("kidsmathIncomes") || "[]"
+);
+
+function money(number){
+    return Number(number).toLocaleString("ru-RU") + " сум";
 }
 
-function updateDashboard() {
 
-    const revenue =
-        Number(document.getElementById('revenueInput').value) || 0;
+function addIncome(){
 
-    const expenses =
-        Number(document.getElementById('expensesInput').value) || 0;
+    const date = document.getElementById("date").value;
+    const student = document.getElementById("student").value.trim();
+    const group = document.getElementById("group").value.trim();
+    const amount = Number(document.getElementById("amount").value);
+    const payment = document.getElementById("payment").value;
+    const comment = document.getElementById("comment").value.trim();
 
-    const balance =
-        Number(document.getElementById('balanceInput').value) || 0;
+    if(!date || !student || !amount){
+        alert("Заполни дату, ученика и сумму.");
+        return;
+    }
 
-    const debts =
-        Number(document.getElementById('debtsInput').value) || 0;
+    const income = {
+        id: Date.now(),
+        date,
+        student,
+        group,
+        amount,
+        payment,
+        comment
+    };
 
-    const students =
-        Number(document.getElementById('studentsInput').value) || 0;
+    incomes.push(income);
 
-    const plan =
-        Number(document.getElementById('planInput').value) || 0;
+    localStorage.setItem(
+        "kidsmathIncomes",
+        JSON.stringify(incomes)
+    );
 
-    const profit = revenue - expenses;
+    document.getElementById("student").value="";
+    document.getElementById("group").value="";
+    document.getElementById("amount").value="";
+    document.getElementById("comment").value="";
 
-    const average = students > 0
-        ? revenue / students
-        : 0;
-
-    const percentage = plan > 0
-        ? Math.min((revenue / plan) * 100, 100)
-        : 0;
-
-    document.getElementById('revenue').textContent =
-        formatMoney(revenue);
-
-    document.getElementById('expenses').textContent =
-        formatMoney(expenses);
-
-    document.getElementById('profit').textContent =
-        formatMoney(profit);
-
-    document.getElementById('balance').textContent =
-        formatMoney(balance);
-
-    document.getElementById('debts').textContent =
-        formatMoney(debts);
-
-    document.getElementById('students').textContent =
-        students.toLocaleString('ru-RU');
-
-    document.getElementById('average').textContent =
-        formatMoney(average);
-
-    document.getElementById('planResult').textContent =
-        formatMoney(plan);
-
-    document.getElementById('factText').textContent =
-        formatMoney(revenue);
-
-    document.getElementById('planText').textContent =
-        formatMoney(plan);
-
-    document.getElementById('progressBar').style.width =
-        percentage + '%';
-
-    document.getElementById('progressText').textContent =
-        Math.round(percentage) + '% выполнения плана';
-
-    localStorage.setItem('kidsmathData', JSON.stringify({
-        revenue,
-        expenses,
-        balance,
-        debts,
-        students,
-        plan
-    }));
+    render();
 }
 
-function loadDashboard() {
 
-    const saved =
-        localStorage.getItem('kidsmathData');
+function deleteIncome(id){
 
-    if (!saved) return;
+    incomes = incomes.filter(
+        income => income.id !== id
+    );
 
-    const data = JSON.parse(saved);
+    localStorage.setItem(
+        "kidsmathIncomes",
+        JSON.stringify(incomes)
+    );
 
-    document.getElementById('revenueInput').value = data.revenue;
-    document.getElementById('expensesInput').value = data.expenses;
-    document.getElementById('balanceInput').value = data.balance;
-    document.getElementById('debtsInput').value = data.debts;
-    document.getElementById('studentsInput').value = data.students;
-    document.getElementById('planInput').value = data.plan;
-
-    updateDashboard();
+    render();
 }
 
-loadDashboard();
+
+function render(){
+
+    let total = incomes.reduce(
+        (sum,income) => sum + income.amount,
+        0
+    );
+
+    document.getElementById("revenue").textContent =
+        money(total);
+
+    document.getElementById("payments").textContent =
+        incomes.length;
+
+    document.getElementById("expenses").textContent =
+        "0 сум";
+
+    document.getElementById("profit").textContent =
+        money(total);
+
+
+    const table = document.getElementById("incomeTable");
+
+    if(incomes.length === 0){
+
+        table.innerHTML =
+            '<div class="empty">Пока нет доходов</div>';
+
+        return;
+    }
+
+
+    let html = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Дата</th>
+                    <th>Ученик</th>
+                    <th>Группа</th>
+                    <th>Сумма</th>
+                    <th>Оплата</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+
+    incomes
+        .slice()
+        .reverse()
+        .forEach(income => {
+
+            html += `
+                <tr>
+                    <td>${income.date}</td>
+                    <td>${income.student}</td>
+                    <td>${income.group}</td>
+                    <td>${money(income.amount)}</td>
+                    <td>${income.payment}</td>
+                    <td>
+                        <button
+                            class="delete"
+                            onclick="deleteIncome(${income.id})">
+                            Удалить
+                        </button>
+                    </td>
+                </tr>
+            `;
+
+        });
+
+
+    html += `
+            </tbody>
+        </table>
+    `;
+
+    table.innerHTML = html;
+}
+
+
+document.getElementById("date").value =
+    new Date().toISOString().split("T")[0];
+
+render();
 
 </script>
 
