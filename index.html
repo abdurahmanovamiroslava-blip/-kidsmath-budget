@@ -2,253 +2,207 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KidsMath — Управление центром</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KidsMath Budget</title>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{box-sizing:border-box}
 body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f3f4f6;
- color:#111827
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#1f2937
 }
 header{
- background:#111827;
- color:#fff;
- padding:20px
+    background:#111827;
+    color:white;
+    padding:20px
 }
 header h1{margin:0}
-header p{margin:6px 0 0;opacity:.7}
 .container{
- max-width:1600px;
- margin:auto;
- padding:20px
+    max-width:1600px;
+    margin:auto;
+    padding:20px
 }
 .tabs{
- display:flex;
- gap:8px;
- overflow:auto;
- margin-bottom:20px
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    margin-bottom:20px
 }
 .tabs button{
- border:0;
- background:#fff;
- padding:12px 16px;
- border-radius:10px;
- font-weight:bold;
- cursor:pointer;
- white-space:nowrap
+    border:0;
+    background:white;
+    padding:12px 16px;
+    border-radius:10px;
+    cursor:pointer;
+    white-space:nowrap;
+    font-weight:bold
 }
 .tabs button.active{
- background:#111827;
- color:#fff
+    background:#111827;
+    color:white
 }
 .page{display:none}
 .page.active{display:block}
-
 .section{
- background:#fff;
- padding:20px;
- border-radius:18px;
- margin-bottom:20px;
- box-shadow:0 3px 15px rgba(0,0,0,.05)
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    margin-bottom:20px;
+    box-shadow:0 3px 15px rgba(0,0,0,.05)
 }
 .section h2{margin-top:0}
-
 .form{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:14px
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px
 }
 label{
- display:block;
- font-size:13px;
- color:#6b7280;
- margin-bottom:5px
+    display:block;
+    font-size:13px;
+    color:#6b7280;
+    margin-bottom:5px
 }
 input,select{
- width:100%;
- padding:11px;
- border:1px solid #d1d5db;
- border-radius:9px;
- font-size:14px
+    width:100%;
+    padding:11px;
+    border:1px solid #d1d5db;
+    border-radius:9px;
+    font-size:14px;
+    background:white
 }
-button{
- cursor:pointer
-}
+button{cursor:pointer}
 .primary{
- border:0;
- background:#111827;
- color:#fff;
- padding:11px 18px;
- border-radius:9px;
- font-weight:bold
+    border:0;
+    background:#111827;
+    color:white;
+    padding:11px 18px;
+    border-radius:9px;
+    font-weight:bold
 }
 .secondary{
- border:0;
- background:#e5e7eb;
- padding:9px 13px;
- border-radius:8px
+    border:0;
+    background:#e5e7eb;
+    padding:9px 13px;
+    border-radius:8px
 }
 .danger{
- border:0;
- background:#dc2626;
- color:#fff;
- padding:8px 11px;
- border-radius:8px
+    border:0;
+    background:#dc2626;
+    color:white;
+    padding:8px 11px;
+    border-radius:8px
 }
 .success{
- border:0;
- background:#16a34a;
- color:#fff;
- padding:8px 11px;
- border-radius:8px
+    border:0;
+    background:#16a34a;
+    color:white;
+    padding:8px 11px;
+    border-radius:8px
 }
-.form button{
- grid-column:1/-1
+.form>button{
+    grid-column:1/-1
 }
-
 .cards{
- display:grid;
- grid-template-columns:repeat(4,1fr);
- gap:15px;
- margin-bottom:20px
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px
 }
 .card{
- background:#fff;
- padding:18px;
- border-radius:16px;
- box-shadow:0 3px 15px rgba(0,0,0,.05)
+    background:white;
+    padding:18px;
+    border-radius:15px;
+    box-shadow:0 3px 15px rgba(0,0,0,.05)
 }
 .card small{color:#6b7280}
 .card strong{
- display:block;
- font-size:23px;
- margin-top:8px
+    display:block;
+    margin-top:8px;
+    font-size:22px
 }
-
 .table-wrap{overflow:auto}
 table{
- width:100%;
- border-collapse:collapse
+    width:100%;
+    border-collapse:collapse
 }
 th,td{
- padding:11px;
- border-bottom:1px solid #eee;
- text-align:left;
- white-space:nowrap
+    padding:11px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+    white-space:nowrap
 }
 th{
- font-size:13px;
- color:#6b7280
+    color:#6b7280;
+    font-size:13px
 }
-
-.badge{
- padding:5px 9px;
- border-radius:8px;
- font-size:12px;
- font-weight:bold
+.actions{
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap
 }
-.active-badge{
- background:#dcfce7;
- color:#166534
-}
-.inactive-badge{
- background:#fee2e2;
- color:#991b1b
-}
-.debt{
- color:#dc2626;
- font-weight:bold
+.subject-row{
+    display:grid;
+    grid-template-columns:1.2fr 1.2fr 1fr 1fr auto;
+    gap:10px;
+    align-items:end;
+    background:#f9fafb;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:10px
 }
 .paid{
- color:#15803d;
- font-weight:bold
+    color:#15803d;
+    font-weight:bold
 }
-
-.subject-row{
- display:flex;
- gap:10px;
- align-items:end;
- flex-wrap:wrap;
- background:#f9fafb;
- padding:12px;
- border-radius:10px;
- margin-bottom:10px
+.debt{
+    color:#dc2626;
+    font-weight:bold
 }
-.subject-row>div{
- flex:1;
- min-width:160px
+.green{
+    background:#dcfce7;
+    color:#166534;
+    padding:5px 8px;
+    border-radius:7px
 }
-
+.red{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:5px 8px;
+    border-radius:7px
+}
 .period{
- display:grid;
- grid-template-columns:1fr 1fr auto;
- gap:12px;
- align-items:end
+    display:grid;
+    grid-template-columns:1fr 1fr auto;
+    gap:12px;
+    align-items:end
 }
-
 .charts{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:20px
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px
 }
-.chart{
- height:360px
+.chartbox{
+    height:360px
 }
-
-.subtotal{
- background:#f9fafb;
- padding:15px;
- border-radius:12px;
- margin-top:15px
+.info{
+    background:#f9fafb;
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px
 }
-
-.rank-top{
- background:#fff7ed
-}
-
-.rank-number{
- font-weight:bold;
- font-size:18px
-}
-
-.actions{
- display:flex;
- gap:5px;
- flex-wrap:wrap
-}
-
-.modal-bg{
- position:fixed;
- inset:0;
- background:rgba(0,0,0,.5);
- display:none;
- align-items:center;
- justify-content:center;
- z-index:1000
-}
-.modal{
- background:#fff;
- width:min(500px,90%);
- padding:25px;
- border-radius:18px
-}
-.modal h3{margin-top:0}
-
 @media(max-width:900px){
- .cards{grid-template-columns:repeat(2,1fr)}
- .charts{grid-template-columns:1fr}
+    .cards{grid-template-columns:repeat(2,1fr)}
+    .charts{grid-template-columns:1fr}
+    .subject-row{grid-template-columns:1fr}
 }
 @media(max-width:600px){
- .container{padding:10px}
- .form{grid-template-columns:1fr}
- .period{grid-template-columns:1fr}
- .cards{grid-template-columns:1fr 1fr;gap:8px}
- .card{padding:13px}
- .card strong{font-size:18px}
+    .container{padding:10px}
+    .form{grid-template-columns:1fr}
+    .period{grid-template-columns:1fr}
+    .cards{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -257,20 +211,20 @@ th{
 
 <header>
 <h1>KidsMath 📊</h1>
-<p>Система управления учебным центром</p>
+<p>Управление учебным центром</p>
 </header>
 
 <div class="container">
 
 <div class="tabs">
-<button class="active" onclick="page('dashboard',this)">📊 Главная</button>
-<button onclick="page('students',this)">👨‍🎓 Ученики</button>
-<button onclick="page('teachers',this)">👩‍🏫 Учителя</button>
-<button onclick="page('staff',this)">👥 Персонал</button>
-<button onclick="page('salary',this)">💵 Зарплаты</button>
-<button onclick="page('transfer',this)">🚐 Трансфер</button>
-<button onclick="page('leavers',this)">🚪 Уходы</button>
-<button onclick="page('finance',this)">💰 Финансы</button>
+<button class="active" onclick="showPage('dashboard',this)">📊 Главная</button>
+<button onclick="showPage('students',this)">👨‍🎓 Ученики</button>
+<button onclick="showPage('teachers',this)">👩‍🏫 Учителя</button>
+<button onclick="showPage('staff',this)">👥 Персонал</button>
+<button onclick="showPage('salary',this)">💵 Зарплаты</button>
+<button onclick="showPage('transfer',this)">🚐 Трансфер</button>
+<button onclick="showPage('leavers',this)">🚪 Уходы</button>
+<button onclick="showPage('finance',this)">💰 Финансы</button>
 </div>
 
 
@@ -285,17 +239,17 @@ th{
 <div class="period">
 
 <div>
-<label>Начало периода</label>
-<input type="date" id="from">
+<label>С</label>
+<input type="date" id="reportFrom">
 </div>
 
 <div>
-<label>Конец периода</label>
-<input type="date" id="to">
+<label>По</label>
+<input type="date" id="reportTo">
 </div>
 
-<button class="primary" onclick="buildReport()">
-Сформировать
+<button class="primary" onclick="makeReport()">
+Показать отчёт
 </button>
 
 </div>
@@ -306,158 +260,103 @@ th{
 
 <div class="card">
 <small>💰 Общий доход</small>
-<strong id="dIncome">0 сум</strong>
+<strong id="totalIncome">0 сум</strong>
 </div>
 
 <div class="card">
 <small>💸 Общие расходы</small>
-<strong id="dExpense">0 сум</strong>
+<strong id="totalExpense">0 сум</strong>
 </div>
 
 <div class="card">
-<small>📈 Общая прибыль</small>
-<strong id="dProfit">0 сум</strong>
+<small>📈 Прибыль</small>
+<strong id="totalProfit">0 сум</strong>
 </div>
 
 <div class="card">
 <small>👨‍🎓 Активные ученики</small>
-<strong id="dStudents">0</strong>
+<strong id="activeStudents">0</strong>
 </div>
 
 <div class="card">
-<small>💳 Долги учеников</small>
-<strong id="dStudentDebt">0 сум</strong>
+<small>🔴 Долги учеников</small>
+<strong id="studentDebt">0 сум</strong>
 </div>
 
 <div class="card">
-<small>🚐 Долг трансфера</small>
-<strong id="dTransferDebt">0 сум</strong>
+<small>🚐 Долги трансфера</small>
+<strong id="transferDebt">0 сум</strong>
 </div>
 
 <div class="card">
-<small>💵 Долг по зарплатам</small>
-<strong id="dSalaryDebt">0 сум</strong>
+<small>💵 Долг по зарплате</small>
+<strong id="salaryDebt">0 сум</strong>
 </div>
 
 <div class="card">
-<small>🚪 Ушли</small>
-<strong id="dLeavers">0</strong>
+<small>🚪 Ушли за период</small>
+<strong id="leaversCount">0</strong>
 </div>
 
 </div>
 
-
-<!-- ОБУЧЕНИЕ -->
 
 <div class="section">
 
-<h2>📚 Доходы и расходы от обучения</h2>
+<h2>📚 Обучение</h2>
 
 <div class="cards">
 
 <div class="card">
-<small>Доход от обучения</small>
-<strong id="educationIncome">0 сум</strong>
+<small>Доход</small>
+<strong id="eduIncome">0 сум</strong>
 </div>
 
 <div class="card">
-<small>Расходы на обучение</small>
-<strong id="educationExpense">0 сум</strong>
+<small>Расход</small>
+<strong id="eduExpense">0 сум</strong>
 </div>
 
 <div class="card">
 <small>Зарплаты</small>
-<strong id="educationSalary">0 сум</strong>
+<strong id="eduSalary">0 сум</strong>
 </div>
 
 <div class="card">
-<small>📈 Прибыль обучения</small>
-<strong id="educationProfit">0 сум</strong>
+<small>Прибыль</small>
+<strong id="eduProfit">0 сум</strong>
 </div>
 
 </div>
 
 </div>
 
-
-<!-- ТРАНСФЕР -->
 
 <div class="section">
 
-<h2>🚐 Доходы и расходы от трансфера</h2>
+<h2>🚐 Трансфер</h2>
 
 <div class="cards">
 
 <div class="card">
 <small>Начислено</small>
-<strong id="transferIncome">0 сум</strong>
+<strong id="trAccrued">0 сум</strong>
 </div>
 
 <div class="card">
 <small>Оплачено</small>
-<strong id="transferPaid">0 сум</strong>
+<strong id="trPaid">0 сум</strong>
 </div>
 
 <div class="card">
-<small>Расход на трансфер</small>
-<strong id="transferExpense">0 сум</strong>
+<small>Расход</small>
+<strong id="trExpense">0 сум</strong>
 </div>
 
 <div class="card">
-<small>📈 Прибыль трансфера</small>
-<strong id="transferProfit">0 сум</strong>
+<small>Прибыль</small>
+<strong id="trProfit">0 сум</strong>
 </div>
-
-</div>
-
-</div>
-
-
-<!-- ОБЩЕЕ СРАВНЕНИЕ -->
-
-<div class="section">
-
-<h2>📊 Сравнение</h2>
-
-<div class="table-wrap">
-
-<table>
-
-<thead>
-<tr>
-<th>Показатель</th>
-<th>📚 Обучение</th>
-<th>🚐 Трансфер</th>
-<th>💰 Всего</th>
-</tr>
-</thead>
-
-<tbody>
-
-<tr>
-<td>Доход</td>
-<td id="cmpEduIncome">0</td>
-<td id="cmpTrIncome">0</td>
-<td id="cmpTotalIncome">0</td>
-</tr>
-
-<tr>
-<td>Расход</td>
-<td id="cmpEduExpense">0</td>
-<td id="cmpTrExpense">0</td>
-<td id="cmpTotalExpense">0</td>
-</tr>
-
-<tr>
-<td><b>Прибыль</b></td>
-<td id="cmpEduProfit">0</td>
-<td id="cmpTrProfit">0</td>
-<td id="cmpTotalProfit">0</td>
-</tr>
-
-</tbody>
-
-</table>
 
 </div>
 
@@ -466,7 +365,7 @@ th{
 
 <div class="section">
 
-<h2>📅 Помесячная статистика</h2>
+<h2>📅 Месячный отчёт</h2>
 
 <div class="table-wrap">
 
@@ -484,7 +383,7 @@ th{
 </tr>
 </thead>
 
-<tbody id="monthlyTable"></tbody>
+<tbody id="monthlyReport"></tbody>
 
 </table>
 
@@ -495,14 +394,14 @@ th{
 
 <div class="charts">
 
-<div class="section chart">
-<h3>💰 Финансы</h3>
+<div class="section chartbox">
+<h3>💰 Доход / Расход / Прибыль</h3>
 <canvas id="financeChart"></canvas>
 </div>
 
-<div class="section chart">
+<div class="section chartbox">
 <h3>👨‍🎓 Ученики</h3>
-<canvas id="studentChart"></canvas>
+<canvas id="studentsChart"></canvas>
 </div>
 
 </div>
@@ -516,9 +415,9 @@ th{
 
 <div class="section">
 
-<h2 id="studentTitle">➕ Добавить ученика</h2>
+<h2 id="studentFormTitle">➕ Добавить ученика</h2>
 
-<input type="hidden" id="studentEditId">
+<input type="hidden" id="studentId">
 
 <div class="form">
 
@@ -549,9 +448,9 @@ th{
 
 <h3>📚 Предметы</h3>
 
-<div id="studentSubjects"></div>
+<div id="subjects"></div>
 
-<button class="secondary" onclick="addSubject()">
+<button class="secondary" onclick="addSubjectRow()">
 ＋ Добавить предмет
 </button>
 
@@ -561,7 +460,7 @@ th{
 💾 Сохранить ученика
 </button>
 
-<button class="secondary" onclick="cancelStudent()">
+<button class="secondary" onclick="resetStudentForm()">
 Отмена
 </button>
 
@@ -570,7 +469,7 @@ th{
 
 <div class="section">
 
-<h2>👨‍🎓 Ученики</h2>
+<h2>👨‍🎓 Список учеников</h2>
 
 <div class="table-wrap">
 
@@ -582,7 +481,7 @@ th{
 <th>Ученик</th>
 <th>Группа</th>
 <th>Предметы</th>
-<th>Оплата</th>
+<th>Оплачено</th>
 <th>Долг</th>
 <th>Статус</th>
 <th>Трансфер</th>
@@ -607,9 +506,9 @@ th{
 
 <div class="section">
 
-<h2>👩‍🏫 Добавить учителя</h2>
+<h2>👩‍🏫 Преподаватели</h2>
 
-<input type="hidden" id="teacherEditId">
+<input type="hidden" id="teacherId">
 
 <div class="form">
 
@@ -642,8 +541,6 @@ th{
 
 <div class="section">
 
-<h2>👩‍🏫 Учителя</h2>
-
 <div class="table-wrap">
 
 <table>
@@ -651,10 +548,10 @@ th{
 <thead>
 <tr>
 <th>№</th>
-<th>Имя</th>
+<th>Преподаватель</th>
 <th>Предмет</th>
+<th>Ученики</th>
 <th>Статус</th>
-<th>Учеников</th>
 <th>Действия</th>
 </tr>
 </thead>
@@ -678,7 +575,7 @@ th{
 
 <h2>👥 Другой персонал</h2>
 
-<input type="hidden" id="staffEditId">
+<input type="hidden" id="staffId">
 
 <div class="form">
 
@@ -689,7 +586,7 @@ th{
 
 <div>
 <label>Должность</label>
-<input id="staffPosition" placeholder="Администратор">
+<input id="staffPosition">
 </div>
 
 <div>
@@ -711,8 +608,6 @@ th{
 
 <div class="section">
 
-<div class="table-wrap">
-
 <table>
 
 <thead>
@@ -728,8 +623,6 @@ th{
 <tbody id="staffTable"></tbody>
 
 </table>
-
-</div>
 
 </div>
 
@@ -762,7 +655,7 @@ th{
 </div>
 
 <div>
-<label>Сумма выплаты</label>
+<label>Выплата</label>
 <input type="number" id="salaryPayment">
 </div>
 
@@ -776,8 +669,8 @@ th{
 <input id="salaryComment">
 </div>
 
-<button class="primary" onclick="addSalaryPayment()">
-💾 Сохранить выплату
+<button class="primary" onclick="saveSalary()">
+💾 Добавить выплату
 </button>
 
 </div>
@@ -787,12 +680,7 @@ th{
 
 <div class="section">
 
-<h2>🏆 Рейтинг зарплат</h2>
-
-<p style="color:#6b7280">
-Сверху отображаются сотрудники, которым ещё больше всего должны.
-Полностью выплаченные зарплаты автоматически опускаются вниз.
-</p>
+<h2>🏆 Кто ещё должен получить</h2>
 
 <div class="table-wrap">
 
@@ -807,7 +695,7 @@ th{
 <th>Выплачено</th>
 <th>Осталось</th>
 <th>Последняя выплата</th>
-<th>Действия</th>
+<th>Удалить</th>
 </tr>
 </thead>
 
@@ -858,7 +746,7 @@ th{
 
 <h2>🚐 Трансфер</h2>
 
-<input type="hidden" id="transferEditId">
+<input type="hidden" id="transferId">
 
 <div class="form">
 
@@ -920,8 +808,6 @@ th{
 
 <div class="section">
 
-<h2>🚐 Список учащихся</h2>
-
 <div class="cards">
 
 <div class="card">
@@ -946,6 +832,7 @@ th{
 
 </div>
 
+<br>
 
 <div class="table-wrap">
 
@@ -992,20 +879,20 @@ th{
 </div>
 
 <div>
-<label>Дата ухода</label>
-<input type="date" id="leaverDate">
-</div>
-
-<div>
 <label>Преподаватель</label>
 <select id="leaverTeacher"></select>
 </div>
 
 <div>
+<label>Дата ухода</label>
+<input type="date" id="leaverDate">
+</div>
+
+<div>
 <label>Причина</label>
 <select id="leaverReason">
-<option>Дорого</option>
 <option>Переезд</option>
+<option>Дорого</option>
 <option>Расписание</option>
 <option>Не понравился преподаватель</option>
 <option>Не понравилось обучение</option>
@@ -1022,7 +909,7 @@ th{
 </div>
 
 <button class="primary" onclick="saveLeaver()">
-💾 Сохранить уход
+💾 Сохранить
 </button>
 
 </div>
@@ -1033,8 +920,6 @@ th{
 <div class="section">
 
 <h2>История уходов</h2>
-
-<div class="table-wrap">
 
 <table>
 
@@ -1055,8 +940,6 @@ th{
 
 </div>
 
-</div>
-
 </section>
 
 
@@ -1066,34 +949,57 @@ th{
 
 <div class="section">
 
-<h2>📚 Доход от обучения</h2>
+<h2>📚 Добавить оплату обучения</h2>
 
 <div class="form">
 
 <div>
-<label>Дата</label>
+<label>Дата оплаты</label>
 <input type="date" id="incomeDate">
 </div>
 
+<!-- НОВОЕ: СПИСОК УЧЕНИКОВ -->
+
 <div>
-<label>Ученик</label>
-<input id="incomeStudent">
+<label>👨‍🎓 Кто оплатил?</label>
+<select id="incomeStudent" onchange="loadStudentSubjectsForPayment()">
+<option value="">Выберите ученика</option>
+</select>
+</div>
+
+<!-- НОВОЕ: ПРЕДМЕТ -->
+
+<div>
+<label>📚 За какой предмет?</label>
+<select id="incomeSubject" onchange="showPaymentInfo()">
+<option value="">Сначала выберите ученика</option>
+</select>
 </div>
 
 <div>
-<label>Сумма</label>
-<input type="number" id="incomeAmount">
+<label>📅 Месяц обучения</label>
+<input type="month" id="incomeMonth">
+</div>
+
+<div>
+<label>💳 Сумма оплаты</label>
+<input type="number" id="incomeAmount" placeholder="Например 200000"
+oninput="showPaymentInfo()">
 </div>
 
 <div>
 <label>Комментарий</label>
-<input id="incomeComment">
+<input id="incomeComment" placeholder="Например: первая часть">
 </div>
 
 <button class="primary" onclick="addIncome()">
-＋ Добавить доход
+＋ Сохранить оплату
 </button>
 
+</div>
+
+<div id="paymentInfo" class="info">
+Выберите ученика и предмет.
 </div>
 
 </div>
@@ -1101,7 +1007,7 @@ th{
 
 <div class="section">
 
-<h2>💸 Расход</h2>
+<h2>💸 Добавить расход</h2>
 
 <div class="form">
 
@@ -1144,7 +1050,7 @@ th{
 
 <div class="section">
 
-<h2>История финансов</h2>
+<h2>📜 История операций</h2>
 
 <div class="table-wrap">
 
@@ -1153,11 +1059,13 @@ th{
 <thead>
 <tr>
 <th>Дата</th>
+<th>Ученик</th>
+<th>Предмет</th>
+<th>Месяц</th>
 <th>Тип</th>
-<th>Категория</th>
 <th>Сумма</th>
 <th>Комментарий</th>
-<th>Удалить</th>
+<th>Действия</th>
 </tr>
 </thead>
 
@@ -1176,1909 +1084,2220 @@ th{
 
 <script>
 
-/* =====================================================
+/* ======================================================
 DATABASE
-===================================================== */
+====================================================== */
 
-const DB_KEY="KIDSMATH_FULL_DB_V3";
+const KEY="KIDSMATH_BUDGET_FINAL_V5";
 
-let DB=JSON.parse(localStorage.getItem(DB_KEY)||"null")||{
- students:[],
- teachers:[],
- staff:[],
- transfers:[],
- salaries:[],
- salaryPayments:[],
- leavers:[],
- incomes:[],
- expenses:[]
-};
+let DB=JSON.parse(localStorage.getItem(KEY)||"null");
 
-function saveDB(){
- localStorage.setItem(DB_KEY,JSON.stringify(DB));
+if(!DB){
+
+    DB={
+        students:[],
+        teachers:[],
+        staff:[],
+        transfers:[],
+        salaries:[],
+        salaryPayments:[],
+        leavers:[],
+        incomes:[],
+        expenses:[]
+    };
+
 }
 
-const $=id=>document.getElementById(id);
+function save(){
+    localStorage.setItem(KEY,JSON.stringify(DB));
+}
+
+function $(id){
+    return document.getElementById(id);
+}
 
 function money(n){
- return Number(n||0).toLocaleString("ru-RU")+" сум";
+    return Number(n||0).toLocaleString("ru-RU")+" сум";
 }
 
 function today(){
- return new Date().toISOString().slice(0,10);
+    return new Date().toISOString().slice(0,10);
 }
 
 function currentMonth(){
- return today().slice(0,7);
+    return today().slice(0,7);
 }
 
-function monthOf(d){
- return d ? d.slice(0,7) : "";
-}
-
-function monthsBetween(from,to){
-
- let arr=[];
-
- let d=new Date(from.slice(0,7)+"-01");
- let end=new Date(to.slice(0,7)+"-01");
-
- while(d<=end){
-
-  arr.push(
-   d.getFullYear()+"-"+
-   String(d.getMonth()+1).padStart(2,"0")
-  );
-
-  d.setMonth(d.getMonth()+1);
- }
-
- return arr;
+function monthOf(date){
+    return date ? date.slice(0,7) : "";
 }
 
 function monthName(m){
 
- const names=[
- "Январь","Февраль","Март","Апрель",
- "Май","Июнь","Июль","Август",
- "Сентябрь","Октябрь","Ноябрь","Декабрь"
- ];
+    if(!m)return "—";
 
- const p=m.split("-");
+    const names=[
+        "Январь","Февраль","Март","Апрель",
+        "Май","Июнь","Июль","Август",
+        "Сентябрь","Октябрь","Ноябрь","Декабрь"
+    ];
 
- return names[Number(p[1])-1]+" "+p[0];
+    const p=m.split("-");
+
+    return names[Number(p[1])-1]+" "+p[0];
 }
 
-function inDatePeriod(date,from,to){
- return date>=from&&date<=to;
+function monthsBetween(from,to){
+
+    const result=[];
+
+    let d=new Date(from.slice(0,7)+"-01");
+    const end=new Date(to.slice(0,7)+"-01");
+
+    while(d<=end){
+
+        result.push(
+            d.getFullYear()+"-"+
+            String(d.getMonth()+1).padStart(2,"0")
+        );
+
+        d.setMonth(d.getMonth()+1);
+    }
+
+    return result;
 }
 
 
-/* =====================================================
+/* ======================================================
 NAVIGATION
-===================================================== */
+====================================================== */
 
-function page(id,btn){
+function showPage(id,button){
 
- document.querySelectorAll(".page")
- .forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".page")
+    .forEach(x=>x.classList.remove("active"));
 
- $(id).classList.add("active");
+    $(id).classList.add("active");
 
- document.querySelectorAll(".tabs button")
- .forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".tabs button")
+    .forEach(x=>x.classList.remove("active"));
 
- btn.classList.add("active");
+    button.classList.add("active");
 
- renderAll();
+    renderAll();
 }
 
 
-/* =====================================================
+/* ======================================================
 STUDENTS
-===================================================== */
+====================================================== */
 
-function addSubject(data={}){
+function addSubjectRow(data={}){
 
- const div=document.createElement("div");
+    const row=document.createElement("div");
 
- div.className="subject-row";
+    row.className="subject-row";
 
- div.innerHTML=`
+    row.innerHTML=`
 
- <div>
- <label>Предмет</label>
- <input class="sub-name"
- value="${data.name||""}"
- placeholder="Математика">
- </div>
+        <div>
+            <label>Предмет</label>
+            <input class="subName"
+                   value="${data.name||""}"
+                   placeholder="Математика">
+        </div>
 
- <div>
- <label>Преподаватель</label>
+        <div>
+            <label>Преподаватель</label>
+            <select class="subTeacher">
+                <option value="">Выберите</option>
 
- <select class="sub-teacher">
+                ${DB.teachers.map(t=>`
+                    <option value="${t.id}"
+                    ${String(t.id)===String(data.teacherId)?"selected":""}>
+                    ${t.name} — ${t.subject}
+                    </option>
+                `).join("")}
 
- ${DB.teachers.map(t=>`
+            </select>
+        </div>
 
- <option value="${t.id}"
- ${String(t.id)===String(data.teacherId)?"selected":""}>
- ${t.name} — ${t.subject}
- </option>
+        <div>
+            <label>Тариф</label>
+            <input type="number"
+                   class="subPrice"
+                   value="${data.price||""}">
+        </div>
 
- `).join("")}
+        <div>
+            <label>Оплачено</label>
+            <input type="number"
+                   class="subPaid"
+                   value="${data.paid||""}">
+        </div>
 
- </select>
+        <button class="danger"
+                onclick="this.parentElement.remove()">
+            🗑
+        </button>
 
- </div>
+    `;
 
- <div>
- <label>Стоимость за месяц</label>
- <input type="number"
- class="sub-price"
- value="${data.price||""}">
- </div>
-
- <div>
- <label>Оплачено</label>
- <input type="number"
- class="sub-paid"
- value="${data.paid||""}">
- </div>
-
- <button class="danger"
- onclick="this.parentElement.remove()">
- Удалить
- </button>
-
- `;
-
- $("studentSubjects").appendChild(div);
+    $("subjects").appendChild(row);
 }
 
 
 function saveStudent(){
 
- const id=$("studentEditId").value;
+    const id=$("studentId").value;
 
- let subjects=[];
+    const subjects=[];
 
- document.querySelectorAll("#studentSubjects .subject-row")
- .forEach(row=>{
+    document.querySelectorAll(".subject-row")
+    .forEach(row=>{
 
-  const name=row.querySelector(".sub-name").value.trim();
+        const name=row.querySelector(".subName").value.trim();
 
-  if(name){
+        if(!name)return;
 
-   subjects.push({
-    id:Date.now()+Math.random(),
-    name:name,
-    teacherId:row.querySelector(".sub-teacher").value,
-    price:Number(row.querySelector(".sub-price").value||0),
-    paid:Number(row.querySelector(".sub-paid").value||0)
-   });
+        subjects.push({
 
-  }
+            id:Date.now()+Math.random(),
 
- });
+            name:name,
 
- if(!$("studentName").value.trim()){
-  alert("Введите имя ученика");
-  return;
- }
+            teacherId:
+                row.querySelector(".subTeacher").value,
 
- if(!subjects.length){
-  alert("Добавьте хотя бы один предмет");
-  return;
- }
+            price:
+                Number(row.querySelector(".subPrice").value||0),
 
- const data={
-  name:$("studentName").value.trim(),
-  group:$("studentGroup").value.trim(),
-  start:$("studentStart").value||today(),
-  status:$("studentStatus").value,
-  subjects:subjects
- };
+            paid:
+                Number(row.querySelector(".subPaid").value||0)
 
- if(id){
+        });
 
-  const s=DB.students.find(x=>String(x.id)===String(id));
+    });
 
-  if(!s)return;
+    if(!$("studentName").value.trim()){
+        alert("Введите имя ученика");
+        return;
+    }
 
-  s.name=data.name;
-  s.group=data.group;
-  s.status=data.status;
-  s.subjects=data.subjects;
+    if(subjects.length===0){
+        alert("Добавьте хотя бы один предмет");
+        return;
+    }
 
-  s.history=s.history||{};
+    if(id){
 
-  s.history[currentMonth()]={
-   status:data.status,
-   group:data.group,
-   subjects:JSON.parse(JSON.stringify(data.subjects))
-  };
+        const s=DB.students.find(
+            x=>String(x.id)===String(id)
+        );
 
- }else{
+        if(!s)return;
 
-  const s={
-   id:Date.now(),
-   ...data,
-   history:{}
-  };
+        s.name=$("studentName").value.trim();
+        s.group=$("studentGroup").value;
+        s.start=$("studentStart").value;
+        s.status=$("studentStatus").value;
+        s.subjects=subjects;
 
-  s.history[monthOf(data.start)]={
-   status:data.status,
-   group:data.group,
-   subjects:JSON.parse(JSON.stringify(data.subjects))
-  };
+        s.history=s.history||{};
 
-  DB.students.push(s);
- }
+        s.history[currentMonth()]={
+            status:s.status,
+            group:s.group,
+            subjects:JSON.parse(JSON.stringify(subjects))
+        };
 
- saveDB();
- cancelStudent();
- renderAll();
+    }else{
+
+        const student={
+
+            id:Date.now(),
+
+            name:$("studentName").value.trim(),
+
+            group:$("studentGroup").value,
+
+            start:$("studentStart").value||today(),
+
+            status:$("studentStatus").value,
+
+            subjects:subjects,
+
+            history:{}
+
+        };
+
+        student.history[monthOf(student.start)]={
+            status:student.status,
+            group:student.group,
+            subjects:JSON.parse(JSON.stringify(subjects))
+        };
+
+        DB.students.push(student);
+
+    }
+
+    save();
+
+    resetStudentForm();
+
+    renderAll();
+
 }
 
 
 function editStudent(id){
 
- const s=DB.students.find(x=>String(x.id)===String(id));
+    const s=DB.students.find(
+        x=>String(x.id)===String(id)
+    );
 
- if(!s)return;
+    if(!s)return;
 
- $("studentEditId").value=s.id;
- $("studentTitle").textContent="✏️ Редактировать ученика";
+    $("studentId").value=s.id;
+    $("studentFormTitle").textContent="✏️ Редактировать ученика";
 
- $("studentName").value=s.name;
- $("studentGroup").value=s.group||"";
- $("studentStart").value=s.start||today();
- $("studentStatus").value=s.status||"active";
+    $("studentName").value=s.name;
+    $("studentGroup").value=s.group||"";
+    $("studentStart").value=s.start||today();
+    $("studentStatus").value=s.status||"active";
 
- $("studentSubjects").innerHTML="";
+    $("subjects").innerHTML="";
 
- (s.subjects||[]).forEach(x=>addSubject(x));
+    (s.subjects||[]).forEach(addSubjectRow);
 
- window.scrollTo({top:0,behavior:"smooth"});
+    window.scrollTo({top:0,behavior:"smooth"});
 }
 
 
 function deleteStudent(id){
 
- const s=DB.students.find(x=>String(x.id)===String(id));
+    const s=DB.students.find(
+        x=>String(x.id)===String(id)
+    );
 
- if(!s)return;
+    if(!s)return;
 
- if(!confirm(
- `Удалить ученика "${s.name}"?\n\n`
- +"История ученика, оплаты и записи трансфера будут удалены."
- ))return;
+    if(!confirm(
+        `Удалить ученика "${s.name}"?\n\n`+
+        "Связанные записи трансфера также будут удалены."
+    ))return;
 
- DB.students=DB.students.filter(x=>String(x.id)!==String(id));
+    DB.students=DB.students.filter(
+        x=>String(x.id)!==String(id)
+    );
 
- DB.transfers=DB.transfers.filter(
-  x=>String(x.studentId)!==String(id)
- );
+    DB.transfers=DB.transfers.filter(
+        x=>String(x.studentId)!==String(id)
+    );
 
- DB.leavers=DB.leavers.filter(
-  x=>String(x.studentId)!==String(id)
- );
+    save();
 
- saveDB();
- renderAll();
+    renderAll();
 }
 
 
-function setStudentStatus(id,status){
+function resetStudentForm(){
 
- const s=DB.students.find(x=>String(x.id)===String(id));
+    $("studentId").value="";
+    $("studentFormTitle").textContent="➕ Добавить ученика";
 
- if(!s)return;
+    $("studentName").value="";
+    $("studentGroup").value="";
+    $("studentStart").value=today();
+    $("studentStatus").value="active";
 
- s.status=status;
+    $("subjects").innerHTML="";
 
- s.history=s.history||{};
-
- s.history[currentMonth()]={
-  status:status,
-  group:s.group,
-  subjects:JSON.parse(JSON.stringify(s.subjects))
- };
-
- saveDB();
- renderAll();
+    addSubjectRow();
 }
 
 
-function cancelStudent(){
+function studentFinancials(s){
 
- $("studentEditId").value="";
- $("studentTitle").textContent="➕ Добавить ученика";
+    let tariff=0;
+    let paid=0;
 
- $("studentName").value="";
- $("studentGroup").value="";
- $("studentStart").value=today();
- $("studentStatus").value="active";
+    (s.subjects||[]).forEach(sub=>{
 
- $("studentSubjects").innerHTML="";
+        tariff+=Number(sub.price||0);
+        paid+=Number(sub.paid||0);
 
- addSubject();
-}
+    });
 
+    return{
+        tariff,
+        paid,
+        debt:Math.max(tariff-paid,0)
+    };
 
-function studentPayments(s){
-
- let due=(s.subjects||[])
- .reduce((a,x)=>a+Number(x.price||0),0);
-
- let paid=(s.subjects||[])
- .reduce((a,x)=>a+Number(x.paid||0),0);
-
- return {
-  due:due,
-  paid:paid,
-  debt:Math.max(due-paid,0)
- };
 }
 
 
 function renderStudents(){
 
- let html="";
+    let html="";
 
- DB.students.forEach((s,index)=>{
+    DB.students.forEach((s,i)=>{
 
-  const p=studentPayments(s);
+        const f=studentFinancials(s);
 
-  const subjects=(s.subjects||[])
-  .map(x=>{
+        const subjects=(s.subjects||[])
+        .map(sub=>{
 
-   const t=DB.teachers.find(
-    y=>String(y.id)===String(x.teacherId)
-   );
+            const teacher=DB.teachers.find(
+                t=>String(t.id)===String(sub.teacherId)
+            );
 
-   return `<span class="subject">
-   ${x.name}${t?" — "+t.name:""}
-   </span>`;
+            return `${sub.name}${teacher?" — "+teacher.name:""}`;
 
-  }).join("");
+        }).join("<br>");
 
-  const hasTransfer=DB.transfers.some(
-   x=>String(x.studentId)===String(s.id)
-   &&x.status==="active"
-  );
+        const transfer=DB.transfers.some(
+            t=>String(t.studentId)===String(s.id)
+            &&t.status==="active"
+        );
 
-  html+=`
+        html+=`
 
-  <tr>
+        <tr>
 
-  <td>${index+1}</td>
+            <td>${i+1}</td>
 
-  <td><b>${s.name}</b></td>
+            <td><b>${s.name}</b></td>
 
-  <td>${s.group||"—"}</td>
+            <td>${s.group||"—"}</td>
 
-  <td>${subjects}</td>
+            <td>${subjects||"—"}</td>
 
-  <td class="paid">${money(p.paid)}</td>
+            <td class="paid">${money(f.paid)}</td>
 
-  <td class="${p.debt>0?"debt":""}">
-  ${money(p.debt)}
-  </td>
+            <td class="${f.debt>0?"debt":"paid"}">
+                ${money(f.debt)}
+            </td>
 
-  <td>
+            <td>
 
-  <select
-  onchange="setStudentStatus(${s.id},this.value)">
+                <select
+                onchange="changeStudentStatus(${s.id},this.value)">
 
-  <option value="active"
-  ${s.status==="active"?"selected":""}>
-  🟢 Активный
-  </option>
+                    <option value="active"
+                    ${s.status==="active"?"selected":""}>
+                    🟢 Активный
+                    </option>
 
-  <option value="inactive"
-  ${s.status==="inactive"?"selected":""}>
-  🔴 Неактивный
-  </option>
+                    <option value="inactive"
+                    ${s.status==="inactive"?"selected":""}>
+                    🔴 Неактивный
+                    </option>
 
-  </select>
+                </select>
 
-  </td>
+            </td>
 
-  <td>${hasTransfer?"🚐 Да":"—"}</td>
+            <td>${transfer?"🚐 Да":"—"}</td>
 
-  <td>
+            <td>
 
-  <div class="actions">
+                <div class="actions">
 
-  <button class="secondary"
-  onclick="editStudent(${s.id})">
-  ✏️
-  </button>
+                    <button class="secondary"
+                    onclick="editStudent(${s.id})">
+                    ✏️
+                    </button>
 
-  <button class="danger"
-  onclick="deleteStudent(${s.id})">
-  🗑
-  </button>
+                    <button class="danger"
+                    onclick="deleteStudent(${s.id})">
+                    🗑
+                    </button>
 
-  </div>
+                </div>
 
-  </td>
+            </td>
 
-  </tr>
+        </tr>
 
-  `;
+        `;
 
- });
+    });
 
- $("studentsTable").innerHTML=
- html||
- `<tr><td colspan="9">Нет учеников</td></tr>`;
+    $("studentsTable").innerHTML=
+        html||
+        `<tr><td colspan="9">Нет учеников</td></tr>`;
 }
 
 
-/* =====================================================
+function changeStudentStatus(id,status){
+
+    const s=DB.students.find(
+        x=>String(x.id)===String(id)
+    );
+
+    if(!s)return;
+
+    s.status=status;
+
+    s.history=s.history||{};
+
+    s.history[currentMonth()]={
+        status,
+        group:s.group,
+        subjects:JSON.parse(JSON.stringify(s.subjects||[]))
+    };
+
+    save();
+    renderAll();
+}
+
+
+/* ======================================================
 TEACHERS
-===================================================== */
+====================================================== */
 
 function saveTeacher(){
 
- const id=$("teacherEditId").value;
+    const id=$("teacherId").value;
 
- const data={
-  name:$("teacherName").value.trim(),
-  subject:$("teacherSubject").value.trim(),
-  status:$("teacherStatus").value
- };
+    const data={
+        name:$("teacherName").value.trim(),
+        subject:$("teacherSubject").value.trim(),
+        status:$("teacherStatus").value
+    };
 
- if(!data.name){
-  alert("Введите имя");
-  return;
- }
+    if(!data.name){
+        alert("Введите имя");
+        return;
+    }
 
- if(id){
+    if(id){
 
-  const t=DB.teachers.find(x=>String(x.id)===String(id));
+        const t=DB.teachers.find(
+            x=>String(x.id)===String(id)
+        );
 
-  Object.assign(t,data);
+        Object.assign(t,data);
 
-  t.history=t.history||{};
-  t.history[currentMonth()]=data.status;
+    }else{
 
- }else{
+        DB.teachers.push({
+            id:Date.now(),
+            ...data,
+            history:{
+                [currentMonth()]:data.status
+            }
+        });
 
-  DB.teachers.push({
-   id:Date.now(),
-   ...data,
-   history:{
-    [currentMonth()]:data.status
-   }
-  });
+    }
 
- }
+    save();
 
- saveDB();
+    $("teacherId").value="";
+    $("teacherName").value="";
+    $("teacherSubject").value="";
 
- $("teacherEditId").value="";
- $("teacherName").value="";
- $("teacherSubject").value="";
-
- renderAll();
+    renderAll();
 }
 
 
 function editTeacher(id){
 
- const t=DB.teachers.find(x=>String(x.id)===String(id));
+    const t=DB.teachers.find(
+        x=>String(x.id)===String(id)
+    );
 
- if(!t)return;
+    if(!t)return;
 
- $("teacherEditId").value=t.id;
- $("teacherName").value=t.name;
- $("teacherSubject").value=t.subject;
- $("teacherStatus").value=t.status||"active";
+    $("teacherId").value=t.id;
+    $("teacherName").value=t.name;
+    $("teacherSubject").value=t.subject;
+    $("teacherStatus").value=t.status;
 
- window.scrollTo({top:0,behavior:"smooth"});
+    window.scrollTo({top:0,behavior:"smooth"});
 }
 
 
 function deleteTeacher(id){
 
- const t=DB.teachers.find(x=>String(x.id)===String(id));
+    const t=DB.teachers.find(
+        x=>String(x.id)===String(id)
+    );
 
- if(!t)return;
+    if(!t)return;
 
- const used=DB.students.some(s=>
-  (s.subjects||[]).some(
-   x=>String(x.teacherId)===String(id)
-  )
- );
+    if(!confirm(
+        `Удалить преподавателя "${t.name}"?\n\n`+
+        "Привязка этого преподавателя к предметам учеников будет удалена."
+    ))return;
 
- let message=`Удалить преподавателя "${t.name}"?`;
+    DB.teachers=DB.teachers.filter(
+        x=>String(x.id)!==String(id)
+    );
 
- if(used){
-  message+=
-  "\n\nУ этого преподавателя есть ученики. "
-  +"Их текущая привязка к преподавателю также будет удалена.";
- }
+    DB.students.forEach(s=>{
 
- if(!confirm(message))return;
+        (s.subjects||[]).forEach(sub=>{
 
- DB.teachers=DB.teachers.filter(
-  x=>String(x.id)!==String(id)
- );
+            if(String(sub.teacherId)===String(id)){
+                sub.teacherId="";
+            }
 
- DB.students.forEach(s=>{
-  s.subjects=(s.subjects||[])
-  .filter(x=>String(x.teacherId)!==String(id));
- });
+        });
 
- saveDB();
- renderAll();
+    });
+
+    save();
+    renderAll();
 }
 
-
-/* =====================================================
-STAFF
-===================================================== */
-
-function allEmployees(){
-
- return [
-  ...DB.teachers.map(x=>({
-   id:"teacher_"+x.id,
-   originalId:x.id,
-   name:x.name,
-   position:"Преподаватель",
-   type:"teacher"
-  })),
-
-  ...DB.staff.map(x=>({
-   id:"staff_"+x.id,
-   originalId:x.id,
-   name:x.name,
-   position:x.position,
-   type:"staff"
-  }))
- ];
-
-}
-
-
-function saveStaff(){
-
- const id=$("staffEditId").value;
-
- const data={
-  name:$("staffName").value.trim(),
-  position:$("staffPosition").value.trim(),
-  status:$("staffStatus").value
- };
-
- if(!data.name){
-  alert("Введите имя");
-  return;
- }
-
- if(id){
-
-  const s=DB.staff.find(
-   x=>String(x.id)===String(id)
-  );
-
-  Object.assign(s,data);
-
- }else{
-
-  DB.staff.push({
-   id:Date.now(),
-   ...data
-  });
-
- }
-
- saveDB();
-
- $("staffEditId").value="";
- $("staffName").value="";
- $("staffPosition").value="";
-
- renderAll();
-}
-
-
-function editStaff(id){
-
- const s=DB.staff.find(
-  x=>String(x.id)===String(id)
- );
-
- if(!s)return;
-
- $("staffEditId").value=s.id;
- $("staffName").value=s.name;
- $("staffPosition").value=s.position;
- $("staffStatus").value=s.status;
-
- window.scrollTo({top:0,behavior:"smooth"});
-}
-
-
-function deleteStaff(id){
-
- const s=DB.staff.find(
-  x=>String(x.id)===String(id)
- );
-
- if(!s)return;
-
- if(!confirm(`Удалить сотрудника "${s.name}"?`))
-  return;
-
- DB.staff=DB.staff.filter(
-  x=>String(x.id)!==String(id)
- );
-
- saveDB();
- renderAll();
-}
-
-
-/* =====================================================
-TRANSFER
-===================================================== */
-
-function saveTransfer(){
-
- const id=$("transferEditId").value;
-
- const data={
-  studentId:$("transferStudent").value,
-  month:$("transferMonth").value||currentMonth(),
-  tariff:Number($("transferTariff").value||0),
-  payment:Number($("transferPayment").value||0),
-  address:$("transferAddress").value,
-  phone:$("transferPhone").value,
-  direction:$("transferDirection").value,
-  status:$("transferStatus").value
- };
-
- if(!data.studentId){
-  alert("Выберите ученика");
-  return;
- }
-
- if(id){
-
-  const t=DB.transfers.find(
-   x=>String(x.id)===String(id)
-  );
-
-  Object.assign(t,data);
-
- }else{
-
-  DB.transfers.push({
-   id:Date.now(),
-   ...data
-  });
-
- }
-
- saveDB();
- clearTransfer();
- renderAll();
-}
-
-
-function editTransfer(id){
-
- const t=DB.transfers.find(
-  x=>String(x.id)===String(id)
- );
-
- if(!t)return;
-
- $("transferEditId").value=t.id;
-
- $("transferStudent").value=t.studentId;
- $("transferMonth").value=t.month;
- $("transferTariff").value=t.tariff;
- $("transferPayment").value=t.payment;
- $("transferAddress").value=t.address||"";
- $("transferPhone").value=t.phone||"";
- $("transferDirection").value=t.direction;
- $("transferStatus").value=t.status;
-
- window.scrollTo({top:0,behavior:"smooth"});
-}
-
-
-function deleteTransfer(id){
-
- if(!confirm("Удалить эту запись трансфера?"))
-  return;
-
- DB.transfers=DB.transfers.filter(
-  x=>String(x.id)!==String(id)
- );
-
- saveDB();
- renderAll();
-}
-
-
-function clearTransfer(){
-
- $("transferEditId").value="";
- $("transferTariff").value="";
- $("transferPayment").value="";
- $("transferAddress").value="";
- $("transferPhone").value="";
-}
-
-
-function renderTransfer(){
-
- $("transferStudent").innerHTML=
- DB.students.map(s=>
- `<option value="${s.id}">${s.name}</option>`
- ).join("");
-
- let html="";
- let total=0;
- let paid=0;
- let debt=0;
-
- DB.transfers.forEach((t,index)=>{
-
-  const s=DB.students.find(
-   x=>String(x.id)===String(t.studentId)
-  );
-
-  const d=Math.max(
-   Number(t.tariff||0)-
-   Number(t.payment||0),0
-  );
-
-  total+=Number(t.tariff||0);
-  paid+=Number(t.payment||0);
-  debt+=d;
-
-  html+=`
-
-  <tr>
-
-  <td>${index+1}</td>
-  <td>${s?s.name:"—"}</td>
-  <td>${monthName(t.month)}</td>
-  <td>${money(t.tariff)}</td>
-  <td class="paid">${money(t.payment)}</td>
-  <td class="debt">${money(d)}</td>
-  <td>${t.address||"—"}</td>
-
-  <td>
-  ${t.status==="active"?"🟢":"🔴"}
-  </td>
-
-  <td>
-
-  <div class="actions">
-
-  <button class="secondary"
-  onclick="editTransfer(${t.id})">
-  ✏️
-  </button>
-
-  <button class="danger"
-  onclick="deleteTransfer(${t.id})">
-  🗑
-  </button>
-
-  </div>
-
-  </td>
-
-  </tr>
-
-  `;
-
- });
-
- $("transferTable").innerHTML=
- html||
- `<tr><td colspan="9">Нет записей</td></tr>`;
-
- $("transferCount").textContent=DB.transfers.length;
- $("transferTotal").textContent=money(total);
- $("transferPaidTotal").textContent=money(paid);
- $("transferDebtTotal").textContent=money(debt);
-}
-
-
-/* =====================================================
-SALARY
-===================================================== */
-
-function addSalaryPayment(){
-
- const employeeId=$("salaryEmployee").value;
-
- if(!employeeId){
-  alert("Выберите сотрудника");
-  return;
- }
-
- const employee=allEmployees()
- .find(x=>String(x.id)===String(employeeId));
-
- if(!employee)return;
-
- const month=$("salaryMonth").value||currentMonth();
-
- let salary=DB.salaries.find(
-  x=>String(x.employeeId)===String(employeeId)
-  &&x.month===month
- );
-
- const accrued=Number(
-  $("salaryAccrued").value||0
- );
-
- const payment=Number(
-  $("salaryPayment").value||0
- );
-
- if(!salary){
-
-  salary={
-   id:Date.now(),
-   employeeId:employeeId,
-   employeeName:employee.name,
-   position:employee.position,
-   month:month,
-   accrued:accrued
-  };
-
-  DB.salaries.push(salary);
-
- }else{
-
-  if(accrued>0)
-   salary.accrued=accrued;
-
- }
-
- DB.salaryPayments.push({
-
-  id:Date.now()+Math.random(),
-  salaryId:salary.id,
-  employeeId:employeeId,
-  employeeName:employee.name,
-  month:month,
-  amount:payment,
-  date:$("salaryDate").value||today(),
-  comment:$("salaryComment").value||""
-
- });
-
- saveDB();
-
- $("salaryAccrued").value="";
- $("salaryPayment").value="";
- $("salaryComment").value="";
-
- renderAll();
-}
-
-
-function salaryStats(salary){
-
- const payments=DB.salaryPayments.filter(
-  p=>String(p.salaryId)===String(salary.id)
- );
-
- const paid=payments.reduce(
-  (a,x)=>a+Number(x.amount||0),0
- );
-
- const last=payments
- .sort((a,b)=>a.date.localeCompare(b.date))
- .at(-1);
-
- return {
-  paid:paid,
-  debt:Math.max(
-   Number(salary.accrued||0)-paid,
-   0
-  ),
-  last:last?last.date:""
- };
-
-}
-
-
-function deleteSalaryPayment(id){
-
- if(!confirm("Удалить эту выплату?"))
-  return;
-
- DB.salaryPayments=
- DB.salaryPayments.filter(
-  x=>String(x.id)!==String(id)
- );
-
- saveDB();
- renderAll();
-}
-
-
-function deleteSalary(id){
-
- if(!confirm(
-  "Удалить начисление зарплаты и все его выплаты?"
- ))return;
-
- DB.salaryPayments=
- DB.salaryPayments.filter(
-  x=>String(x.salaryId)!==String(id)
- );
-
- DB.salaries=
- DB.salaries.filter(
-  x=>String(x.id)!==String(id)
- );
-
- saveDB();
- renderAll();
-}
-
-
-function renderSalary(){
-
- $("salaryEmployee").innerHTML=
- `<option value="">Выберите сотрудника</option>`+
- allEmployees().map(e=>
- `<option value="${e.id}">
- ${e.name} — ${e.position}
- </option>`
- ).join("");
-
- let rows=DB.salaries.map(s=>{
-
-  const st=salaryStats(s);
-
-  return {
-   ...s,
-   ...st
-  };
-
- });
-
-
- /* Сначала долги, потом частично выплаченные,
-    полностью выплаченные — вниз */
-
- rows.sort((a,b)=>{
-
-  if(b.debt!==a.debt)
-   return b.debt-a.debt;
-
-  if(!a.last&&b.last)return -1;
-  if(a.last&&!b.last)return 1;
-
-  if(a.last&&b.last)
-   return b.last.localeCompare(a.last);
-
-  return 0;
-
- });
-
-
- let html="";
-
- rows.forEach((s,index)=>{
-
-  html+=`
-
-  <tr class="${s.debt>0?"rank-top":""}">
-
-  <td class="rank-number">${index+1}</td>
-
-  <td>
-  <b>${s.employeeName}</b><br>
-  <small>${s.position||""}</small>
-  </td>
-
-  <td>${monthName(s.month)}</td>
-
-  <td>${money(s.accrued)}</td>
-
-  <td class="paid">${money(s.paid)}</td>
-
-  <td class="${s.debt>0?"debt":"paid"}">
-  ${money(s.debt)}
-  </td>
-
-  <td>${s.last||"—"}</td>
-
-  <td>
-
-  <button class="danger"
-  onclick="deleteSalary(${s.id})">
-  🗑
-  </button>
-
-  </td>
-
-  </tr>
-
-  `;
-
- });
-
- $("salaryTable").innerHTML=
- html||
- `<tr><td colspan="8">Нет начислений</td></tr>`;
-
-
- let history="";
-
- DB.salaryPayments
- .slice()
- .sort((a,b)=>b.date.localeCompare(a.date))
- .forEach(p=>{
-
-  history+=`
-
-  <tr>
-
-  <td>${p.employeeName}</td>
-  <td>${monthName(p.month)}</td>
-  <td>${money(p.amount)}</td>
-  <td>${p.date}</td>
-  <td>${p.comment||"—"}</td>
-
-  <td>
-  <button class="danger"
-  onclick="deleteSalaryPayment(${p.id})">
-  🗑
-  </button>
-  </td>
-
-  </tr>
-
-  `;
-
- });
-
- $("salaryHistory").innerHTML=
- history||
- `<tr><td colspan="6">Нет выплат</td></tr>`;
-}
-
-
-/* =====================================================
-LEAVERS
-===================================================== */
-
-function renderLeaverSelects(){
-
- $("leaverStudent").innerHTML=
- `<option value="">Выберите ученика</option>`+
- DB.students.map(s=>
- `<option value="${s.id}">${s.name}</option>`
- ).join("");
-
- $("leaverTeacher").innerHTML=
- `<option value="">Выберите преподавателя</option>`+
- DB.teachers.map(t=>
- `<option value="${t.id}">
- ${t.name} — ${t.subject}
- </option>`
- ).join("");
-}
-
-
-function saveLeaver(){
-
- const studentId=$("leaverStudent").value;
-
- if(!studentId){
-  alert("Выберите ученика");
-  return;
- }
-
- const s=DB.students.find(
-  x=>String(x.id)===String(studentId)
- );
-
- DB.leavers.push({
-
-  id:Date.now(),
-  studentId:studentId,
-  teacherId:$("leaverTeacher").value,
-  date:$("leaverDate").value||today(),
-  reason:$("leaverReason").value,
-  comment:$("leaverComment").value
-
- });
-
- if(s){
-
-  s.status="inactive";
-
-  s.history=s.history||{};
-
-  s.history[currentMonth()]={
-   status:"inactive",
-   group:s.group,
-   subjects:s.subjects
-  };
-
- }
-
- saveDB();
-
- $("leaverComment").value="";
-
- renderAll();
-
- alert("Уход сохранён");
-}
-
-
-function deleteLeaver(id){
-
- if(!confirm("Удалить запись об уходе?"))
-  return;
-
- DB.leavers=DB.leavers.filter(
-  x=>String(x.id)!==String(id)
- );
-
- saveDB();
- renderAll();
-}
-
-
-function renderLeavers(){
-
- let html="";
-
- DB.leavers.forEach(l=>{
-
-  const s=DB.students.find(
-   x=>String(x.id)===String(l.studentId)
-  );
-
-  const t=DB.teachers.find(
-   x=>String(x.id)===String(l.teacherId)
-  );
-
-  html+=`
-
-  <tr>
-
-  <td>${s?s.name:"—"}</td>
-  <td>${t?t.name:"—"}</td>
-  <td>${l.date}</td>
-  <td>${l.reason}</td>
-  <td>${l.comment||"—"}</td>
-
-  <td>
-  <button class="danger"
-  onclick="deleteLeaver(${l.id})">
-  🗑
-  </button>
-  </td>
-
-  </tr>
-
-  `;
-
- });
-
- $("leaversTable").innerHTML=
- html||
- `<tr><td colspan="6">Нет записей</td></tr>`;
-}
-
-
-/* =====================================================
-FINANCE
-===================================================== */
-
-function addIncome(){
-
- const amount=Number(
-  $("incomeAmount").value||0
- );
-
- if(!amount){
-  alert("Введите сумму");
-  return;
- }
-
- DB.incomes.push({
-
-  id:Date.now(),
-  date:$("incomeDate").value||today(),
-  student:$("incomeStudent").value,
-  amount:amount,
-  comment:$("incomeComment").value
-
- });
-
- saveDB();
-
- $("incomeAmount").value="";
- $("incomeStudent").value="";
- $("incomeComment").value="";
-
- renderAll();
-}
-
-
-function addExpense(){
-
- const amount=Number(
-  $("expenseAmount").value||0
- );
-
- if(!amount){
-  alert("Введите сумму");
-  return;
- }
-
- DB.expenses.push({
-
-  id:Date.now(),
-  date:$("expenseDate").value||today(),
-  category:$("expenseCategory").value,
-  amount:amount,
-  comment:$("expenseComment").value
-
- });
-
- saveDB();
-
- $("expenseAmount").value="";
- $("expenseComment").value="";
-
- renderAll();
-}
-
-
-function deleteIncome(id){
-
- if(!confirm("Удалить доход?"))return;
-
- DB.incomes=DB.incomes.filter(
-  x=>String(x.id)!==String(id)
- );
-
- saveDB();
- renderAll();
-}
-
-
-function deleteExpense(id){
-
- if(!confirm("Удалить расход?"))return;
-
- DB.expenses=DB.expenses.filter(
-  x=>String(x.id)!==String(id)
- );
-
- saveDB();
- renderAll();
-}
-
-
-function renderFinance(){
-
- let html="";
-
- DB.incomes.forEach(x=>{
-
-  html+=`
-
-  <tr>
-  <td>${x.date}</td>
-  <td>📚 Доход</td>
-  <td>Обучение</td>
-  <td class="paid">${money(x.amount)}</td>
-  <td>${x.comment||"—"}</td>
-  <td>
-  <button class="danger"
-  onclick="deleteIncome(${x.id})">
-  🗑
-  </button>
-  </td>
-  </tr>
-
-  `;
-
- });
-
-
- DB.expenses.forEach(x=>{
-
-  html+=`
-
-  <tr>
-  <td>${x.date}</td>
-  <td>💸 Расход</td>
-  <td>${x.category}</td>
-  <td class="debt">${money(x.amount)}</td>
-  <td>${x.comment||"—"}</td>
-  <td>
-  <button class="danger"
-  onclick="deleteExpense(${x.id})">
-  🗑
-  </button>
-  </td>
-  </tr>
-
-  `;
-
- });
-
- $("financeTable").innerHTML=
- html||
- `<tr><td colspan="6">Нет финансовых операций</td></tr>`;
-}
-
-
-/* =====================================================
-DASHBOARD
-===================================================== */
-
-let financeChart=null;
-let studentChart=null;
-
-
-function buildReport(){
-
- const from=$("from").value;
- const to=$("to").value;
-
- if(!from||!to)return;
-
- const months=monthsBetween(from,to);
-
- let educationIncome=
- DB.incomes
- .filter(x=>inDatePeriod(x.date,from,to))
- .reduce((a,x)=>a+Number(x.amount||0),0);
-
-
- let transferPaid=
- DB.transfers
- .filter(x=>months.includes(x.month))
- .reduce((a,x)=>a+Number(x.payment||0),0);
-
-
- let transferTariff=
- DB.transfers
- .filter(x=>months.includes(x.month))
- .reduce((a,x)=>a+Number(x.tariff||0),0);
-
-
- let generalExpenses=
- DB.expenses
- .filter(x=>inDatePeriod(x.date,from,to))
- .reduce((a,x)=>a+Number(x.amount||0),0);
-
-
- let transferExpenses=
- DB.expenses
- .filter(x=>
-  x.category==="Трансфер"
-  &&inDatePeriod(x.date,from,to)
- )
- .reduce((a,x)=>a+Number(x.amount||0),0);
-
-
- let salariesPaid=0;
- let salaryDebt=0;
-
- DB.salaries.forEach(s=>{
-
-  if(!months.includes(s.month))return;
-
-  const st=salaryStats(s);
-
-  salariesPaid+=st.paid;
-  salaryDebt+=st.debt;
-
- });
-
-
- let educationExpenses=
- generalExpenses-
- transferExpenses;
-
- let totalIncome=
- educationIncome+
- transferPaid;
-
- let totalExpenses=
- generalExpenses+
- salariesPaid;
-
- let totalProfit=
- totalIncome-totalExpenses;
-
-
- let educationProfit=
- educationIncome-
- educationExpenses-
- salariesPaid;
-
-
- let transferProfit=
- transferPaid-
- transferExpenses;
-
-
- let active=0;
-
- const lastMonth=months.at(-1);
-
- DB.students.forEach(s=>{
-
-  if(studentActive(s,lastMonth))
-   active++;
-
- });
-
-
- let studentDebt=
- DB.students
- .reduce((a,s)=>
-  a+studentPayments(s).debt,0);
-
-
- let transferDebt=
- Math.max(
-  transferTariff-transferPaid,0
- );
-
-
- let leavers=
- DB.leavers.filter(x=>
-  inDatePeriod(x.date,from,to)
- ).length;
-
-
- $("dIncome").textContent=money(totalIncome);
- $("dExpense").textContent=money(totalExpenses);
- $("dProfit").textContent=money(totalProfit);
- $("dStudents").textContent=active;
- $("dStudentDebt").textContent=money(studentDebt);
- $("dTransferDebt").textContent=money(transferDebt);
- $("dSalaryDebt").textContent=money(salaryDebt);
- $("dLeavers").textContent=leavers;
-
-
- $("educationIncome").textContent=
- money(educationIncome);
-
- $("educationExpense").textContent=
- money(educationExpenses);
-
- $("educationSalary").textContent=
- money(salariesPaid);
-
- $("educationProfit").textContent=
- money(educationProfit);
-
-
- $("transferIncome").textContent=
- money(transferTariff);
-
- $("transferPaid").textContent=
- money(transferPaid);
-
- $("transferExpense").textContent=
- money(transferExpenses);
-
- $("transferProfit").textContent=
- money(transferProfit);
-
-
- $("cmpEduIncome").textContent=
- money(educationIncome);
-
- $("cmpTrIncome").textContent=
- money(transferPaid);
-
- $("cmpTotalIncome").textContent=
- money(totalIncome);
-
- $("cmpEduExpense").textContent=
- money(educationExpenses+salariesPaid);
-
- $("cmpTrExpense").textContent=
- money(transferExpenses);
-
- $("cmpTotalExpense").textContent=
- money(totalExpenses);
-
- $("cmpEduProfit").textContent=
- money(educationProfit);
-
- $("cmpTrProfit").textContent=
- money(transferProfit);
-
- $("cmpTotalProfit").textContent=
- money(totalProfit);
-
-
- renderMonthly(months);
-
- drawCharts(months);
-}
-
-
-function studentActive(s,m){
-
- if(s.history&&s.history[m])
-  return s.history[m].status==="active";
-
- if(s.start&&s.start>m+"-31")
-  return false;
-
- return s.status==="active";
-}
-
-
-function renderMonthly(months){
-
- let html="";
-
- months.forEach(m=>{
-
-  let edu=
-  DB.incomes
-  .filter(x=>monthOf(x.date)===m)
-  .reduce((a,x)=>a+Number(x.amount||0),0);
-
-
-  let tr=
-  DB.transfers
-  .filter(x=>x.month===m)
-  .reduce((a,x)=>a+Number(x.payment||0),0);
-
-
-  let exp=
-  DB.expenses
-  .filter(x=>monthOf(x.date)===m)
-  .reduce((a,x)=>a+Number(x.amount||0),0);
-
-
-  let salary=DB.salaries
-  .filter(x=>x.month===m)
-  .reduce((a,s)=>a+salaryStats(s).paid,0);
-
-
-  let newStudents=
-  DB.students.filter(
-   s=>monthOf(s.start)===m
-  ).length;
-
-
-  let left=
-  DB.leavers.filter(
-   x=>monthOf(x.date)===m
-  ).length;
-
-
-  let active=
-  DB.students.filter(
-   s=>studentActive(s,m)
-  ).length;
-
-
-  html+=`
-
-  <tr>
-
-  <td>${monthName(m)}</td>
-  <td>${money(edu+tr)}</td>
-  <td>${money(exp+salary)}</td>
-  <td>${money(edu+tr-exp-salary)}</td>
-  <td>${newStudents}</td>
-  <td>${left}</td>
-  <td>${active}</td>
-
-  </tr>
-
-  `;
-
- });
-
- $("monthlyTable").innerHTML=html;
-}
-
-
-function drawCharts(months){
-
- let income=[];
- let expense=[];
- let profit=[];
- let active=[];
-
- months.forEach(m=>{
-
-  let edu=
-  DB.incomes
-  .filter(x=>monthOf(x.date)===m)
-  .reduce((a,x)=>a+Number(x.amount||0),0);
-
-
-  let tr=
-  DB.transfers
-  .filter(x=>x.month===m)
-  .reduce((a,x)=>a+Number(x.payment||0),0);
-
-
-  let exp=
-  DB.expenses
-  .filter(x=>monthOf(x.date)===m)
-  .reduce((a,x)=>a+Number(x.amount||0),0);
-
-
-  let salary=
-  DB.salaries
-  .filter(x=>x.month===m)
-  .reduce((a,s)=>a+salaryStats(s).paid,0);
-
-
-  income.push(edu+tr);
-  expense.push(exp+salary);
-  profit.push(edu+tr-exp-salary);
-
-  active.push(
-   DB.students.filter(
-    s=>studentActive(s,m)
-   ).length
-  );
-
- });
-
-
- if(financeChart)
-  financeChart.destroy();
-
- financeChart=new Chart(
-  $("financeChart"),
-  {
-   type:"bar",
-   data:{
-    labels:months.map(monthName),
-    datasets:[
-     {label:"Доход",data:income},
-     {label:"Расход",data:expense},
-     {label:"Прибыль",data:profit}
-    ]
-   },
-   options:{
-    responsive:true,
-    maintainAspectRatio:false
-   }
-  }
- );
-
-
- if(studentChart)
-  studentChart.destroy();
-
- studentChart=new Chart(
-  $("studentChart"),
-  {
-   type:"line",
-   data:{
-    labels:months.map(monthName),
-    datasets:[
-     {label:"Активные ученики",data:active}
-    ]
-   },
-   options:{
-    responsive:true,
-    maintainAspectRatio:false
-   }
-  }
- );
-}
-
-
-/* =====================================================
-RENDER ALL
-===================================================== */
 
 function renderTeachers(){
 
- let html="";
+    let html="";
 
- DB.teachers.forEach((t,index)=>{
+    DB.teachers.forEach((t,i)=>{
 
-  const count=DB.students.filter(s=>
-   (s.subjects||[]).some(
-    x=>String(x.teacherId)===String(t.id)
-   )
-  ).length;
+        const count=DB.students.filter(s=>
+            (s.subjects||[]).some(
+                sub=>String(sub.teacherId)===String(t.id)
+            )
+        ).length;
 
-  html+=`
+        html+=`
 
-  <tr>
+        <tr>
 
-  <td>${index+1}</td>
-  <td><b>${t.name}</b></td>
-  <td>${t.subject||"—"}</td>
+            <td>${i+1}</td>
 
-  <td>
+            <td><b>${t.name}</b></td>
 
-  <select onchange="changeTeacherStatus(${t.id},this.value)">
+            <td>${t.subject||"—"}</td>
 
-  <option value="active"
-  ${t.status==="active"?"selected":""}>
-  🟢 Активный
-  </option>
+            <td>${count}</td>
 
-  <option value="inactive"
-  ${t.status==="inactive"?"selected":""}>
-  🔴 Неактивный
-  </option>
+            <td>
 
-  </select>
+                <select
+                onchange="changeTeacherStatus(${t.id},this.value)">
 
-  </td>
+                    <option value="active"
+                    ${t.status==="active"?"selected":""}>
+                    🟢 Активный
+                    </option>
 
-  <td>${count}</td>
+                    <option value="inactive"
+                    ${t.status==="inactive"?"selected":""}>
+                    🔴 Неактивный
+                    </option>
 
-  <td>
+                </select>
 
-  <div class="actions">
+            </td>
 
-  <button class="secondary"
-  onclick="editTeacher(${t.id})">
-  ✏️
-  </button>
+            <td>
 
-  <button class="danger"
-  onclick="deleteTeacher(${t.id})">
-  🗑
-  </button>
+                <div class="actions">
 
-  </div>
+                    <button class="secondary"
+                    onclick="editTeacher(${t.id})">
+                    ✏️
+                    </button>
 
-  </td>
+                    <button class="danger"
+                    onclick="deleteTeacher(${t.id})">
+                    🗑
+                    </button>
 
-  </tr>
+                </div>
 
-  `;
+            </td>
 
- });
+        </tr>
 
- $("teachersTable").innerHTML=
- html||
- `<tr><td colspan="6">Нет преподавателей</td></tr>`;
+        `;
+
+    });
+
+    $("teachersTable").innerHTML=
+        html||
+        `<tr><td colspan="6">Нет преподавателей</td></tr>`;
 }
 
 
 function changeTeacherStatus(id,status){
 
- const t=DB.teachers.find(
-  x=>String(x.id)===String(id)
- );
+    const t=DB.teachers.find(
+        x=>String(x.id)===String(id)
+    );
 
- if(!t)return;
+    if(!t)return;
 
- t.status=status;
+    t.status=status;
 
- t.history=t.history||{};
- t.history[currentMonth()]=status;
+    t.history=t.history||{};
+    t.history[currentMonth()]=status;
 
- saveDB();
- renderAll();
+    save();
+    renderAll();
+}
+
+
+/* ======================================================
+STAFF
+====================================================== */
+
+function saveStaff(){
+
+    const id=$("staffId").value;
+
+    const data={
+        name:$("staffName").value.trim(),
+        position:$("staffPosition").value.trim(),
+        status:$("staffStatus").value
+    };
+
+    if(!data.name){
+        alert("Введите имя");
+        return;
+    }
+
+    if(id){
+
+        const s=DB.staff.find(
+            x=>String(x.id)===String(id)
+        );
+
+        Object.assign(s,data);
+
+    }else{
+
+        DB.staff.push({
+            id:Date.now(),
+            ...data
+        });
+
+    }
+
+    save();
+
+    $("staffId").value="";
+    $("staffName").value="";
+    $("staffPosition").value="";
+
+    renderAll();
+}
+
+
+function editStaff(id){
+
+    const s=DB.staff.find(
+        x=>String(x.id)===String(id)
+    );
+
+    if(!s)return;
+
+    $("staffId").value=s.id;
+    $("staffName").value=s.name;
+    $("staffPosition").value=s.position;
+    $("staffStatus").value=s.status;
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+
+function deleteStaff(id){
+
+    const s=DB.staff.find(
+        x=>String(x.id)===String(id)
+    );
+
+    if(!s)return;
+
+    if(!confirm(`Удалить "${s.name}"?`))
+        return;
+
+    DB.staff=DB.staff.filter(
+        x=>String(x.id)!==String(id)
+    );
+
+    save();
+    renderAll();
+}
+
+
+function employees(){
+
+    return [
+
+        ...DB.teachers.map(t=>({
+            id:"teacher_"+t.id,
+            name:t.name,
+            position:"Преподаватель"
+        })),
+
+        ...DB.staff.map(s=>({
+            id:"staff_"+s.id,
+            name:s.name,
+            position:s.position
+        }))
+
+    ];
+
 }
 
 
 function renderStaff(){
 
- let html="";
+    let html="";
 
- DB.staff.forEach((s,index)=>{
+    DB.staff.forEach((s,i)=>{
 
-  html+=`
+        html+=`
 
-  <tr>
+        <tr>
 
-  <td>${index+1}</td>
-  <td>${s.name}</td>
-  <td>${s.position}</td>
+            <td>${i+1}</td>
+            <td>${s.name}</td>
+            <td>${s.position}</td>
+            <td>${s.status==="active"?"🟢":"🔴"}</td>
 
-  <td>
-  ${s.status==="active"?"🟢 Активный":"🔴 Неактивный"}
-  </td>
+            <td>
 
-  <td>
+                <button class="secondary"
+                onclick="editStaff(${s.id})">
+                ✏️
+                </button>
 
-  <div class="actions">
+                <button class="danger"
+                onclick="deleteStaff(${s.id})">
+                🗑
+                </button>
 
-  <button class="secondary"
-  onclick="editStaff(${s.id})">
-  ✏️
-  </button>
+            </td>
 
-  <button class="danger"
-  onclick="deleteStaff(${s.id})">
-  🗑
-  </button>
+        </tr>
 
-  </div>
+        `;
 
-  </td>
+    });
 
-  </tr>
-
-  `;
-
- });
-
- $("staffTable").innerHTML=
- html||
- `<tr><td colspan="5">Нет персонала</td></tr>`;
+    $("staffTable").innerHTML=
+        html||
+        `<tr><td colspan="5">Нет персонала</td></tr>`;
 }
 
+
+/* ======================================================
+SALARY
+====================================================== */
+
+function renderSalaryEmployees(){
+
+    $("salaryEmployee").innerHTML=
+        `<option value="">Выберите сотрудника</option>`+
+
+        employees().map(e=>`
+
+            <option value="${e.id}">
+                ${e.name} — ${e.position}
+            </option>
+
+        `).join("");
+
+}
+
+
+function saveSalary(){
+
+    const employeeId=$("salaryEmployee").value;
+
+    if(!employeeId){
+        alert("Выберите сотрудника");
+        return;
+    }
+
+    const employee=employees().find(
+        x=>x.id===employeeId
+    );
+
+    const month=$("salaryMonth").value||currentMonth();
+
+    let salary=DB.salaries.find(
+        x=>x.employeeId===employeeId
+        &&x.month===month
+    );
+
+    const accrued=Number(
+        $("salaryAccrued").value||0
+    );
+
+    const payment=Number(
+        $("salaryPayment").value||0
+    );
+
+    if(!salary){
+
+        salary={
+            id:Date.now(),
+            employeeId,
+            employeeName:employee.name,
+            position:employee.position,
+            month,
+            accrued
+        };
+
+        DB.salaries.push(salary);
+
+    }else if(accrued>0){
+
+        salary.accrued=accrued;
+
+    }
+
+    if(payment>0){
+
+        DB.salaryPayments.push({
+
+            id:Date.now()+Math.random(),
+
+            salaryId:salary.id,
+
+            employeeId,
+
+            employeeName:employee.name,
+
+            month,
+
+            amount:payment,
+
+            date:$("salaryDate").value||today(),
+
+            comment:$("salaryComment").value||""
+
+        });
+
+    }
+
+    save();
+
+    $("salaryAccrued").value="";
+    $("salaryPayment").value="";
+    $("salaryComment").value="";
+
+    renderAll();
+}
+
+
+function salaryStat(s){
+
+    const payments=DB.salaryPayments.filter(
+        p=>String(p.salaryId)===String(s.id)
+    );
+
+    const paid=payments.reduce(
+        (a,p)=>a+Number(p.amount||0),0
+    );
+
+    let last="";
+
+    payments.forEach(p=>{
+        if(!last||p.date>last)last=p.date;
+    });
+
+    return{
+        paid,
+        debt:Math.max(Number(s.accrued||0)-paid,0),
+        last
+    };
+
+}
+
+
+function deleteSalary(id){
+
+    if(!confirm(
+        "Удалить начисление и все выплаты по нему?"
+    ))return;
+
+    DB.salaries=DB.salaries.filter(
+        x=>String(x.id)!==String(id)
+    );
+
+    DB.salaryPayments=
+        DB.salaryPayments.filter(
+            x=>String(x.salaryId)!==String(id)
+        );
+
+    save();
+    renderAll();
+}
+
+
+function deleteSalaryPayment(id){
+
+    if(!confirm("Удалить эту выплату?"))
+        return;
+
+    DB.salaryPayments=
+        DB.salaryPayments.filter(
+            x=>String(x.id)!==String(id)
+        );
+
+    save();
+    renderAll();
+}
+
+
+function renderSalary(){
+
+    renderSalaryEmployees();
+
+    let rows=DB.salaries.map(s=>({
+
+        ...s,
+        ...salaryStat(s)
+
+    }));
+
+    rows.sort((a,b)=>{
+
+        if(b.debt!==a.debt)
+            return b.debt-a.debt;
+
+        if(!a.last)return -1;
+        if(!b.last)return 1;
+
+        return b.last.localeCompare(a.last);
+
+    });
+
+    let html="";
+
+    rows.forEach((s,i)=>{
+
+        html+=`
+
+        <tr>
+
+            <td>${i+1}</td>
+            <td>${s.employeeName}</td>
+            <td>${monthName(s.month)}</td>
+            <td>${money(s.accrued)}</td>
+            <td class="paid">${money(s.paid)}</td>
+
+            <td class="${s.debt>0?"debt":"paid"}">
+                ${money(s.debt)}
+            </td>
+
+            <td>${s.last||"—"}</td>
+
+            <td>
+                <button class="danger"
+                onclick="deleteSalary(${s.id})">
+                🗑
+                </button>
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    $("salaryTable").innerHTML=
+        html||
+        `<tr><td colspan="8">Нет зарплат</td></tr>`;
+
+
+    let history="";
+
+    DB.salaryPayments
+    .slice()
+    .sort((a,b)=>b.date.localeCompare(a.date))
+    .forEach(p=>{
+
+        history+=`
+
+        <tr>
+
+            <td>${p.employeeName}</td>
+            <td>${monthName(p.month)}</td>
+            <td>${money(p.amount)}</td>
+            <td>${p.date}</td>
+            <td>${p.comment||"—"}</td>
+
+            <td>
+                <button class="danger"
+                onclick="deleteSalaryPayment(${p.id})">
+                🗑
+                </button>
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    $("salaryHistory").innerHTML=
+        history||
+        `<tr><td colspan="6">Нет выплат</td></tr>`;
+}
+
+
+/* ======================================================
+TRANSFER
+====================================================== */
+
+function renderTransferStudents(){
+
+    $("transferStudent").innerHTML=
+        `<option value="">Выберите ученика</option>`+
+
+        DB.students.map(s=>`
+
+            <option value="${s.id}">
+                ${s.name}
+            </option>
+
+        `).join("");
+
+}
+
+
+function saveTransfer(){
+
+    const id=$("transferId").value;
+
+    const data={
+
+        studentId:$("transferStudent").value,
+
+        month:$("transferMonth").value||currentMonth(),
+
+        tariff:Number(
+            $("transferTariff").value||0
+        ),
+
+        payment:Number(
+            $("transferPayment").value||0
+        ),
+
+        address:$("transferAddress").value,
+
+        phone:$("transferPhone").value,
+
+        direction:$("transferDirection").value,
+
+        status:$("transferStatus").value
+
+    };
+
+    if(!data.studentId){
+        alert("Выберите ученика");
+        return;
+    }
+
+    if(id){
+
+        const t=DB.transfers.find(
+            x=>String(x.id)===String(id)
+        );
+
+        Object.assign(t,data);
+
+    }else{
+
+        DB.transfers.push({
+            id:Date.now(),
+            ...data
+        });
+
+    }
+
+    save();
+
+    $("transferId").value="";
+    $("transferTariff").value="";
+    $("transferPayment").value="";
+    $("transferAddress").value="";
+    $("transferPhone").value="";
+
+    renderAll();
+}
+
+
+function editTransfer(id){
+
+    const t=DB.transfers.find(
+        x=>String(x.id)===String(id)
+    );
+
+    if(!t)return;
+
+    $("transferId").value=t.id;
+    $("transferStudent").value=t.studentId;
+    $("transferMonth").value=t.month;
+    $("transferTariff").value=t.tariff;
+    $("transferPayment").value=t.payment;
+    $("transferAddress").value=t.address||"";
+    $("transferPhone").value=t.phone||"";
+    $("transferDirection").value=t.direction;
+    $("transferStatus").value=t.status;
+
+    window.scrollTo({top:0,behavior:"smooth"});
+}
+
+
+function deleteTransfer(id){
+
+    if(!confirm("Удалить эту запись трансфера?"))
+        return;
+
+    DB.transfers=DB.transfers.filter(
+        x=>String(x.id)!==String(id)
+    );
+
+    save();
+    renderAll();
+}
+
+
+function renderTransfer(){
+
+    renderTransferStudents();
+
+    let html="";
+    let total=0;
+    let paid=0;
+    let debt=0;
+
+    DB.transfers.forEach((t,i)=>{
+
+        const student=DB.students.find(
+            s=>String(s.id)===String(t.studentId)
+        );
+
+        const d=Math.max(
+            Number(t.tariff||0)-
+            Number(t.payment||0),
+            0
+        );
+
+        total+=Number(t.tariff||0);
+        paid+=Number(t.payment||0);
+        debt+=d;
+
+        html+=`
+
+        <tr>
+
+            <td>${i+1}</td>
+            <td>${student?student.name:"—"}</td>
+            <td>${monthName(t.month)}</td>
+            <td>${money(t.tariff)}</td>
+            <td class="paid">${money(t.payment)}</td>
+            <td class="debt">${money(d)}</td>
+            <td>${t.address||"—"}</td>
+            <td>${t.status==="active"?"🟢":"🔴"}</td>
+
+            <td>
+
+                <button class="secondary"
+                onclick="editTransfer(${t.id})">
+                ✏️
+                </button>
+
+                <button class="danger"
+                onclick="deleteTransfer(${t.id})">
+                🗑
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    $("transferTable").innerHTML=
+        html||
+        `<tr><td colspan="9">Нет записей</td></tr>`;
+
+    $("transferCount").textContent=DB.transfers.length;
+    $("transferTotal").textContent=money(total);
+    $("transferPaidTotal").textContent=money(paid);
+    $("transferDebtTotal").textContent=money(debt);
+}
+
+
+/* ======================================================
+LEAVERS
+====================================================== */
+
+function renderLeaverLists(){
+
+    $("leaverStudent").innerHTML=
+        `<option value="">Выберите ученика</option>`+
+
+        DB.students.map(s=>`
+            <option value="${s.id}">
+                ${s.name}
+            </option>
+        `).join("");
+
+    $("leaverTeacher").innerHTML=
+        `<option value="">Выберите преподавателя</option>`+
+
+        DB.teachers.map(t=>`
+            <option value="${t.id}">
+                ${t.name} — ${t.subject}
+            </option>
+        `).join("");
+
+}
+
+
+function saveLeaver(){
+
+    const studentId=$("leaverStudent").value;
+
+    if(!studentId){
+        alert("Выберите ученика");
+        return;
+    }
+
+    DB.leavers.push({
+
+        id:Date.now(),
+
+        studentId,
+
+        teacherId:$("leaverTeacher").value,
+
+        date:$("leaverDate").value||today(),
+
+        reason:$("leaverReason").value,
+
+        comment:$("leaverComment").value
+
+    });
+
+    const s=DB.students.find(
+        x=>String(x.id)===String(studentId)
+    );
+
+    if(s){
+
+        s.status="inactive";
+
+        s.history=s.history||{};
+
+        s.history[currentMonth()]={
+            status:"inactive",
+            group:s.group,
+            subjects:s.subjects
+        };
+
+    }
+
+    save();
+
+    $("leaverComment").value="";
+
+    renderAll();
+
+    alert("Уход сохранён");
+}
+
+
+function deleteLeaver(id){
+
+    if(!confirm("Удалить запись?"))
+        return;
+
+    DB.leavers=DB.leavers.filter(
+        x=>String(x.id)!==String(id)
+    );
+
+    save();
+    renderAll();
+}
+
+
+function renderLeavers(){
+
+    let html="";
+
+    DB.leavers.forEach(l=>{
+
+        const s=DB.students.find(
+            x=>String(x.id)===String(l.studentId)
+        );
+
+        const t=DB.teachers.find(
+            x=>String(x.id)===String(l.teacherId)
+        );
+
+        html+=`
+
+        <tr>
+
+            <td>${s?s.name:"—"}</td>
+            <td>${t?t.name:"—"}</td>
+            <td>${l.date}</td>
+            <td>${l.reason}</td>
+            <td>${l.comment||"—"}</td>
+
+            <td>
+                <button class="danger"
+                onclick="deleteLeaver(${l.id})">
+                🗑
+                </button>
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    $("leaversTable").innerHTML=
+        html||
+        `<tr><td colspan="6">Нет записей</td></tr>`;
+}
+
+
+/* ======================================================
+FINANCE — ОПЛАТА УЧЕНИКА
+====================================================== */
+
+function renderIncomeStudents(){
+
+    $("incomeStudent").innerHTML=
+        `<option value="">Выберите ученика</option>`+
+
+        DB.students.map(s=>`
+
+            <option value="${s.id}">
+                ${s.name}
+            </option>
+
+        `).join("");
+
+}
+
+
+function loadStudentSubjectsForPayment(){
+
+    const studentId=$("incomeStudent").value;
+
+    const select=$("incomeSubject");
+
+    select.innerHTML=
+        `<option value="">Выберите предмет</option>`;
+
+    if(!studentId){
+
+        $("paymentInfo").textContent=
+            "Выберите ученика.";
+
+        return;
+
+    }
+
+    const s=DB.students.find(
+        x=>String(x.id)===String(studentId)
+    );
+
+    if(!s)return;
+
+    (s.subjects||[]).forEach(sub=>{
+
+        const teacher=DB.teachers.find(
+            t=>String(t.id)===String(sub.teacherId)
+        );
+
+        const option=document.createElement("option");
+
+        option.value=sub.id;
+
+        option.textContent=
+            `${sub.name} — ${money(sub.price)}`+
+            `${teacher?" — "+teacher.name:""}`;
+
+        select.appendChild(option);
+
+    });
+
+    showPaymentInfo();
+}
+
+
+function getSelectedPaymentSubject(){
+
+    const studentId=$("incomeStudent").value;
+    const subjectId=$("incomeSubject").value;
+
+    const student=DB.students.find(
+        s=>String(s.id)===String(studentId)
+    );
+
+    if(!student)return null;
+
+    return (student.subjects||[]).find(
+        sub=>String(sub.id)===String(subjectId)
+    );
+
+}
+
+
+function showPaymentInfo(){
+
+    const sub=getSelectedPaymentSubject();
+
+    if(!sub){
+
+        $("paymentInfo").textContent=
+            "Выберите ученика и предмет.";
+
+        return;
+
+    }
+
+    const amount=Number(
+        $("incomeAmount").value||0
+    );
+
+    const price=Number(sub.price||0);
+
+    const alreadyPaid=Number(sub.paid||0);
+
+    const afterPayment=alreadyPaid+amount;
+
+    const remaining=Math.max(
+        price-afterPayment,
+        0
+    );
+
+    $("paymentInfo").innerHTML=`
+
+        Тариф: <b>${money(price)}</b><br>
+
+        Уже оплачено:
+        <b>${money(alreadyPaid)}</b><br>
+
+        Оплата сейчас:
+        <b>${money(amount)}</b><br>
+
+        Остаток:
+        <b class="${remaining>0?"debt":"paid"}">
+        ${money(remaining)}
+        </b>
+
+    `;
+
+}
+
+
+function addIncome(){
+
+    const studentId=$("incomeStudent").value;
+    const subjectId=$("incomeSubject").value;
+
+    const amount=Number(
+        $("incomeAmount").value||0
+    );
+
+    if(!studentId){
+        alert("Выберите ученика");
+        return;
+    }
+
+    if(!subjectId){
+        alert("Выберите предмет");
+        return;
+    }
+
+    if(amount<=0){
+        alert("Введите сумму оплаты");
+        return;
+    }
+
+    const student=DB.students.find(
+        s=>String(s.id)===String(studentId)
+    );
+
+    if(!student)return;
+
+    const subject=(student.subjects||[])
+    .find(
+        x=>String(x.id)===String(subjectId)
+    );
+
+    if(!subject)return;
+
+    /* Добавляем оплату к предмету */
+
+    subject.paid=
+        Number(subject.paid||0)+amount;
+
+    /* Сохраняем историю */
+
+    DB.incomes.push({
+
+        id:Date.now()+Math.random(),
+
+        date:$("incomeDate").value||today(),
+
+        studentId:studentId,
+
+        studentName:student.name,
+
+        subjectId:subjectId,
+
+        subjectName:subject.name,
+
+        month:$("incomeMonth").value||currentMonth(),
+
+        amount:amount,
+
+        comment:$("incomeComment").value||""
+
+    });
+
+    save();
+
+    $("incomeAmount").value="";
+    $("incomeComment").value="";
+
+    showPaymentInfo();
+
+    renderAll();
+
+    alert(
+        `Оплата ${money(amount)} сохранена.\n`+
+        `Ученик: ${student.name}\n`+
+        `Предмет: ${subject.name}`
+    );
+}
+
+
+function deleteIncome(id){
+
+    const income=DB.incomes.find(
+        x=>String(x.id)===String(id)
+    );
+
+    if(!income)return;
+
+    if(!confirm("Удалить эту оплату?"))
+        return;
+
+    /*
+    Возвращаем сумму обратно из paid
+    */
+
+    const student=DB.students.find(
+        s=>String(s.id)===String(income.studentId)
+    );
+
+    if(student){
+
+        const subject=(student.subjects||[])
+        .find(
+            x=>String(x.id)===String(income.subjectId)
+        );
+
+        if(subject){
+
+            subject.paid=Math.max(
+                Number(subject.paid||0)-
+                Number(income.amount||0),
+                0
+            );
+
+        }
+
+    }
+
+    DB.incomes=DB.incomes.filter(
+        x=>String(x.id)!==String(id)
+    );
+
+    save();
+
+    renderAll();
+}
+
+
+function addExpense(){
+
+    const amount=Number(
+        $("expenseAmount").value||0
+    );
+
+    if(amount<=0){
+        alert("Введите сумму");
+        return;
+    }
+
+    DB.expenses.push({
+
+        id:Date.now(),
+
+        date:$("expenseDate").value||today(),
+
+        category:$("expenseCategory").value,
+
+        amount,
+
+        comment:$("expenseComment").value||""
+
+    });
+
+    save();
+
+    $("expenseAmount").value="";
+    $("expenseComment").value="";
+
+    renderAll();
+}
+
+
+function deleteExpense(id){
+
+    if(!confirm("Удалить расход?"))
+        return;
+
+    DB.expenses=DB.expenses.filter(
+        x=>String(x.id)!==String(id)
+    );
+
+    save();
+    renderAll();
+}
+
+
+function renderFinance(){
+
+    let html="";
+
+    /* Доходы */
+
+    DB.incomes
+    .slice()
+    .sort((a,b)=>b.date.localeCompare(a.date))
+    .forEach(x=>{
+
+        html+=`
+
+        <tr>
+
+            <td>${x.date}</td>
+
+            <td>${x.studentName||"—"}</td>
+
+            <td>${x.subjectName||"—"}</td>
+
+            <td>${monthName(x.month)}</td>
+
+            <td>📚 Доход</td>
+
+            <td class="paid">
+                ${money(x.amount)}
+            </td>
+
+            <td>${x.comment||"—"}</td>
+
+            <td>
+
+                <button class="danger"
+                onclick="deleteIncome(${x.id})">
+                🗑
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+
+    /* Расходы */
+
+    DB.expenses
+    .slice()
+    .sort((a,b)=>b.date.localeCompare(a.date))
+    .forEach(x=>{
+
+        html+=`
+
+        <tr>
+
+            <td>${x.date}</td>
+            <td>—</td>
+            <td>—</td>
+            <td>${monthName(monthOf(x.date))}</td>
+
+            <td>💸 ${x.category}</td>
+
+            <td class="debt">
+                ${money(x.amount)}
+            </td>
+
+            <td>${x.comment||"—"}</td>
+
+            <td>
+
+                <button class="danger"
+                onclick="deleteExpense(${x.id})">
+                🗑
+                </button>
+
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+    $("financeTable").innerHTML=
+        html||
+        `<tr><td colspan="8">Нет операций</td></tr>`;
+}
+
+
+/* ======================================================
+DASHBOARD
+====================================================== */
+
+let financeChart=null;
+let studentsChart=null;
+
+
+function studentIsActive(s,month){
+
+    if(s.history&&s.history[month]){
+        return s.history[month].status==="active";
+    }
+
+    return s.status==="active";
+}
+
+
+function makeReport(){
+
+    const from=$("reportFrom").value;
+    const to=$("reportTo").value;
+
+    if(!from||!to)return;
+
+    const months=monthsBetween(from,to);
+
+    /* ОБУЧЕНИЕ */
+
+    const eduIncome=DB.incomes
+    .filter(x=>
+        x.date>=from &&
+        x.date<=to
+    )
+    .reduce(
+        (a,x)=>a+Number(x.amount||0),0
+    );
+
+
+    /* ТРАНСФЕР */
+
+    const transferRecords=DB.transfers
+    .filter(x=>months.includes(x.month));
+
+    const transferAccrued=transferRecords
+    .reduce(
+        (a,x)=>a+Number(x.tariff||0),0
+    );
+
+    const transferPaid=transferRecords
+    .reduce(
+        (a,x)=>a+Number(x.payment||0),0
+    );
+
+
+    /* РАСХОДЫ */
+
+    const expenses=DB.expenses
+    .filter(x=>
+        x.date>=from &&
+        x.date<=to
+    );
+
+    const allExpense=expenses
+    .reduce(
+        (a,x)=>a+Number(x.amount||0),0
+    );
+
+
+    const transferExpense=expenses
+    .filter(x=>x.category==="Трансфер")
+    .reduce(
+        (a,x)=>a+Number(x.amount||0),0
+    );
+
+
+    const educationExpense=
+        allExpense-transferExpense;
+
+
+    /* ЗАРПЛАТЫ */
+
+    let salaryPaid=0;
+    let salaryDebt=0;
+
+    DB.salaries
+    .filter(x=>months.includes(x.month))
+    .forEach(s=>{
+
+        const st=salaryStat(s);
+
+        salaryPaid+=st.paid;
+        salaryDebt+=st.debt;
+
+    });
+
+
+    const totalIncome=
+        eduIncome+transferPaid;
+
+    const totalExpense=
+        allExpense+salaryPaid;
+
+    const totalProfit=
+        totalIncome-totalExpense;
+
+
+    const educationProfit=
+        eduIncome-
+        educationExpense-
+        salaryPaid;
+
+
+    const transferProfit=
+        transferPaid-
+        transferExpense;
+
+
+    const lastMonth=months[months.length-1];
+
+    const active=
+        DB.students.filter(
+            s=>studentIsActive(s,lastMonth)
+        ).length;
+
+
+    const studentDebt=
+        DB.students.reduce(
+            (a,s)=>a+studentFinancials(s).debt,
+            0
+        );
+
+
+    const transferDebt=
+        Math.max(
+            transferAccrued-transferPaid,
+            0
+        );
+
+
+    const leavers=
+        DB.leavers.filter(
+            x=>x.date>=from&&x.date<=to
+        ).length;
+
+
+    $("totalIncome").textContent=money(totalIncome);
+    $("totalExpense").textContent=money(totalExpense);
+    $("totalProfit").textContent=money(totalProfit);
+    $("activeStudents").textContent=active;
+    $("studentDebt").textContent=money(studentDebt);
+    $("transferDebt").textContent=money(transferDebt);
+    $("salaryDebt").textContent=money(salaryDebt);
+    $("leaversCount").textContent=leavers;
+
+
+    $("eduIncome").textContent=money(eduIncome);
+    $("eduExpense").textContent=money(educationExpense);
+    $("eduSalary").textContent=money(salaryPaid);
+    $("eduProfit").textContent=money(educationProfit);
+
+
+    $("trAccrued").textContent=money(transferAccrued);
+    $("trPaid").textContent=money(transferPaid);
+    $("trExpense").textContent=money(transferExpense);
+    $("trProfit").textContent=money(transferProfit);
+
+
+    renderMonthly(months);
+
+    drawCharts(months);
+
+}
+
+
+function renderMonthly(months){
+
+    let html="";
+
+    months.forEach(month=>{
+
+        const income=
+            DB.incomes
+            .filter(x=>monthOf(x.date)===month)
+            .reduce(
+                (a,x)=>a+Number(x.amount||0),0
+            );
+
+
+        const transfer=
+            DB.transfers
+            .filter(x=>x.month===month)
+            .reduce(
+                (a,x)=>a+Number(x.payment||0),0
+            );
+
+
+        const expense=
+            DB.expenses
+            .filter(x=>monthOf(x.date)===month)
+            .reduce(
+                (a,x)=>a+Number(x.amount||0),0
+            );
+
+
+        const salary=
+            DB.salaries
+            .filter(x=>x.month===month)
+            .reduce(
+                (a,s)=>a+salaryStat(s).paid,
+                0
+            );
+
+
+        const newcomers=
+            DB.students.filter(
+                s=>monthOf(s.start)===month
+            ).length;
+
+
+        const leavers=
+            DB.leavers.filter(
+                x=>monthOf(x.date)===month
+            ).length;
+
+
+        const active=
+            DB.students.filter(
+                s=>studentIsActive(s,month)
+            ).length;
+
+
+        html+=`
+
+        <tr>
+
+            <td>${monthName(month)}</td>
+
+            <td>${money(income+transfer)}</td>
+
+            <td>${money(expense+salary)}</td>
+
+            <td>
+                ${money(income+transfer-expense-salary)}
+            </td>
+
+            <td>${newcomers}</td>
+
+            <td>${leavers}</td>
+
+            <td>${active}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+    $("monthlyReport").innerHTML=html;
+}
+
+
+function drawCharts(months){
+
+    const income=[];
+    const expense=[];
+    const profit=[];
+    const active=[];
+
+    months.forEach(month=>{
+
+        const edu=
+            DB.incomes
+            .filter(x=>monthOf(x.date)===month)
+            .reduce(
+                (a,x)=>a+Number(x.amount||0),0
+            );
+
+        const transfer=
+            DB.transfers
+            .filter(x=>x.month===month)
+            .reduce(
+                (a,x)=>a+Number(x.payment||0),0
+            );
+
+        const exp=
+            DB.expenses
+            .filter(x=>monthOf(x.date)===month)
+            .reduce(
+                (a,x)=>a+Number(x.amount||0),0
+            );
+
+        const salary=
+            DB.salaries
+            .filter(x=>x.month===month)
+            .reduce(
+                (a,s)=>a+salaryStat(s).paid,
+                0
+            );
+
+        income.push(edu+transfer);
+        expense.push(exp+salary);
+        profit.push(edu+transfer-exp-salary);
+
+        active.push(
+            DB.students.filter(
+                s=>studentIsActive(s,month)
+            ).length
+        );
+
+    });
+
+
+    if(financeChart)
+        financeChart.destroy();
+
+    financeChart=new Chart(
+        $("financeChart"),
+        {
+            type:"bar",
+
+            data:{
+                labels:months.map(monthName),
+
+                datasets:[
+                    {
+                        label:"Доход",
+                        data:income
+                    },
+                    {
+                        label:"Расход",
+                        data:expense
+                    },
+                    {
+                        label:"Прибыль",
+                        data:profit
+                    }
+                ]
+            },
+
+            options:{
+                responsive:true,
+                maintainAspectRatio:false
+            }
+        }
+    );
+
+
+    if(studentsChart)
+        studentsChart.destroy();
+
+    studentsChart=new Chart(
+        $("studentsChart"),
+        {
+            type:"line",
+
+            data:{
+                labels:months.map(monthName),
+
+                datasets:[
+                    {
+                        label:"Активные ученики",
+                        data:active
+                    }
+                ]
+            },
+
+            options:{
+                responsive:true,
+                maintainAspectRatio:false
+            }
+        }
+    );
+
+}
+
+
+/* ======================================================
+RENDER ALL
+====================================================== */
 
 function renderAll(){
 
- renderStudents();
- renderTeachers();
- renderStaff();
- renderSalary();
- renderTransfer();
- renderLeaverSelects();
- renderLeavers();
- renderFinance();
+    renderStudents();
+    renderTeachers();
+    renderStaff();
+    renderSalary();
+    renderTransfer();
+    renderLeaverLists();
+    renderLeavers();
+    renderIncomeStudents();
+    renderFinance();
 
- if($("from").value&&$("to").value)
-  buildReport();
+    if($("reportFrom").value&&$("reportTo").value){
+        makeReport();
+    }
+
 }
 
 
-/* =====================================================
-INITIAL
-===================================================== */
+/* ======================================================
+START
+====================================================== */
 
-$("from").value=
-new Date(
- new Date().getFullYear(),
- new Date().getMonth(),
- 1
-).toISOString().slice(0,10);
+$("reportFrom").value=
+    new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        1
+    ).toISOString().slice(0,10);
 
-$("to").value=today();
+$("reportTo").value=today();
 
 $("studentStart").value=today();
-
 $("leaverDate").value=today();
-
 $("incomeDate").value=today();
-
+$("incomeMonth").value=currentMonth();
 $("expenseDate").value=today();
-
 $("salaryDate").value=today();
-
 $("salaryMonth").value=currentMonth();
-
 $("transferMonth").value=currentMonth();
 
-addSubject();
+addSubjectRow();
 
 renderAll();
 
