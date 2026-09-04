@@ -9,176 +9,184 @@
 *{box-sizing:border-box}
 
 body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f5f6fa;
-    color:#222;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f5f6fa;
+color:#222;
 }
 
 .header{
-    background:#fff;
-    padding:22px;
-    border-bottom:1px solid #eee;
+background:white;
+padding:22px;
+border-bottom:1px solid #eee;
 }
 
 .header h1{
-    margin:0;
-    font-size:28px;
+margin:0;
+font-size:28px;
 }
 
 .header p{
-    margin:6px 0 0;
-    color:#777;
+margin:6px 0 0;
+color:#777;
 }
 
 .container{
-    max-width:1200px;
-    margin:auto;
-    padding:20px;
+max-width:1200px;
+margin:auto;
+padding:20px;
 }
 
 .cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
 }
 
 .card{
-    background:#fff;
-    border-radius:16px;
-    padding:20px;
-    box-shadow:0 3px 12px rgba(0,0,0,.06);
+background:white;
+border-radius:16px;
+padding:20px;
+box-shadow:0 3px 12px rgba(0,0,0,.06);
 }
 
 .card-title{
-    color:#777;
-    font-size:14px;
+color:#777;
+font-size:14px;
 }
 
 .card-value{
-    font-size:23px;
-    font-weight:bold;
-    margin-top:10px;
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
 }
 
 .section{
-    background:#fff;
-    margin-top:20px;
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 3px 12px rgba(0,0,0,.04);
+background:white;
+margin-top:20px;
+padding:20px;
+border-radius:16px;
+box-shadow:0 3px 12px rgba(0,0,0,.04);
 }
 
 .section h2{
-    margin-top:0;
+margin-top:0;
 }
 
 .form{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
 }
 
 label{
-    display:block;
-    color:#666;
-    font-size:14px;
+display:block;
+color:#666;
+font-size:14px;
 }
 
 input,select{
-    width:100%;
-    padding:12px;
-    margin-top:6px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    font-size:16px;
+width:100%;
+padding:12px;
+margin-top:6px;
+border:1px solid #ddd;
+border-radius:10px;
+font-size:16px;
 }
 
 button{
-    border:none;
-    border-radius:10px;
-    padding:12px 18px;
-    color:white;
-    background:#111827;
-    font-size:15px;
-    cursor:pointer;
+border:none;
+border-radius:10px;
+padding:12px 18px;
+color:white;
+background:#111827;
+font-size:15px;
+cursor:pointer;
 }
 
 .add-btn{
-    width:100%;
-    margin-top:20px;
+width:100%;
+margin-top:20px;
 }
 
 .delete{
-    background:#dc2626;
-    padding:7px 10px;
-    font-size:13px;
+background:#dc2626;
+padding:7px 10px;
+font-size:13px;
 }
 
 .table-wrapper{
-    overflow-x:auto;
+overflow-x:auto;
 }
 
 table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
 }
 
 th,td{
-    padding:12px 8px;
-    border-bottom:1px solid #eee;
-    text-align:left;
-    white-space:nowrap;
+padding:12px 8px;
+border-bottom:1px solid #eee;
+text-align:left;
+white-space:nowrap;
 }
 
 .empty{
-    text-align:center;
-    color:#777;
-    padding:20px;
+text-align:center;
+color:#777;
+padding:20px;
 }
 
 .summary{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-    margin-top:15px;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-top:15px;
 }
 
 .summary-box{
-    background:#f5f6fa;
-    padding:15px;
-    border-radius:12px;
+background:#f5f6fa;
+padding:15px;
+border-radius:12px;
 }
 
 .summary-box strong{
-    display:block;
-    font-size:20px;
-    margin-top:6px;
+display:block;
+font-size:20px;
+margin-top:6px;
 }
 
-@media(max-width:800px){
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
+.transfer-box{
+margin-top:15px;
+}
 
-    .summary{
-        grid-template-columns:1fr;
-    }
+@media(max-width:900px){
+
+.cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+.summary{
+grid-template-columns:repeat(2,1fr);
+}
+
 }
 
 @media(max-width:500px){
-    .cards,.form{
-        grid-template-columns:1fr;
-    }
 
-    .container{
-        padding:12px;
-    }
+.cards,.form,.summary{
+grid-template-columns:1fr;
+}
 
-    table{
-        font-size:13px;
-    }
+.container{
+padding:12px;
+}
+
+table{
+font-size:13px;
+}
+
 }
 </style>
 </head>
@@ -186,35 +194,75 @@ th,td{
 <body>
 
 <div class="header">
-    <h1>KidsMath 📊</h1>
-    <p>Финансовая панель учебного центра</p>
+
+<h1>KidsMath 📊</h1>
+
+<p>
+Финансовая панель учебного центра
+</p>
+
 </div>
+
 
 <div class="container">
 
-<!-- ================= DASHBOARD ================= -->
+
+<!-- ================= MAIN DASHBOARD ================= -->
 
 <div class="cards">
 
-    <div class="card">
-        <div class="card-title">💰 Выручка</div>
-        <div class="card-value" id="revenue">0 сум</div>
-    </div>
+<div class="card">
+<div class="card-title">💰 Выручка</div>
+<div class="card-value" id="revenue">0 сум</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">💸 Расходы</div>
-        <div class="card-value" id="expenses">0 сум</div>
-    </div>
+<div class="card">
+<div class="card-title">💸 Расходы</div>
+<div class="card-value" id="expenses">0 сум</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">📈 Прибыль</div>
-        <div class="card-value" id="profit">0 сум</div>
-    </div>
+<div class="card">
+<div class="card-title">📈 Прибыль</div>
+<div class="card-value" id="profit">0 сум</div>
+</div>
 
-    <div class="card">
-        <div class="card-title">👨‍🎓 Ученики</div>
-        <div class="card-value" id="studentCount">0</div>
-    </div>
+<div class="card">
+<div class="card-title">👨‍🎓 Ученики</div>
+<div class="card-value" id="studentCount">0</div>
+</div>
+
+</div>
+
+
+<!-- ================= TRANSFER DASHBOARD ================= -->
+
+<div class="section">
+
+<h2>🚐 Трансфер</h2>
+
+<div class="summary">
+
+<div class="summary-box">
+Доход трансфера
+<strong id="transferIncome">0 сум</strong>
+</div>
+
+<div class="summary-box">
+Расход трансфера
+<strong id="transferExpense">0 сум</strong>
+</div>
+
+<div class="summary-box">
+Прибыль трансфера
+<strong id="transferProfit">0 сум</strong>
+</div>
+
+<div class="summary-box">
+Учащихся на трансфере
+<strong id="transferStudents">0</strong>
+</div>
+
+</div>
 
 </div>
 
@@ -223,7 +271,7 @@ th,td{
 
 <div class="section">
 
-<h2>💰 Доходы</h2>
+<h2>💰 Доходы от обучения</h2>
 
 <div class="form">
 
@@ -239,7 +287,7 @@ th,td{
 
 <div>
 <label>Группа</label>
-<input type="text" id="incomeGroup" placeholder="Например: Math 5">
+<input type="text" id="incomeGroup" placeholder="Math 5">
 </div>
 
 <div>
@@ -276,7 +324,7 @@ th,td{
 
 <div class="section">
 
-<h2>💸 Расходы</h2>
+<h2>💸 Расходы учебного центра</h2>
 
 <div class="form">
 
@@ -287,16 +335,19 @@ th,td{
 
 <div>
 <label>Категория</label>
+
 <select id="expenseCategory">
+
 <option>Аренда</option>
 <option>Зарплата</option>
 <option>Реклама</option>
 <option>Коммунальные услуги</option>
-<option>Заправка</option>
 <option>Оборудование</option>
 <option>Кредит</option>
 <option>Прочее</option>
+
 </select>
+
 </div>
 
 <div>
@@ -306,11 +357,15 @@ th,td{
 
 <div>
 <label>Способ оплаты</label>
+
 <select id="expensePayment">
+
 <option>Наличные</option>
 <option>Карта</option>
 <option>Перевод</option>
+
 </select>
+
 </div>
 
 <div>
@@ -352,8 +407,12 @@ th,td{
 <strong id="studentsDebt">0 сум</strong>
 </div>
 
+<div class="summary-box">
+Средний чек
+<strong id="averageCheck">0 сум</strong>
 </div>
 
+</div>
 
 <div class="form" style="margin-top:20px">
 
@@ -398,32 +457,198 @@ th,td{
 </div>
 
 
-<!-- ================= RESULT ================= -->
+<!-- ================= TRANSFER STUDENTS ================= -->
 
 <div class="section">
 
-<h2>📊 Финансовый результат</h2>
+<h2>🚐 Учащиеся, пользующиеся трансфером</h2>
+
+<div class="form">
+
+<div>
+<label>Имя и фамилия</label>
+<input type="text" id="transferStudentName" placeholder="Имя ученика">
+</div>
+
+<div>
+<label>Группа</label>
+<input type="text" id="transferGroup" placeholder="Math 5">
+</div>
+
+<div>
+<label>Адрес</label>
+<input type="text" id="transferAddress" placeholder="Адрес ученика">
+</div>
+
+<div>
+<label>Телефон родителя</label>
+<input type="tel" id="transferPhone" placeholder="+998 90 000 00 00">
+</div>
+
+<div>
+<label>Тариф трансфера</label>
+<input type="number" id="transferPrice" placeholder="500000">
+</div>
+
+<div>
+<label>Направление</label>
+
+<select id="transferDirection">
+
+<option>Дом → Центр и Центр → Дом</option>
+<option>Дом → Центр</option>
+<option>Центр → Дом</option>
+
+</select>
+
+</div>
+
+</div>
+
+<button class="add-btn" onclick="addTransferStudent()">
+➕ Добавить учащегося
+</button>
+
+<div id="transferStudentTable"></div>
+
+</div>
+
+
+<!-- ================= TRANSFER PAYMENTS ================= -->
+
+<div class="section">
+
+<h2>💰 Доходы от трансфера</h2>
+
+<div class="form">
+
+<div>
+<label>Дата</label>
+<input type="date" id="transferIncomeDate">
+</div>
+
+<div>
+<label>Ученик</label>
+<input type="text" id="transferIncomeStudent" placeholder="Имя ученика">
+</div>
+
+<div>
+<label>Период</label>
+<input type="text" id="transferIncomePeriod" placeholder="Сентябрь 2026">
+</div>
+
+<div>
+<label>Сумма</label>
+<input type="number" id="transferIncomeAmount" placeholder="500000">
+</div>
+
+<div>
+<label>Способ оплаты</label>
+
+<select id="transferIncomePayment">
+
+<option>Наличные</option>
+<option>Карта</option>
+<option>Перевод</option>
+
+</select>
+
+</div>
+
+</div>
+
+<button class="add-btn" onclick="addTransferIncome()">
+➕ Добавить оплату трансфера
+</button>
+
+<div id="transferIncomeTable"></div>
+
+</div>
+
+
+<!-- ================= TRANSFER EXPENSES ================= -->
+
+<div class="section">
+
+<h2>⛽ Расходы на трансфер</h2>
+
+<div class="form">
+
+<div>
+<label>Дата</label>
+<input type="date" id="transferExpenseDate">
+</div>
+
+<div>
+<label>Категория</label>
+
+<select id="transferExpenseCategory">
+
+<option>Зарплата водителя</option>
+<option>Бензин</option>
+<option>Ремонт автомобиля</option>
+<option>Мойка</option>
+<option>Запчасти</option>
+<option>Страховка</option>
+<option>Прочее</option>
+
+</select>
+
+</div>
+
+<div>
+<label>Сумма</label>
+<input type="number" id="transferExpenseAmount" placeholder="1000000">
+</div>
+
+<div>
+<label>Комментарий</label>
+<input type="text" id="transferExpenseComment" placeholder="Описание расхода">
+</div>
+
+</div>
+
+<button class="add-btn" onclick="addTransferExpense()">
+➕ Добавить расход на трансфер
+</button>
+
+<div id="transferExpenseTable"></div>
+
+</div>
+
+
+<!-- ================= FINANCIAL RESULT ================= -->
+
+<div class="section">
+
+<h2>📊 Общий финансовый результат</h2>
 
 <div class="summary">
 
 <div class="summary-box">
-Выручка
-<strong id="resultRevenue">0 сум</strong>
+Доходы от обучения
+<strong id="resultEducation">0 сум</strong>
 </div>
 
 <div class="summary-box">
-Расходы
-<strong id="resultExpenses">0 сум</strong>
+Доходы от трансфера
+<strong id="resultTransferIncome">0 сум</strong>
 </div>
 
 <div class="summary-box">
-Прибыль
-<strong id="resultProfit">0 сум</strong>
+Все расходы
+<strong id="resultAllExpenses">0 сум</strong>
+</div>
+
+<div class="summary-box">
+Общая прибыль
+<strong id="resultAllProfit">0 сум</strong>
 </div>
 
 </div>
 
 </div>
+
 
 </div>
 
@@ -441,12 +666,26 @@ JSON.parse(localStorage.getItem("kidsmathExpenses") || "[]");
 let students =
 JSON.parse(localStorage.getItem("kidsmathStudents") || "[]");
 
+let transferStudents =
+JSON.parse(localStorage.getItem("kidsmathTransferStudents") || "[]");
+
+let transferIncomes =
+JSON.parse(localStorage.getItem("kidsmathTransferIncomes") || "[]");
+
+let transferExpenses =
+JSON.parse(localStorage.getItem("kidsmathTransferExpenses") || "[]");
+
 
 /* ================= HELPERS ================= */
 
 function money(number){
-return Number(number).toLocaleString("ru-RU") + " сум";
+
+return Number(number)
+.toLocaleString("ru-RU")
++ " сум";
+
 }
+
 
 function saveData(){
 
@@ -465,10 +704,25 @@ localStorage.setItem(
 JSON.stringify(students)
 );
 
+localStorage.setItem(
+"kidsmathTransferStudents",
+JSON.stringify(transferStudents)
+);
+
+localStorage.setItem(
+"kidsmathTransferIncomes",
+JSON.stringify(transferIncomes)
+);
+
+localStorage.setItem(
+"kidsmathTransferExpenses",
+JSON.stringify(transferExpenses)
+);
+
 }
 
 
-/* ================= INCOME ================= */
+/* ================= EDUCATION INCOME ================= */
 
 function addIncome(){
 
@@ -495,6 +749,7 @@ if(!date || !student || !amount){
 alert("Заполни дату, ученика и сумму.");
 
 return;
+
 }
 
 incomes.push({
@@ -519,7 +774,7 @@ render();
 }
 
 
-/* ================= EXPENSE ================= */
+/* ================= EDUCATION EXPENSE ================= */
 
 function addExpense(){
 
@@ -543,6 +798,7 @@ if(!date || !amount){
 alert("Заполни дату и сумму.");
 
 return;
+
 }
 
 expenses.push({
@@ -588,23 +844,30 @@ document.getElementById("studentComment").value.trim();
 
 if(!name || !price){
 
-alert("Заполни имя ученика и стоимость обучения.");
+alert("Заполни имя и стоимость обучения.");
 
 return;
+
 }
 
-const debt =
-Math.max(price - paid, 0);
-
 students.push({
+
 id:Date.now(),
+
 name,
+
 group,
+
 price,
+
 paid,
-debt,
+
+debt:Math.max(price-paid,0),
+
 period,
+
 comment
+
 });
 
 saveData();
@@ -615,6 +878,169 @@ document.getElementById("studentPrice").value="";
 document.getElementById("studentPaidInput").value="";
 document.getElementById("studentPeriod").value="";
 document.getElementById("studentComment").value="";
+
+render();
+
+}
+
+
+/* ================= TRANSFER STUDENT ================= */
+
+function addTransferStudent(){
+
+const name =
+document.getElementById("transferStudentName").value.trim();
+
+const group =
+document.getElementById("transferGroup").value.trim();
+
+const address =
+document.getElementById("transferAddress").value.trim();
+
+const phone =
+document.getElementById("transferPhone").value.trim();
+
+const price =
+Number(document.getElementById("transferPrice").value);
+
+const direction =
+document.getElementById("transferDirection").value;
+
+if(!name || !price){
+
+alert("Заполни имя ученика и тариф трансфера.");
+
+return;
+
+}
+
+transferStudents.push({
+
+id:Date.now(),
+
+name,
+
+group,
+
+address,
+
+phone,
+
+price,
+
+direction
+
+});
+
+saveData();
+
+document.getElementById("transferStudentName").value="";
+document.getElementById("transferGroup").value="";
+document.getElementById("transferAddress").value="";
+document.getElementById("transferPhone").value="";
+document.getElementById("transferPrice").value="";
+
+render();
+
+}
+
+
+/* ================= TRANSFER INCOME ================= */
+
+function addTransferIncome(){
+
+const date =
+document.getElementById("transferIncomeDate").value;
+
+const student =
+document.getElementById("transferIncomeStudent").value.trim();
+
+const period =
+document.getElementById("transferIncomePeriod").value.trim();
+
+const amount =
+Number(document.getElementById("transferIncomeAmount").value);
+
+const payment =
+document.getElementById("transferIncomePayment").value;
+
+if(!date || !student || !amount){
+
+alert("Заполни дату, ученика и сумму.");
+
+return;
+
+}
+
+transferIncomes.push({
+
+id:Date.now(),
+
+date,
+
+student,
+
+period,
+
+amount,
+
+payment
+
+});
+
+saveData();
+
+document.getElementById("transferIncomeStudent").value="";
+document.getElementById("transferIncomePeriod").value="";
+document.getElementById("transferIncomeAmount").value="";
+
+render();
+
+}
+
+
+/* ================= TRANSFER EXPENSE ================= */
+
+function addTransferExpense(){
+
+const date =
+document.getElementById("transferExpenseDate").value;
+
+const category =
+document.getElementById("transferExpenseCategory").value;
+
+const amount =
+Number(document.getElementById("transferExpenseAmount").value);
+
+const comment =
+document.getElementById("transferExpenseComment").value.trim();
+
+if(!date || !amount){
+
+alert("Заполни дату и сумму.");
+
+return;
+
+}
+
+transferExpenses.push({
+
+id:Date.now(),
+
+date,
+
+category,
+
+amount,
+
+comment
+
+});
+
+saveData();
+
+document.getElementById("transferExpenseAmount").value="";
+document.getElementById("transferExpenseComment").value="";
 
 render();
 
@@ -659,6 +1085,42 @@ render();
 }
 
 
+function deleteTransferStudent(id){
+
+transferStudents =
+transferStudents.filter(item => item.id !== id);
+
+saveData();
+
+render();
+
+}
+
+
+function deleteTransferIncome(id){
+
+transferIncomes =
+transferIncomes.filter(item => item.id !== id);
+
+saveData();
+
+render();
+
+}
+
+
+function deleteTransferExpense(id){
+
+transferExpenses =
+transferExpenses.filter(item => item.id !== id);
+
+saveData();
+
+render();
+
+}
+
+
 /* ================= INCOME TABLE ================= */
 
 function renderIncome(){
@@ -666,15 +1128,16 @@ function renderIncome(){
 const container =
 document.getElementById("incomeTable");
 
-if(incomes.length === 0){
+if(incomes.length===0){
 
 container.innerHTML =
 '<div class="empty">Пока нет доходов</div>';
 
 return;
+
 }
 
-let html = `
+let html=`
 
 <div class="table-wrapper">
 
@@ -696,9 +1159,9 @@ let html = `
 <tbody>
 `;
 
-incomes.slice().reverse().forEach(item => {
+incomes.slice().reverse().forEach(item=>{
 
-html += `
+html+=`
 
 <tr>
 
@@ -713,25 +1176,29 @@ html += `
 <td>${item.payment}</td>
 
 <td>
+
 <button
 class="delete"
 onclick="deleteIncome(${item.id})">
 Удалить
 </button>
+
 </td>
 
 </tr>
+
 `;
 
 });
 
-html += `
+html+=`
+
 </tbody>
 </table>
 </div>
 `;
 
-container.innerHTML = html;
+container.innerHTML=html;
 
 }
 
@@ -743,15 +1210,16 @@ function renderExpenses(){
 const container =
 document.getElementById("expenseTable");
 
-if(expenses.length === 0){
+if(expenses.length===0){
 
 container.innerHTML =
 '<div class="empty">Пока нет расходов</div>';
 
 return;
+
 }
 
-let html = `
+let html=`
 
 <div class="table-wrapper">
 
@@ -773,9 +1241,9 @@ let html = `
 <tbody>
 `;
 
-expenses.slice().reverse().forEach(item => {
+expenses.slice().reverse().forEach(item=>{
 
-html += `
+html+=`
 
 <tr>
 
@@ -790,25 +1258,29 @@ html += `
 <td>${item.comment}</td>
 
 <td>
+
 <button
 class="delete"
 onclick="deleteExpense(${item.id})">
 Удалить
 </button>
+
 </td>
 
 </tr>
+
 `;
 
 });
 
-html += `
+html+=`
+
 </tbody>
 </table>
 </div>
 `;
 
-container.innerHTML = html;
+container.innerHTML=html;
 
 }
 
@@ -820,15 +1292,16 @@ function renderStudents(){
 const container =
 document.getElementById("studentTable");
 
-if(students.length === 0){
+if(students.length===0){
 
 container.innerHTML =
 '<div class="empty">Пока нет учеников</div>';
 
 return;
+
 }
 
-let html = `
+let html=`
 
 <div class="table-wrapper">
 
@@ -852,18 +1325,18 @@ let html = `
 <tbody>
 `;
 
-students.slice().reverse().forEach(item => {
+students.slice().reverse().forEach(item=>{
 
-let status = "Долг";
+let status="Долг";
 
-if(item.debt === 0){
-status = "Оплачено";
+if(item.debt===0){
+status="Оплачено";
 }
-else if(item.paid > 0){
-status = "Частично";
+else if(item.paid>0){
+status="Частично";
 }
 
-html += `
+html+=`
 
 <tr>
 
@@ -892,82 +1365,388 @@ onclick="deleteStudent(${item.id})">
 </td>
 
 </tr>
+
 `;
 
 });
 
-html += `
+html+=`
+
 </tbody>
 </table>
 </div>
 `;
 
-container.innerHTML = html;
+container.innerHTML=html;
 
 }
 
 
-/* ================= DASHBOARD ================= */
+/* ================= TRANSFER STUDENT TABLE ================= */
+
+function renderTransferStudents(){
+
+const container =
+document.getElementById("transferStudentTable");
+
+if(transferStudents.length===0){
+
+container.innerHTML =
+'<div class="empty">Пока нет учащихся на трансфере</div>';
+
+return;
+
+}
+
+let html=`
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Ученик</th>
+<th>Группа</th>
+<th>Адрес</th>
+<th>Телефон</th>
+<th>Тариф</th>
+<th>Направление</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+transferStudents.slice().reverse().forEach(item=>{
+
+html+=`
+
+<tr>
+
+<td>${item.name}</td>
+
+<td>${item.group}</td>
+
+<td>${item.address}</td>
+
+<td>${item.phone}</td>
+
+<td>${money(item.price)}</td>
+
+<td>${item.direction}</td>
+
+<td>
+
+<button
+class="delete"
+onclick="deleteTransferStudent(${item.id})">
+Удалить
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+
+</tbody>
+</table>
+</div>
+`;
+
+container.innerHTML=html;
+
+}
+
+
+/* ================= TRANSFER INCOME TABLE ================= */
+
+function renderTransferIncome(){
+
+const container =
+document.getElementById("transferIncomeTable");
+
+if(transferIncomes.length===0){
+
+container.innerHTML =
+'<div class="empty">Пока нет оплат трансфера</div>';
+
+return;
+
+}
+
+let html=`
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Дата</th>
+<th>Ученик</th>
+<th>Период</th>
+<th>Сумма</th>
+<th>Оплата</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+transferIncomes.slice().reverse().forEach(item=>{
+
+html+=`
+
+<tr>
+
+<td>${item.date}</td>
+
+<td>${item.student}</td>
+
+<td>${item.period}</td>
+
+<td>${money(item.amount)}</td>
+
+<td>${item.payment}</td>
+
+<td>
+
+<button
+class="delete"
+onclick="deleteTransferIncome(${item.id})">
+Удалить
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+
+</tbody>
+</table>
+</div>
+`;
+
+container.innerHTML=html;
+
+}
+
+
+/* ================= TRANSFER EXPENSE TABLE ================= */
+
+function renderTransferExpenses(){
+
+const container =
+document.getElementById("transferExpenseTable");
+
+if(transferExpenses.length===0){
+
+container.innerHTML =
+'<div class="empty">Пока нет расходов на трансфер</div>';
+
+return;
+
+}
+
+let html=`
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Дата</th>
+<th>Категория</th>
+<th>Сумма</th>
+<th>Комментарий</th>
+<th></th>
+</tr>
+
+</thead>
+
+<tbody>
+`;
+
+transferExpenses.slice().reverse().forEach(item=>{
+
+html+=`
+
+<tr>
+
+<td>${item.date}</td>
+
+<td>${item.category}</td>
+
+<td>${money(item.amount)}</td>
+
+<td>${item.comment}</td>
+
+<td>
+
+<button
+class="delete"
+onclick="deleteTransferExpense(${item.id})">
+Удалить
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+html+=`
+
+</tbody>
+</table>
+</div>
+`;
+
+container.innerHTML=html;
+
+}
+
+
+/* ================= MAIN RENDER ================= */
 
 function render(){
 
-const revenue =
+const educationIncome =
 incomes.reduce(
-(sum,item) => sum + item.amount,
+(sum,item)=>sum+item.amount,
 0
 );
+
+const educationExpenses =
+expenses.reduce(
+(sum,item)=>sum+item.amount,
+0
+);
+
+const transferIncome =
+transferIncomes.reduce(
+(sum,item)=>sum+item.amount,
+0
+);
+
+const transferExpense =
+transferExpenses.reduce(
+(sum,item)=>sum+item.amount,
+0
+);
+
+const transferProfit =
+transferIncome-transferExpense;
+
+const totalIncome =
+educationIncome+transferIncome;
 
 const totalExpenses =
-expenses.reduce(
-(sum,item) => sum + item.amount,
-0
-);
+educationExpenses+transferExpense;
 
-const profit =
-revenue - totalExpenses;
+const totalProfit =
+totalIncome-totalExpenses;
 
-const totalPaid =
+const studentsPaid =
 students.reduce(
-(sum,item) => sum + item.paid,
+(sum,item)=>sum+item.paid,
 0
 );
 
-const totalDebt =
+const studentsDebt =
 students.reduce(
-(sum,item) => sum + item.debt,
+(sum,item)=>sum+item.debt,
 0
 );
 
+const average =
+students.length>0
+? studentsPaid/students.length
+:0;
+
+
+/* MAIN */
 
 document.getElementById("revenue").textContent =
-money(revenue);
+money(totalIncome);
 
 document.getElementById("expenses").textContent =
 money(totalExpenses);
 
 document.getElementById("profit").textContent =
-money(profit);
+money(totalProfit);
 
 document.getElementById("studentCount").textContent =
 students.length;
+
+
+/* STUDENTS */
 
 document.getElementById("studentsTotal").textContent =
 students.length;
 
 document.getElementById("studentsPaid").textContent =
-money(totalPaid);
+money(studentsPaid);
 
 document.getElementById("studentsDebt").textContent =
-money(totalDebt);
+money(studentsDebt);
 
-document.getElementById("resultRevenue").textContent =
-money(revenue);
+document.getElementById("averageCheck").textContent =
+money(average);
 
-document.getElementById("resultExpenses").textContent =
+
+/* TRANSFER */
+
+document.getElementById("transferIncome").textContent =
+money(transferIncome);
+
+document.getElementById("transferExpense").textContent =
+money(transferExpense);
+
+document.getElementById("transferProfit").textContent =
+money(transferProfit);
+
+document.getElementById("transferStudents").textContent =
+transferStudents.length;
+
+
+/* RESULT */
+
+document.getElementById("resultEducation").textContent =
+money(educationIncome);
+
+document.getElementById("resultTransferIncome").textContent =
+money(transferIncome);
+
+document.getElementById("resultAllExpenses").textContent =
 money(totalExpenses);
 
-document.getElementById("resultProfit").textContent =
-money(profit);
+document.getElementById("resultAllProfit").textContent =
+money(totalProfit);
+
+
+/* TABLES */
 
 renderIncome();
 
@@ -975,19 +1754,29 @@ renderExpenses();
 
 renderStudents();
 
+renderTransferStudents();
+
+renderTransferIncome();
+
+renderTransferExpenses();
+
 }
 
 
-/* ================= DATE ================= */
+/* ================= DATES ================= */
 
 const today =
-new Date().toISOString().split("T")[0];
+new Date()
+.toISOString()
+.split("T")[0];
 
-document.getElementById("incomeDate").value =
-today;
+document.getElementById("incomeDate").value=today;
 
-document.getElementById("expenseDate").value =
-today;
+document.getElementById("expenseDate").value=today;
+
+document.getElementById("transferIncomeDate").value=today;
+
+document.getElementById("transferExpenseDate").value=today;
 
 
 /* ================= START ================= */
