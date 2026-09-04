@@ -2,371 +2,302 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>KidsMath — Управление центром</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6f9;color:#1f2937}
+.header{background:#fff;padding:20px;position:sticky;top:0;z-index:20;border-bottom:1px solid #e5e7eb}
+.header h1{margin:0;font-size:26px}
+.header p{margin:5px 0 0;color:#6b7280}
+.container{max-width:1400px;margin:auto;padding:18px}
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f5f6fa;
-color:#222
+.period{
+background:#fff;padding:15px;border-radius:16px;margin-bottom:18px;
+display:flex;gap:12px;align-items:end;flex-wrap:wrap
+}
+.period div{min-width:160px}
+.period label{font-size:13px;color:#6b7280}
+.period select{margin-top:5px}
+
+.tabs{display:flex;gap:7px;overflow-x:auto;margin-bottom:18px}
+.tabs button{white-space:nowrap;background:#e5e7eb;color:#111827}
+.tabs button.active{background:#111827;color:#fff}
+
+button{
+border:0;padding:11px 15px;border-radius:10px;
+background:#111827;color:#fff;cursor:pointer
+}
+button:hover{opacity:.9}
+
+input,select{
+width:100%;padding:11px;border:1px solid #d1d5db;
+border-radius:9px;background:#fff;font-size:15px
 }
 
-.header{
-background:#fff;
-padding:22px;
-border-bottom:1px solid #eee;
-position:sticky;
-top:0;
-z-index:10
-}
-
-.header h1{
-margin:0;
-font-size:27px
-}
-
-.header p{
-margin:6px 0 0;
-color:#777
-}
-
-.container{
-max-width:1250px;
-margin:auto;
-padding:20px
-}
+.page{display:none}
 
 .cards{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:15px
+gap:14px
 }
 
 .card{
-background:#fff;
-padding:20px;
-border-radius:16px;
-box-shadow:0 3px 12px rgba(0,0,0,.06)
+background:#fff;padding:18px;border-radius:16px;
+box-shadow:0 2px 10px rgba(0,0,0,.05)
 }
 
-.card-title{
-font-size:14px;
-color:#777
-}
-
-.card-value{
-font-size:23px;
-font-weight:bold;
-margin-top:9px
-}
+.card small{color:#6b7280}
+.card strong{display:block;font-size:23px;margin-top:8px}
 
 .section{
-background:#fff;
-padding:20px;
-border-radius:16px;
-margin-top:20px;
-box-shadow:0 3px 12px rgba(0,0,0,.04)
+background:#fff;padding:20px;border-radius:16px;
+margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.04)
 }
 
-.section h2{
-margin-top:0
-}
+.section h2{margin-top:0}
 
 .form{
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:15px
+gap:14px
 }
 
-label{
-display:block;
-font-size:14px;
-color:#666
+.form label{
+display:block;font-size:13px;color:#6b7280
 }
 
-input,select{
-width:100%;
-padding:12px;
-margin-top:6px;
-border:1px solid #ddd;
-border-radius:10px;
-font-size:16px;
-background:#fff
-}
+.form input,.form select{margin-top:5px}
 
-button{
-border:0;
-border-radius:10px;
-padding:12px 18px;
-background:#111827;
-color:white;
-font-size:15px;
-cursor:pointer
-}
+.add{width:100%;margin-top:16px}
 
-.add-btn{
-width:100%;
-margin-top:18px
-}
+.table-wrap{overflow:auto}
 
-.delete{
-background:#dc2626;
-padding:7px 10px;
-font-size:12px
-}
+table{width:100%;border-collapse:collapse;margin-top:15px}
+th,td{padding:10px;border-bottom:1px solid #eee;text-align:left;white-space:nowrap}
+th{font-size:13px;color:#6b7280}
 
-.table-wrapper{
-overflow-x:auto
-}
+.delete{background:#dc2626;padding:7px 10px;font-size:12px}
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:18px
-}
-
-th,td{
-padding:11px 8px;
-border-bottom:1px solid #eee;
-text-align:left;
-white-space:nowrap
-}
-
-th{
-font-size:13px;
-color:#666
-}
-
-.empty{
-padding:20px;
-text-align:center;
-color:#777
-}
-
-.summary{
+.stat-grid{
 display:grid;
 grid-template-columns:repeat(4,1fr);
-gap:15px
+gap:12px
 }
 
-.summary-box{
-background:#f5f6fa;
-padding:15px;
-border-radius:12px
+.stat{
+background:#f3f4f6;padding:15px;border-radius:12px
 }
 
-.summary-box strong{
-display:block;
-font-size:20px;
-margin-top:7px
+.stat strong{display:block;font-size:20px;margin-top:6px}
+
+.charts{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:18px
 }
 
-.tabs{
-display:flex;
-gap:8px;
-overflow-x:auto;
-margin-bottom:20px
+.chart-box{
+background:#fff;padding:18px;border-radius:16px;
+height:360px
 }
 
-.tabs button{
-white-space:nowrap;
-background:#e5e7eb;
-color:#222
-}
-
-.tabs button.active{
-background:#111827;
-color:#fff
-}
+.empty{text-align:center;color:#9ca3af;padding:20px}
 
 .badge{
-display:inline-block;
-padding:5px 9px;
-border-radius:8px;
-background:#eee;
-font-size:12px
-}
-
-.month-box{
-display:flex;
-gap:10px;
-align-items:end;
-margin-bottom:20px
-}
-
-.month-box div{
-flex:1
+display:inline-block;padding:5px 8px;
+border-radius:8px;background:#eee;font-size:12px
 }
 
 @media(max-width:900px){
-
-.cards{
-grid-template-columns:repeat(2,1fr)
+.cards,.stat-grid{grid-template-columns:repeat(2,1fr)}
+.charts{grid-template-columns:1fr}
 }
 
-.summary{
-grid-template-columns:repeat(2,1fr)
-}
-
-}
-
-@media(max-width:550px){
-
-.cards,.summary,.form{
-grid-template-columns:1fr
-}
-
-.container{
-padding:12px
-}
-
-.month-box{
-display:block
-}
-
-.month-box button{
-width:100%;
-margin-top:10px
-}
-
+@media(max-width:600px){
+.container{padding:10px}
+.cards,.stat-grid,.form{grid-template-columns:1fr}
+.header h1{font-size:22px}
+.chart-box{height:300px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
-
+<header class="header">
 <h1>KidsMath 📊</h1>
-
 <p>Управление учебным центром</p>
+</header>
+
+<main class="container">
+
+<!-- ПЕРИОД -->
+
+<div class="period">
+
+<div>
+<label>Год</label>
+<select id="year"></select>
+</div>
+
+<div>
+<label>Месяц</label>
+<select id="month">
+<option value="01">Январь</option>
+<option value="02">Февраль</option>
+<option value="03">Март</option>
+<option value="04">Апрель</option>
+<option value="05">Май</option>
+<option value="06">Июнь</option>
+<option value="07">Июль</option>
+<option value="08">Август</option>
+<option value="09">Сентябрь</option>
+<option value="10">Октябрь</option>
+<option value="11">Ноябрь</option>
+<option value="12">Декабрь</option>
+</select>
+</div>
+
+<button onclick="refreshAll()">🔄 Обновить отчёт</button>
 
 </div>
 
-<div class="container">
+<!-- МЕНЮ -->
 
 <div class="tabs">
 
-<button class="active" onclick="showSection('dashboard')">
-Главная
-</button>
-
-<button onclick="showSection('students')">
-👨‍🎓 Ученики
-</button>
-
-<button onclick="showSection('teachers')">
-👩‍🏫 Преподаватели
-</button>
-
-<button onclick="showSection('leavers')">
-🚪 Ушедшие
-</button>
-
-<button onclick="showSection('transfer')">
-🚐 Трансфер
-</button>
-
-<button onclick="showSection('finance')">
-💰 Финансы
-</button>
-
-<button onclick="showSection('statistics')">
-📊 Статистика
-</button>
+<button class="active" onclick="openPage('dashboard',this)">Главная</button>
+<button onclick="openPage('students',this)">👨‍🎓 Ученики</button>
+<button onclick="openPage('teachers',this)">👩‍🏫 Преподаватели</button>
+<button onclick="openPage('leavers',this)">🚪 Уходы</button>
+<button onclick="openPage('transfer',this)">🚐 Трансфер</button>
+<button onclick="openPage('finance',this)">💰 Финансы</button>
+<button onclick="openPage('reports',this)">📊 Отчёты</button>
 
 </div>
 
 
-<!-- ================= DASHBOARD ================= -->
+<!-- ================= ГЛАВНАЯ ================= -->
 
-<div id="dashboard" class="page">
+<section id="dashboard" class="page" style="display:block">
 
 <div class="cards">
 
 <div class="card">
-<div class="card-title">💰 Общий доход</div>
-<div class="card-value" id="dashIncome">0 сум</div>
+<small>💰 Доход за месяц</small>
+<strong id="dIncome">0 сум</strong>
 </div>
 
 <div class="card">
-<div class="card-title">💸 Общие расходы</div>
-<div class="card-value" id="dashExpense">0 сум</div>
+<small>💸 Расход за месяц</small>
+<strong id="dExpense">0 сум</strong>
 </div>
 
 <div class="card">
-<div class="card-title">📈 Общая прибыль</div>
-<div class="card-value" id="dashProfit">0 сум</div>
+<small>📈 Прибыль</small>
+<strong id="dProfit">0 сум</strong>
 </div>
 
 <div class="card">
-<div class="card-title">👨‍🎓 Активные ученики</div>
-<div class="card-value" id="dashStudents">0</div>
+<small>👨‍🎓 Активные ученики</small>
+<strong id="dStudents">0</strong>
+</div>
+
+<div class="card">
+<small>➕ Новые ученики</small>
+<strong id="dNew">0</strong>
+</div>
+
+<div class="card">
+<small>🚪 Ушли</small>
+<strong id="dLeft">0</strong>
+</div>
+
+<div class="card">
+<small>🔴 Долги</small>
+<strong id="dDebt">0 сум</strong>
+</div>
+
+<div class="card">
+<small>🚐 Прибыль трансфера</small>
+<strong id="dTransferProfit">0 сум</strong>
 </div>
 
 </div>
-
 
 <div class="section">
 
-<h2>🚐 Трансфер</h2>
+<h2>📅 Отчёт за <span id="periodName"></span></h2>
 
-<div class="summary">
+<div class="stat-grid">
 
-<div class="summary-box">
-Доход
-<strong id="dashTransferIncome">0 сум</strong>
+<div class="stat">
+Доход<strong id="rIncome">0 сум</strong>
 </div>
 
-<div class="summary-box">
-Расход
-<strong id="dashTransferExpense">0 сум</strong>
+<div class="stat">
+Расход<strong id="rExpense">0 сум</strong>
 </div>
 
-<div class="summary-box">
-Прибыль
-<strong id="dashTransferProfit">0 сум</strong>
+<div class="stat">
+Прибыль<strong id="rProfit">0 сум</strong>
 </div>
 
-<div class="summary-box">
-Учащихся
-<strong id="dashTransferStudents">0</strong>
+<div class="stat">
+Остаток<strong id="rBalance">0 сум</strong>
+</div>
+
+<div class="stat">
+Активные ученики<strong id="rStudents">0</strong>
+</div>
+
+<div class="stat">
+Новые<strong id="rNew">0</strong>
+</div>
+
+<div class="stat">
+Ушедшие<strong id="rLeft">0</strong>
+</div>
+
+<div class="stat">
+Средний чек<strong id="rAverage">0 сум</strong>
 </div>
 
 </div>
 
 </div>
 
-</div>
+</section>
 
 
-<!-- ================= STUDENTS ================= -->
+<!-- ================= УЧЕНИКИ ================= -->
 
-<div id="students" class="page" style="display:none">
+<section id="students" class="page">
 
 <div class="section">
 
-<h2>👨‍🎓 Ученики</h2>
+<h2>👨‍🎓 Добавить ученика</h2>
 
 <div class="form">
 
 <div>
 <label>Имя и фамилия</label>
-<input id="studentName" placeholder="Алиса Абдуллаева">
+<input id="sName">
 </div>
 
 <div>
 <label>Группа</label>
-<input id="studentGroup" placeholder="Math 5">
+<input id="sGroup">
 </div>
 
 <div>
 <label>Предмет</label>
-<select id="studentSubject">
+<select id="sSubject">
 <option>Математика</option>
 <option>Русский язык</option>
 <option>IQ</option>
@@ -377,142 +308,137 @@ margin-top:10px
 
 <div>
 <label>Преподаватель</label>
-<select id="studentTeacher">
-<option value="">Выберите преподавателя</option>
-</select>
+<select id="sTeacher"></select>
 </div>
 
 <div>
 <label>Стоимость обучения</label>
-<input type="number" id="studentPrice" placeholder="500000">
+<input type="number" id="sPrice">
 </div>
 
 <div>
 <label>Оплачено</label>
-<input type="number" id="studentPaid" placeholder="500000">
+<input type="number" id="sPaid">
 </div>
 
 <div>
 <label>Дата поступления</label>
-<input type="date" id="studentStart">
-</div>
-
-<div>
-<label>Комментарий</label>
-<input id="studentComment" placeholder="Комментарий">
+<input type="date" id="sStart">
 </div>
 
 </div>
 
-<button class="add-btn" onclick="addStudent()">
-➕ Добавить ученика
-</button>
-
-<div id="studentsTable"></div>
+<button class="add" onclick="addStudent()">➕ Добавить ученика</button>
 
 </div>
-
-</div>
-
-
-<!-- ================= TEACHERS ================= -->
-
-<div id="teachers" class="page" style="display:none">
 
 <div class="section">
 
-<h2>👩‍🏫 Преподаватели</h2>
+<h2>Список учеников</h2>
+
+<div class="table-wrap">
+<table>
+
+<thead>
+<tr>
+<th>Имя</th>
+<th>Группа</th>
+<th>Предмет</th>
+<th>Преподаватель</th>
+<th>Стоимость</th>
+<th>Оплачено</th>
+<th>Долг</th>
+<th>Статус</th>
+<th></th>
+</tr>
+</thead>
+
+<tbody id="studentsTable"></tbody>
+
+</table>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ПРЕПОДАВАТЕЛИ ================= -->
+
+<section id="teachers" class="page">
+
+<div class="section">
+
+<h2>👩‍🏫 Добавить преподавателя</h2>
 
 <div class="form">
 
 <div>
-<label>Имя и фамилия преподавателя</label>
-<input id="teacherName" placeholder="Анна Иванова">
+<label>Имя и фамилия</label>
+<input id="tName">
 </div>
 
 <div>
 <label>Предмет</label>
-
-<select id="teacherSubject">
-
+<select id="tSubject">
 <option>Математика</option>
 <option>Русский язык</option>
 <option>IQ</option>
 <option>Английский язык</option>
 <option>Другое</option>
-
 </select>
-
 </div>
 
 </div>
 
-<button class="add-btn" onclick="addTeacher()">
-➕ Добавить преподавателя
-</button>
-
-<div id="teachersTable"></div>
+<button class="add" onclick="addTeacher()">➕ Добавить преподавателя</button>
 
 </div>
 
 <div class="section">
 
-<h2>📚 Ученики преподавателей</h2>
+<h2>Преподаватели и их ученики</h2>
 
-<div id="teacherStudentsTable"></div>
-
-</div>
+<div id="teachersList"></div>
 
 </div>
 
+</section>
 
-<!-- ================= LEAVERS ================= -->
 
-<div id="leavers" class="page" style="display:none">
+<!-- ================= УХОДЫ ================= -->
+
+<section id="leavers" class="page">
 
 <div class="section">
 
-<h2>🚪 Уход учащихся</h2>
+<h2>🚪 Зафиксировать уход</h2>
 
 <div class="form">
 
 <div>
 <label>Ученик</label>
-
-<select id="leaveStudent">
-
-<option value="">Выберите ученика</option>
-
-</select>
-
+<select id="lStudent" onchange="fillLeaveInfo()"></select>
 </div>
 
 <div>
 <label>Преподаватель</label>
-
-<input id="leaveTeacher" readonly>
-
+<input id="lTeacher" readonly>
 </div>
 
 <div>
 <label>Предмет</label>
-
-<input id="leaveSubject" readonly>
-
+<input id="lSubject" readonly>
 </div>
 
 <div>
 <label>Дата ухода</label>
-
-<input type="date" id="leaveDate">
-
+<input type="date" id="lDate">
 </div>
 
 <div>
-<label>Причина ухода</label>
-
-<select id="leaveReason">
-
+<label>Причина</label>
+<select id="lReason">
 <option>Дорого</option>
 <option>Переезд</option>
 <option>Не понравился преподаватель</option>
@@ -523,64 +449,54 @@ margin-top:10px
 <option>Расписание</option>
 <option>Семейные обстоятельства</option>
 <option>Другое</option>
-
 </select>
-
 </div>
 
 <div>
 <label>Комментарий</label>
-
-<input id="leaveComment">
-
+<input id="lComment">
 </div>
 
 </div>
 
-<button class="add-btn" onclick="addLeaver()">
-➕ Зафиксировать уход
-</button>
-
-<div id="leaversTable"></div>
+<button class="add" onclick="addLeaver()">➕ Сохранить уход</button>
 
 </div>
-
-</div>
-
-
-<!-- ================= TRANSFER ================= -->
-
-<div id="transfer" class="page" style="display:none">
 
 <div class="section">
 
-<h2>🚐 Учащиеся трансфера</h2>
-
-<div class="summary">
-
-<div class="summary-box">
-Учащихся
-<strong id="transferCount">0</strong>
-</div>
-
-<div class="summary-box">
-Доход
-<strong id="transferIncome">0 сум</strong>
-</div>
-
-<div class="summary-box">
-Расход
-<strong id="transferExpense">0 сум</strong>
-</div>
-
-<div class="summary-box">
-Прибыль
-<strong id="transferProfit">0 сум</strong>
+<h2>История уходов</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Ученик</th>
+<th>Преподаватель</th>
+<th>Предмет</th>
+<th>Дата</th>
+<th>Причина</th>
+<th>Комментарий</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="leaversTable"></tbody>
+</table>
 </div>
 
 </div>
 
-<div class="form" style="margin-top:20px">
+</section>
+
+
+<!-- ================= ТРАНСФЕР ================= -->
+
+<section id="transfer" class="page">
+
+<div class="section">
+
+<h2>🚐 Ученики трансфера</h2>
+
+<div class="form">
 
 <div>
 <label>Ученик</label>
@@ -598,1326 +514,26 @@ margin-top:10px
 </div>
 
 <div>
-<label>Тариф</label>
-<input type="number" id="trPrice" placeholder="500000">
+<label>Тариф в месяц</label>
+<input type="number" id="trPrice">
 </div>
 
 <div>
 <label>Направление</label>
-
 <select id="trDirection">
-
 <option>Дом → Центр и Центр → Дом</option>
 <option>Дом → Центр</option>
 <option>Центр → Дом</option>
-
 </select>
-
 </div>
 
 </div>
 
-<button class="add-btn" onclick="addTransferStudent()">
-➕ Добавить в трансфер
-</button>
+<button class="add" onclick="addTransfer()">➕ Добавить</button>
 
-<div id="transferStudentsTable"></div>
-
-</div>
-
-
-<div class="section">
-
-<h2>💰 Оплата трансфера</h2>
-
-<div class="form">
-
-<div>
-<label>Дата</label>
-<input type="date" id="trIncomeDate">
-</div>
-
-<div>
-<label>Ученик</label>
-<select id="trIncomeStudent"></select>
-</div>
-
-<div>
-<label>Период</label>
-<input id="trIncomePeriod" placeholder="Сентябрь 2026">
-</div>
-
-<div>
-<label>Сумма</label>
-<input type="number" id="trIncomeAmount">
-</div>
-
-</div>
-
-<button class="add-btn" onclick="addTransferIncome()">
-➕ Добавить оплату
-</button>
-
-<div id="transferIncomeTable"></div>
-
-</div>
-
-
-<div class="section">
-
-<h2>⛽ Расходы трансфера</h2>
-
-<div class="form">
-
-<div>
-<label>Дата</label>
-<input type="date" id="trExpenseDate">
-</div>
-
-<div>
-<label>Категория</label>
-
-<select id="trExpenseCategory">
-
-<option>Зарплата водителя</option>
-<option>Бензин</option>
-<option>Ремонт</option>
-<option>Мойка</option>
-<option>Запчасти</option>
-<option>Страховка</option>
-<option>Прочее</option>
-
-</select>
-
-</div>
-
-<div>
-<label>Сумма</label>
-<input type="number" id="trExpenseAmount">
-</div>
-
-<div>
-<label>Комментарий</label>
-<input id="trExpenseComment">
-</div>
-
-</div>
-
-<button class="add-btn" onclick="addTransferExpense()">
-➕ Добавить расход
-</button>
-
-<div id="transferExpenseTable"></div>
-
-</div>
-
-</div>
-
-
-<!-- ================= FINANCE ================= -->
-
-<div id="finance" class="page" style="display:none">
-
-<div class="section">
-
-<h2>💰 Доходы</h2>
-
-<div class="form">
-
-<div>
-<label>Дата</label>
-<input type="date" id="incomeDate">
-</div>
-
-<div>
-<label>Ученик</label>
-<input id="incomeStudent">
-</div>
-
-<div>
-<label>Группа</label>
-<input id="incomeGroup">
-</div>
-
-<div>
-<label>Сумма</label>
-<input type="number" id="incomeAmount">
-</div>
-
-</div>
-
-<button class="add-btn" onclick="addIncome()">
-➕ Добавить доход
-</button>
-
-<div id="incomeTable"></div>
-
-</div>
-
-
-<div class="section">
-
-<h2>💸 Расходы</h2>
-
-<div class="form">
-
-<div>
-<label>Дата</label>
-<input type="date" id="expenseDate">
-</div>
-
-<div>
-<label>Категория</label>
-
-<select id="expenseCategory">
-
-<option>Аренда</option>
-<option>Зарплата</option>
-<option>Реклама</option>
-<option>Коммунальные услуги</option>
-<option>Оборудование</option>
-<option>Кредит</option>
-<option>Прочее</option>
-
-</select>
-
-</div>
-
-<div>
-<label>Сумма</label>
-<input type="number" id="expenseAmount">
-</div>
-
-<div>
-<label>Комментарий</label>
-<input id="expenseComment">
-</div>
-
-</div>
-
-<button class="add-btn" onclick="addExpense()">
-➕ Добавить расход
-</button>
-
-<div id="expenseTable"></div>
-
-</div>
-
-</div>
-
-
-<!-- ================= STATISTICS ================= -->
-
-<div id="statistics" class="page" style="display:none">
-
-<div class="section">
-
-<h2>📊 Месячная статистика</h2>
-
-<div class="month-box">
-
-<div>
-
-<label>Выберите месяц</label>
-
-<input type="month" id="statMonth">
-
-</div>
-
-<button onclick="calculateStatistics()">
-Показать статистику
-</button>
-
-</div>
-
-<div class="summary">
-
-<div class="summary-box">
-Новых учеников
-<strong id="statNew">0</strong>
-</div>
-
-<div class="summary-box">
-Ушли
-<strong id="statLeft">0</strong>
-</div>
-
-<div class="summary-box">
-Осталось
-<strong id="statActive">0</strong>
-</div>
-
-<div class="summary-box">
-Доход
-<strong id="statIncome">0 сум</strong>
-</div>
-
-</div>
-
-</div>
-
-
-<div class="section">
-
-<h2>👩‍🏫 Статистика преподавателей</h2>
-
-<div id="teacherStatistics"></div>
-
-</div>
-
-
-<div class="section">
-
-<h2>🔴 Причины ухода</h2>
-
-<div id="reasonStatistics"></div>
-
-</div>
-
-</div>
-
-</div>
-
-
-<script>
-
-/* ================= DATA ================= */
-
-let teachers=
-JSON.parse(localStorage.getItem("kidsmathTeachers")||"[]");
-
-let students=
-JSON.parse(localStorage.getItem("kidsmathStudents")||"[]");
-
-let leavers=
-JSON.parse(localStorage.getItem("kidsmathLeavers")||"[]");
-
-let transferStudents=
-JSON.parse(localStorage.getItem("kidsmathTransferStudents")||"[]");
-
-let transferIncomes=
-JSON.parse(localStorage.getItem("kidsmathTransferIncomes")||"[]");
-
-let transferExpenses=
-JSON.parse(localStorage.getItem("kidsmathTransferExpenses")||"[]");
-
-let incomes=
-JSON.parse(localStorage.getItem("kidsmathIncomes")||"[]");
-
-let expenses=
-JSON.parse(localStorage.getItem("kidsmathExpenses")||"[]");
-
-
-/* ================= HELPERS ================= */
-
-function money(n){
-
-return Number(n||0).toLocaleString("ru-RU")+" сум";
-
-}
-
-function save(){
-
-localStorage.setItem(
-"kidsmathTeachers",
-JSON.stringify(teachers)
-);
-
-localStorage.setItem(
-"kidsmathStudents",
-JSON.stringify(students)
-);
-
-localStorage.setItem(
-"kidsmathLeavers",
-JSON.stringify(leavers)
-);
-
-localStorage.setItem(
-"kidsmathTransferStudents",
-JSON.stringify(transferStudents)
-);
-
-localStorage.setItem(
-"kidsmathTransferIncomes",
-JSON.stringify(transferIncomes)
-);
-
-localStorage.setItem(
-"kidsmathTransferExpenses",
-JSON.stringify(transferExpenses)
-);
-
-localStorage.setItem(
-"kidsmathIncomes",
-JSON.stringify(incomes)
-);
-
-localStorage.setItem(
-"kidsmathExpenses",
-JSON.stringify(expenses)
-);
-
-}
-
-
-/* ================= NAVIGATION ================= */
-
-function showSection(id){
-
-document
-.querySelectorAll(".page")
-.forEach(x=>x.style.display="none");
-
-document
-.getElementById(id)
-.style.display="block";
-
-document
-.querySelectorAll(".tabs button")
-.forEach(x=>x.classList.remove("active"));
-
-event.target.classList.add("active");
-
-render();
-
-}
-
-
-/* ================= TEACHERS ================= */
-
-function addTeacher(){
-
-let name=
-document.getElementById("teacherName")
-.value.trim();
-
-let subject=
-document.getElementById("teacherSubject")
-.value;
-
-if(!name){
-
-alert("Введите имя преподавателя");
-
-return;
-
-}
-
-teachers.push({
-
-id:Date.now(),
-
-name,
-
-subject
-
-});
-
-save();
-
-document.getElementById("teacherName").value="";
-
-render();
-
-}
-
-
-function deleteTeacher(id){
-
-teachers=
-teachers.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-function renderTeacherSelect(){
-
-let select=
-document.getElementById("studentTeacher");
-
-select.innerHTML=
-'<option value="">Выберите преподавателя</option>';
-
-teachers.forEach(t=>{
-
-select.innerHTML+=
-`<option value="${t.id}">
-${t.name} — ${t.subject}
-</option>`;
-
-});
-
-}
-
-
-/* ================= STUDENTS ================= */
-
-function addStudent(){
-
-let name=
-document.getElementById("studentName").value.trim();
-
-let group=
-document.getElementById("studentGroup").value.trim();
-
-let subject=
-document.getElementById("studentSubject").value;
-
-let teacherId=
-document.getElementById("studentTeacher").value;
-
-let price=
-Number(document.getElementById("studentPrice").value);
-
-let paid=
-Number(document.getElementById("studentPaid").value);
-
-let start=
-document.getElementById("studentStart").value;
-
-let comment=
-document.getElementById("studentComment").value.trim();
-
-if(!name||!price){
-
-alert("Введите имя и стоимость обучения");
-
-return;
-
-}
-
-students.push({
-
-id:Date.now(),
-
-name,
-
-group,
-
-subject,
-
-teacherId,
-
-price,
-
-paid,
-
-debt:Math.max(price-paid,0),
-
-start,
-
-comment,
-
-status:"Учится"
-
-});
-
-save();
-
-document
-.querySelectorAll("#students input")
-.forEach(x=>x.value="");
-
-render();
-
-}
-
-
-function deleteStudent(id){
-
-students=
-students.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-/* ================= LEAVERS ================= */
-
-document
-.getElementById("leaveStudent")
-.addEventListener("change",function(){
-
-let student=
-students.find(x=>x.id==this.value);
-
-if(!student)return;
-
-let teacher=
-teachers.find(x=>x.id==student.teacherId);
-
-document.getElementById("leaveTeacher").value=
-teacher?teacher.name:"";
-
-document.getElementById("leaveSubject").value=
-student.subject;
-
-});
-
-
-function addLeaver(){
-
-let studentId=
-document.getElementById("leaveStudent").value;
-
-let student=
-students.find(x=>x.id==studentId);
-
-if(!student){
-
-alert("Выберите ученика");
-
-return;
-
-}
-
-let date=
-document.getElementById("leaveDate").value;
-
-if(!date){
-
-alert("Укажите дату ухода");
-
-return;
-
-}
-
-let teacher=
-teachers.find(x=>x.id==student.teacherId);
-
-leavers.push({
-
-id:Date.now(),
-
-studentId,
-
-studentName:student.name,
-
-teacher:teacher?teacher.name:"",
-
-subject:student.subject,
-
-date,
-
-reason:
-document.getElementById("leaveReason").value,
-
-comment:
-document.getElementById("leaveComment").value
-
-});
-
-student.status="Ушёл";
-
-save();
-
-render();
-
-}
-
-
-function deleteLeaver(id){
-
-leavers=
-leavers.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-/* ================= TRANSFER ================= */
-
-function addTransferStudent(){
-
-let studentId=
-document.getElementById("trStudent").value;
-
-let student=
-students.find(x=>x.id==studentId);
-
-if(!student){
-
-alert("Выберите ученика");
-
-return;
-
-}
-
-let exists=
-transferStudents.some(x=>x.studentId==studentId);
-
-if(exists){
-
-alert("Этот ученик уже добавлен в трансфер");
-
-return;
-
-}
-
-transferStudents.push({
-
-id:Date.now(),
-
-studentId,
-
-name:student.name,
-
-address:
-document.getElementById("trAddress").value,
-
-phone:
-document.getElementById("trPhone").value,
-
-price:
-Number(document.getElementById("trPrice").value),
-
-direction:
-document.getElementById("trDirection").value
-
-});
-
-save();
-
-render();
-
-}
-
-
-function deleteTransferStudent(id){
-
-transferStudents=
-transferStudents.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-function addTransferIncome(){
-
-let amount=
-Number(document.getElementById("trIncomeAmount").value);
-
-if(!amount){
-
-alert("Введите сумму");
-
-return;
-
-}
-
-transferIncomes.push({
-
-id:Date.now(),
-
-date:
-document.getElementById("trIncomeDate").value,
-
-student:
-document.getElementById("trIncomeStudent").value,
-
-period:
-document.getElementById("trIncomePeriod").value,
-
-amount
-
-});
-
-save();
-
-document.getElementById("trIncomeAmount").value="";
-
-render();
-
-}
-
-
-function deleteTransferIncome(id){
-
-transferIncomes=
-transferIncomes.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-function addTransferExpense(){
-
-let amount=
-Number(document.getElementById("trExpenseAmount").value);
-
-if(!amount){
-
-alert("Введите сумму");
-
-return;
-
-}
-
-transferExpenses.push({
-
-id:Date.now(),
-
-date:
-document.getElementById("trExpenseDate").value,
-
-category:
-document.getElementById("trExpenseCategory").value,
-
-amount,
-
-comment:
-document.getElementById("trExpenseComment").value
-
-});
-
-save();
-
-document.getElementById("trExpenseAmount").value="";
-
-render();
-
-}
-
-
-function deleteTransferExpense(id){
-
-transferExpenses=
-transferExpenses.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-/* ================= FINANCE ================= */
-
-function addIncome(){
-
-let amount=
-Number(document.getElementById("incomeAmount").value);
-
-if(!amount){
-
-alert("Введите сумму");
-
-return;
-
-}
-
-incomes.push({
-
-id:Date.now(),
-
-date:
-document.getElementById("incomeDate").value,
-
-student:
-document.getElementById("incomeStudent").value,
-
-group:
-document.getElementById("incomeGroup").value,
-
-amount
-
-});
-
-save();
-
-document.getElementById("incomeAmount").value="";
-
-render();
-
-}
-
-
-function deleteIncome(id){
-
-incomes=
-incomes.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-function addExpense(){
-
-let amount=
-Number(document.getElementById("expenseAmount").value);
-
-if(!amount){
-
-alert("Введите сумму");
-
-return;
-
-}
-
-expenses.push({
-
-id:Date.now(),
-
-date:
-document.getElementById("expenseDate").value,
-
-category:
-document.getElementById("expenseCategory").value,
-
-amount,
-
-comment:
-document.getElementById("expenseComment").value
-
-});
-
-save();
-
-document.getElementById("expenseAmount").value="";
-
-render();
-
-}
-
-
-function deleteExpense(id){
-
-expenses=
-expenses.filter(x=>x.id!==id);
-
-save();
-
-render();
-
-}
-
-
-/* ================= RENDER ================= */
-
-function render(){
-
-renderTeacherSelect();
-
-renderStudents();
-
-renderTeachers();
-
-renderLeavers();
-
-renderTransfer();
-
-renderFinance();
-
-renderDashboard();
-
-renderStatistics();
-
-}
-
-
-/* ================= STUDENTS TABLE ================= */
-
-function renderStudents(){
-
-let html="";
-
-if(!students.length){
-
-html=
-'<div class="empty">Ученики пока не добавлены</div>';
-
-}
-
-else{
-
-html=`
-
-<div class="table-wrapper">
-
+<div class="table-wrap">
 <table>
-
-<tr>
-
-<th>Ученик</th>
-<th>Группа</th>
-<th>Предмет</th>
-<th>Преподаватель</th>
-<th>Стоимость</th>
-<th>Оплачено</th>
-<th>Долг</th>
-<th>Статус</th>
-<th></th>
-
-</tr>
-`;
-
-students.forEach(s=>{
-
-let t=
-teachers.find(x=>x.id==s.teacherId);
-
-html+=`
-
-<tr>
-
-<td>${s.name}</td>
-
-<td>${s.group}</td>
-
-<td>${s.subject}</td>
-
-<td>${t?t.name:"Не указан"}</td>
-
-<td>${money(s.price)}</td>
-
-<td>${money(s.paid)}</td>
-
-<td>${money(s.debt)}</td>
-
-<td>${s.status}</td>
-
-<td>
-
-<button
-class="delete"
-onclick="deleteStudent(${s.id})">
-Удалить
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`</table></div>`;
-
-}
-
-document.getElementById("studentsTable").innerHTML=html;
-
-}
-
-
-/* ================= TEACHERS TABLE ================= */
-
-function renderTeachers(){
-
-let html="";
-
-if(!teachers.length){
-
-html=
-'<div class="empty">Преподаватели пока не добавлены</div>';
-
-}
-
-else{
-
-html=`
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-
-<th>Преподаватель</th>
-<th>Предмет</th>
-<th>Учеников</th>
-<th></th>
-
-</tr>
-`;
-
-teachers.forEach(t=>{
-
-let count=
-students.filter(
-s=>s.teacherId==t.id && s.status=="Учится"
-).length;
-
-html+=`
-
-<tr>
-
-<td>${t.name}</td>
-
-<td>${t.subject}</td>
-
-<td>${count}</td>
-
-<td>
-
-<button
-class="delete"
-onclick="deleteTeacher(${t.id})">
-Удалить
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`</table></div>`;
-
-}
-
-document.getElementById("teachersTable").innerHTML=html;
-
-
-/* teacher students */
-
-let second="";
-
-teachers.forEach(t=>{
-
-let list=
-students.filter(
-s=>s.teacherId==t.id && s.status=="Учится"
-);
-
-second+=`
-
-<h3>👩‍🏫 ${t.name} — ${t.subject}</h3>
-`;
-
-if(!list.length){
-
-second+=
-'<p class="empty">Учеников нет</p>';
-
-}
-
-else{
-
-second+=`
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Ученик</th>
-<th>Группа</th>
-<th>Статус</th>
-</tr>
-`;
-
-list.forEach(s=>{
-
-second+=`
-
-<tr>
-
-<td>${s.name}</td>
-
-<td>${s.group}</td>
-
-<td>${s.status}</td>
-
-</tr>
-
-`;
-
-});
-
-second+=`</table></div>`;
-
-}
-
-});
-
-document.getElementById("teacherStudentsTable").innerHTML=
-second;
-
-}
-
-
-/* ================= LEAVERS TABLE ================= */
-
-function renderLeavers(){
-
-let select=
-document.getElementById("leaveStudent");
-
-select.innerHTML=
-'<option value="">Выберите ученика</option>';
-
-students
-.filter(s=>s.status=="Учится")
-.forEach(s=>{
-
-select.innerHTML+=
-`<option value="${s.id}">
-${s.name}
-</option>`;
-
-});
-
-
-let html="";
-
-if(!leavers.length){
-
-html=
-'<div class="empty">Уходов пока нет</div>';
-
-}
-
-else{
-
-html=`
-
-<div class="table-wrapper">
-
-<table>
-
-<tr>
-
-<th>Ученик</th>
-<th>Преподаватель</th>
-<th>Предмет</th>
-<th>Дата</th>
-<th>Причина</th>
-<th>Комментарий</th>
-<th></th>
-
-</tr>
-`;
-
-leavers
-.slice()
-.reverse()
-.forEach(x=>{
-
-html+=`
-
-<tr>
-
-<td>${x.studentName}</td>
-
-<td>${x.teacher}</td>
-
-<td>${x.subject}</td>
-
-<td>${x.date}</td>
-
-<td>${x.reason}</td>
-
-<td>${x.comment||""}</td>
-
-<td>
-
-<button
-class="delete"
-onclick="deleteLeaver(${x.id})">
-Удалить
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-html+=`</table></div>`;
-
-}
-
-document.getElementById("leaversTable").innerHTML=html;
-
-}
-
-
-/* ================= TRANSFER RENDER ================= */
-
-function renderTransfer(){
-
-document.getElementById("trStudent").innerHTML=
-students
-.filter(s=>s.status=="Учится")
-.map(s=>
-`<option value="${s.id}">
-${s.name}
-</option>`
-)
-.join("");
-
-document.getElementById("trIncomeStudent").innerHTML=
-transferStudents
-.map(s=>
-`<option>${s.name}</option>`
-)
-.join("");
-
-
-let html="";
-
-transferStudents.forEach(x=>{
-
-html+=`
-
-<tr>
-
-<td>${x.name}</td>
-<td>${x.address}</td>
-<td>${x.phone}</td>
-<td>${money(x.price)}</td>
-<td>${x.direction}</td>
-
-<td>
-
-<button
-class="delete"
-onclick="deleteTransferStudent(${x.id})">
-Удалить
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
-
-document.getElementById("transferStudentsTable").innerHTML=
-
-transferStudents.length?
-
-`<div class="table-wrapper">
-
-<table>
-
+<thead>
 <tr>
 <th>Ученик</th>
 <th>Адрес</th>
@@ -1926,156 +542,956 @@ transferStudents.length?
 <th>Направление</th>
 <th></th>
 </tr>
-
-${html}
-
+</thead>
+<tbody id="transferTable"></tbody>
 </table>
-</div>`
+</div>
 
-:
-
-'<div class="empty">Учащихся на трансфере нет</div>';
+</div>
 
 
-let ti="";
+<div class="section">
 
-transferIncomes.forEach(x=>{
+<h2>💰 Оплаты трансфера</h2>
 
-ti+=`
+<div class="form">
 
-<tr>
+<div>
+<label>Дата</label>
+<input type="date" id="tiDate">
+</div>
 
-<td>${x.date}</td>
-<td>${x.student}</td>
-<td>${x.period}</td>
-<td>${money(x.amount)}</td>
+<div>
+<label>Ученик</label>
+<select id="tiStudent"></select>
+</div>
 
-<td>
+<div>
+<label>Сумма</label>
+<input type="number" id="tiAmount">
+</div>
 
-<button
-class="delete"
-onclick="deleteTransferIncome(${x.id})">
-Удалить
-</button>
+</div>
 
-</td>
+<button class="add" onclick="addTransferIncome()">➕ Добавить оплату</button>
 
-</tr>
+<div id="tiTable"></div>
 
-`;
+</div>
 
-});
 
-document.getElementById("transferIncomeTable").innerHTML=
+<div class="section">
 
-transferIncomes.length?
+<h2>💸 Расходы трансфера</h2>
 
-`<div class="table-wrapper">
+<div class="form">
 
+<div>
+<label>Дата</label>
+<input type="date" id="teDate">
+</div>
+
+<div>
+<label>Категория</label>
+<select id="teCategory">
+<option>Бензин</option>
+<option>Зарплата водителя</option>
+<option>Ремонт</option>
+<option>Мойка</option>
+<option>Запчасти</option>
+<option>Страховка</option>
+<option>Другое</option>
+</select>
+</div>
+
+<div>
+<label>Сумма</label>
+<input type="number" id="teAmount">
+</div>
+
+<div>
+<label>Комментарий</label>
+<input id="teComment">
+</div>
+
+</div>
+
+<button class="add" onclick="addTransferExpense()">➕ Добавить расход</button>
+
+<div id="teTable"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ФИНАНСЫ ================= -->
+
+<section id="finance" class="page">
+
+<div class="section">
+
+<h2>💰 Доход</h2>
+
+<div class="form">
+
+<div>
+<label>Дата</label>
+<input type="date" id="iDate">
+</div>
+
+<div>
+<label>Ученик</label>
+<input id="iStudent">
+</div>
+
+<div>
+<label>Группа</label>
+<input id="iGroup">
+</div>
+
+<div>
+<label>Сумма</label>
+<input type="number" id="iAmount">
+</div>
+
+</div>
+
+<button class="add" onclick="addIncome()">➕ Добавить доход</button>
+
+<div id="incomeTable"></div>
+
+</div>
+
+
+<div class="section">
+
+<h2>💸 Расход</h2>
+
+<div class="form">
+
+<div>
+<label>Дата</label>
+<input type="date" id="eDate">
+</div>
+
+<div>
+<label>Категория</label>
+<select id="eCategory">
+<option>Аренда</option>
+<option>Зарплата</option>
+<option>Реклама</option>
+<option>Коммунальные услуги</option>
+<option>Оборудование</option>
+<option>Кредит</option>
+<option>Другое</option>
+</select>
+</div>
+
+<div>
+<label>Сумма</label>
+<input type="number" id="eAmount">
+</div>
+
+<div>
+<label>Комментарий</label>
+<input id="eComment">
+</div>
+
+</div>
+
+<button class="add" onclick="addExpense()">➕ Добавить расход</button>
+
+<div id="expenseTable"></div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ОТЧЁТЫ ================= -->
+
+<section id="reports" class="page">
+
+<div class="section">
+
+<h2>📊 Месячный отчёт</h2>
+
+<div class="stat-grid">
+
+<div class="stat">Доход<strong id="mIncome">0 сум</strong></div>
+<div class="stat">Расход<strong id="mExpense">0 сум</strong></div>
+<div class="stat">Прибыль<strong id="mProfit">0 сум</strong></div>
+<div class="stat">Остаток<strong id="mBalance">0 сум</strong></div>
+<div class="stat">Активные<strong id="mStudents">0</strong></div>
+<div class="stat">Новые<strong id="mNew">0</strong></div>
+<div class="stat">Ушли<strong id="mLeft">0</strong></div>
+<div class="stat">Средний чек<strong id="mAverage">0 сум</strong></div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>👩‍🏫 Статистика преподавателей</h2>
+
+<div class="table-wrap">
 <table>
-
+<thead>
 <tr>
-<th>Дата</th>
-<th>Ученик</th>
-<th>Период</th>
-<th>Сумма</th>
-<th></th>
+<th>Преподаватель</th>
+<th>Всего учеников</th>
+<th>Новые</th>
+<th>Ушли</th>
 </tr>
-
-${ti}
-
+</thead>
+<tbody id="teacherStats"></tbody>
 </table>
-</div>`
+</div>
 
-:
+</div>
 
-'<div class="empty">Оплат нет</div>';
+<div class="section">
+
+<h2>🚪 Причины ухода</h2>
+<div id="reasonStats"></div>
+</div>
+
+<div class="charts">
+
+<div class="chart-box">
+<canvas id="financeChart"></canvas>
+</div>
+
+<div class="chart-box">
+<canvas id="studentsChart"></canvas>
+</div>
+
+</div>
+
+</section>
+
+</main>
 
 
-let te="";
+<script>
 
-transferExpenses.forEach(x=>{
+/* ================= ДАННЫЕ ================= */
 
-te+=`
+let teachers=JSON.parse(localStorage.getItem("km_teachers")||"[]");
+let students=JSON.parse(localStorage.getItem("km_students")||"[]");
+let leavers=JSON.parse(localStorage.getItem("km_leavers")||"[]");
+let transfers=JSON.parse(localStorage.getItem("km_transfers")||"[]");
+let transferIncome=JSON.parse(localStorage.getItem("km_transfer_income")||"[]");
+let transferExpense=JSON.parse(localStorage.getItem("km_transfer_expense")||"[]");
+let incomes=JSON.parse(localStorage.getItem("km_income")||"[]");
+let expenses=JSON.parse(localStorage.getItem("km_expense")||"[]");
 
-<tr>
+let financeChart=null;
+let studentsChart=null;
 
-<td>${x.date}</td>
-<td>${x.category}</td>
-<td>${money(x.amount)}</td>
-<td>${x.comment||""}</td>
 
-<td>
+/* ================= СОХРАНЕНИЕ ================= */
 
-<button
-class="delete"
-onclick="deleteTransferExpense(${x.id})">
-Удалить
-</button>
+function save(){
 
-</td>
-
-</tr>
-
-`;
-
-});
-
-document.getElementById("transferExpenseTable").innerHTML=
-
-transferExpenses.length?
-
-`<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Дата</th>
-<th>Категория</th>
-<th>Сумма</th>
-<th>Комментарий</th>
-<th></th>
-</tr>
-
-${te}
-
-</table>
-</div>`
-
-:
-
-'<div class="empty">Расходов нет</div>';
+localStorage.setItem("km_teachers",JSON.stringify(teachers));
+localStorage.setItem("km_students",JSON.stringify(students));
+localStorage.setItem("km_leavers",JSON.stringify(leavers));
+localStorage.setItem("km_transfers",JSON.stringify(transfers));
+localStorage.setItem("km_transfer_income",JSON.stringify(transferIncome));
+localStorage.setItem("km_transfer_expense",JSON.stringify(transferExpense));
+localStorage.setItem("km_income",JSON.stringify(incomes));
+localStorage.setItem("km_expense",JSON.stringify(expenses));
 
 }
 
 
-/* ================= FINANCE RENDER ================= */
+/* ================= ВСПОМОГАТЕЛЬНЫЕ ================= */
 
-function renderFinance(){
+function money(n){
+return Number(n||0).toLocaleString("ru-RU")+" сум";
+}
+
+function period(){
+
+return document.getElementById("year").value+"-"+
+document.getElementById("month").value;
+
+}
+
+function today(){
+
+return new Date().toISOString().split("T")[0];
+
+}
+
+function inMonth(date){
+
+return date && date.startsWith(period());
+
+}
+
+
+/* ================= ГОДЫ ================= */
+
+function initYears(){
+
+let y=new Date().getFullYear();
+let select=document.getElementById("year");
+
+for(let i=y-5;i<=y+5;i++){
+
+let o=document.createElement("option");
+o.value=i;
+o.textContent=i;
+
+if(i===y)o.selected=true;
+
+select.appendChild(o);
+
+}
+
+document.getElementById("month").value=
+String(new Date().getMonth()+1).padStart(2,"0");
+
+}
+
+
+/* ================= НАВИГАЦИЯ ================= */
+
+function openPage(id,btn){
+
+document.querySelectorAll(".page")
+.forEach(x=>x.style.display="none");
+
+document.getElementById(id).style.display="block";
+
+document.querySelectorAll(".tabs button")
+.forEach(x=>x.classList.remove("active"));
+
+btn.classList.add("active");
+
+refreshAll();
+
+}
+
+
+/* ================= ПРЕПОДАВАТЕЛИ ================= */
+
+function addTeacher(){
+
+let name=document.getElementById("tName").value.trim();
+
+if(!name){
+alert("Введите имя преподавателя");
+return;
+}
+
+teachers.push({
+id:Date.now(),
+name:name,
+subject:document.getElementById("tSubject").value
+});
+
+document.getElementById("tName").value="";
+
+save();
+refreshAll();
+
+}
+
+function deleteTeacher(id){
+
+if(!confirm("Удалить преподавателя?"))return;
+
+teachers=teachers.filter(x=>x.id!==id);
+
+students.forEach(s=>{
+if(s.teacherId==id)s.teacherId="";
+});
+
+save();
+refreshAll();
+
+}
+
+
+/* ================= УЧЕНИКИ ================= */
+
+function addStudent(){
+
+let name=document.getElementById("sName").value.trim();
+
+if(!name){
+alert("Введите имя ученика");
+return;
+}
+
+let price=Number(document.getElementById("sPrice").value||0);
+let paid=Number(document.getElementById("sPaid").value||0);
+
+students.push({
+
+id:Date.now(),
+name:name,
+group:document.getElementById("sGroup").value,
+subject:document.getElementById("sSubject").value,
+teacherId:document.getElementById("sTeacher").value,
+price:price,
+paid:paid,
+debt:Math.max(price-paid,0),
+start:document.getElementById("sStart").value||today(),
+status:"Учится"
+
+});
+
+document.querySelectorAll("#students input")
+.forEach(x=>x.value="");
+
+save();
+refreshAll();
+
+}
+
+function deleteStudent(id){
+
+if(!confirm("Удалить ученика?"))return;
+
+students=students.filter(x=>x.id!==id);
+
+save();
+refreshAll();
+
+}
+
+
+/* ================= УХОДЫ ================= */
+
+function fillLeaveInfo(){
+
+let id=document.getElementById("lStudent").value;
+
+let s=students.find(x=>x.id==id);
+
+if(!s)return;
+
+let t=teachers.find(x=>x.id==s.teacherId);
+
+document.getElementById("lTeacher").value=t?t.name:"";
+document.getElementById("lSubject").value=s.subject;
+
+}
+
+function addLeaver(){
+
+let id=document.getElementById("lStudent").value;
+
+let s=students.find(x=>x.id==id);
+
+if(!s){
+alert("Выберите ученика");
+return;
+}
+
+let date=document.getElementById("lDate").value||today();
+
+let t=teachers.find(x=>x.id==s.teacherId);
+
+leavers.push({
+
+id:Date.now(),
+studentId:s.id,
+studentName:s.name,
+teacher:t?t.name:"",
+subject:s.subject,
+date:date,
+reason:document.getElementById("lReason").value,
+comment:document.getElementById("lComment").value
+
+});
+
+s.status="Ушёл";
+
+save();
+refreshAll();
+
+}
+
+function deleteLeaver(id){
+
+leavers=leavers.filter(x=>x.id!==id);
+
+save();
+refreshAll();
+
+}
+
+
+/* ================= ТРАНСФЕР ================= */
+
+function addTransfer(){
+
+let id=document.getElementById("trStudent").value;
+let s=students.find(x=>x.id==id);
+
+if(!s){
+alert("Выберите ученика");
+return;
+}
+
+if(transfers.some(x=>x.studentId==id)){
+alert("Ученик уже есть в трансфере");
+return;
+}
+
+transfers.push({
+
+id:Date.now(),
+studentId:id,
+name:s.name,
+address:document.getElementById("trAddress").value,
+phone:document.getElementById("trPhone").value,
+price:Number(document.getElementById("trPrice").value||0),
+direction:document.getElementById("trDirection").value
+
+});
+
+save();
+refreshAll();
+
+}
+
+function deleteTransfer(id){
+
+transfers=transfers.filter(x=>x.id!==id);
+
+save();
+refreshAll();
+
+}
+
+function addTransferIncome(){
+
+let amount=Number(document.getElementById("tiAmount").value||0);
+
+if(!amount){
+alert("Введите сумму");
+return;
+}
+
+transferIncome.push({
+
+id:Date.now(),
+date:document.getElementById("tiDate").value||today(),
+student:document.getElementById("tiStudent").value,
+amount:amount
+
+});
+
+save();
+refreshAll();
+
+}
+
+function deleteTransferIncome(id){
+
+transferIncome=transferIncome.filter(x=>x.id!==id);
+
+save();
+refreshAll();
+
+}
+
+function addTransferExpense(){
+
+let amount=Number(document.getElementById("teAmount").value||0);
+
+if(!amount){
+alert("Введите сумму");
+return;
+}
+
+transferExpense.push({
+
+id:Date.now(),
+date:document.getElementById("teDate").value||today(),
+category:document.getElementById("teCategory").value,
+amount:amount,
+comment:document.getElementById("teComment").value
+
+});
+
+save();
+refreshAll();
+
+}
+
+function deleteTransferExpense(id){
+
+transferExpense=transferExpense.filter(x=>x.id!==id);
+
+save();
+refreshAll();
+
+}
+
+
+/* ================= ФИНАНСЫ ================= */
+
+function addIncome(){
+
+let amount=Number(document.getElementById("iAmount").value||0);
+
+if(!amount){
+alert("Введите сумму");
+return;
+}
+
+incomes.push({
+
+id:Date.now(),
+date:document.getElementById("iDate").value||today(),
+student:document.getElementById("iStudent").value,
+group:document.getElementById("iGroup").value,
+amount:amount
+
+});
+
+save();
+refreshAll();
+
+}
+
+function deleteIncome(id){
+
+incomes=incomes.filter(x=>x.id!==id);
+
+save();
+refreshAll();
+
+}
+
+function addExpense(){
+
+let amount=Number(document.getElementById("eAmount").value||0);
+
+if(!amount){
+alert("Введите сумму");
+return;
+}
+
+expenses.push({
+
+id:Date.now(),
+date:document.getElementById("eDate").value||today(),
+category:document.getElementById("eCategory").value,
+amount:amount,
+comment:document.getElementById("eComment").value
+
+});
+
+save();
+refreshAll();
+
+}
+
+function deleteExpense(id){
+
+expenses=expenses.filter(x=>x.id!==id);
+
+save();
+refreshAll();
+
+}
+
+
+/* ================= SELECT ================= */
+
+function renderSelects(){
+
+let teacher=document.getElementById("sTeacher");
+
+teacher.innerHTML='<option value="">Не выбран</option>';
+
+teachers.forEach(t=>{
+
+teacher.innerHTML+=
+`<option value="${t.id}">${t.name} — ${t.subject}</option>`;
+
+});
+
+
+let studentSelect=document.getElementById("lStudent");
+
+studentSelect.innerHTML=
+'<option value="">Выберите ученика</option>';
+
+students.filter(s=>s.status==="Учится").forEach(s=>{
+
+studentSelect.innerHTML+=
+`<option value="${s.id}">${s.name}</option>`;
+
+});
+
+
+let trStudent=document.getElementById("trStudent");
+
+trStudent.innerHTML="";
+
+students.filter(s=>s.status==="Учится").forEach(s=>{
+
+trStudent.innerHTML+=
+`<option value="${s.id}">${s.name}</option>`;
+
+});
+
+
+let tiStudent=document.getElementById("tiStudent");
+
+tiStudent.innerHTML="";
+
+transfers.forEach(x=>{
+
+tiStudent.innerHTML+=
+`<option>${x.name}</option>`;
+
+});
+
+}
+
+
+/* ================= РЕНДЕР УЧЕНИКОВ ================= */
+
+function renderStudents(){
 
 let html="";
 
-incomes.forEach(x=>{
+students.forEach(s=>{
+
+let t=teachers.find(x=>x.id==s.teacherId);
 
 html+=`
 
 <tr>
+<td>${s.name}</td>
+<td>${s.group}</td>
+<td>${s.subject}</td>
+<td>${t?t.name:"Не указан"}</td>
+<td>${money(s.price)}</td>
+<td>${money(s.paid)}</td>
+<td>${money(s.debt)}</td>
+<td>${s.status}</td>
+<td>
+<button class="delete" onclick="deleteStudent(${s.id})">Удалить</button>
+</td>
+</tr>
 
+`;
+
+});
+
+document.getElementById("studentsTable").innerHTML=
+html||`<tr><td colspan="9" class="empty">Нет учеников</td></tr>`;
+
+}
+
+
+/* ================= РЕНДЕР ПРЕПОДАВАТЕЛЕЙ ================= */
+
+function renderTeachers(){
+
+let html="";
+
+teachers.forEach(t=>{
+
+let list=students.filter(s=>s.teacherId==t.id);
+
+html+=`
+
+<div class="section">
+
+<h3>👩‍🏫 ${t.name} — ${t.subject}</h3>
+
+<p>Всего учеников: <b>${list.length}</b></p>
+
+<div class="table-wrap">
+
+<table>
+
+<tr>
+<th>Ученик</th>
+<th>Группа</th>
+<th>Статус</th>
+</tr>
+
+${list.map(s=>`
+
+<tr>
+<td>${s.name}</td>
+<td>${s.group}</td>
+<td>${s.status}</td>
+</tr>
+
+`).join("")}
+
+</table>
+
+</div>
+
+<button class="delete" onclick="deleteTeacher(${t.id})">
+Удалить преподавателя
+</button>
+
+</div>
+
+`;
+
+});
+
+document.getElementById("teachersList").innerHTML=
+html||`<div class="empty">Преподавателей пока нет</div>`;
+
+}
+
+
+/* ================= РЕНДЕР УХОДОВ ================= */
+
+function renderLeavers(){
+
+let html="";
+
+leavers.slice().reverse().forEach(x=>{
+
+html+=`
+
+<tr>
+<td>${x.studentName}</td>
+<td>${x.teacher}</td>
+<td>${x.subject}</td>
+<td>${x.date}</td>
+<td>${x.reason}</td>
+<td>${x.comment||""}</td>
+<td>
+<button class="delete" onclick="deleteLeaver(${x.id})">Удалить</button>
+</td>
+</tr>
+
+`;
+
+});
+
+document.getElementById("leaversTable").innerHTML=
+html||`<tr><td colspan="7" class="empty">Уходов пока нет</td></tr>`;
+
+}
+
+
+/* ================= ТРАНСФЕР РЕНДЕР ================= */
+
+function renderTransfer(){
+
+let html="";
+
+transfers.forEach(x=>{
+
+html+=`
+
+<tr>
+<td>${x.name}</td>
+<td>${x.address}</td>
+<td>${x.phone}</td>
+<td>${money(x.price)}</td>
+<td>${x.direction}</td>
+<td>
+<button class="delete" onclick="deleteTransfer(${x.id})">Удалить</button>
+</td>
+</tr>
+
+`;
+
+});
+
+document.getElementById("transferTable").innerHTML=
+html||`<tr><td colspan="6" class="empty">Нет учащихся</td></tr>`;
+
+
+let ti="";
+
+transferIncome.forEach(x=>{
+
+ti+=`
+
+<tr>
+<td>${x.date}</td>
+<td>${x.student}</td>
+<td>${money(x.amount)}</td>
+<td>
+<button class="delete" onclick="deleteTransferIncome(${x.id})">Удалить</button>
+</td>
+</tr>
+
+`;
+
+});
+
+document.getElementById("tiTable").innerHTML=
+
+`<div class="table-wrap"><table>
+<tr><th>Дата</th><th>Ученик</th><th>Сумма</th><th></th></tr>
+${ti}
+</table></div>`;
+
+
+let te="";
+
+transferExpense.forEach(x=>{
+
+te+=`
+
+<tr>
+<td>${x.date}</td>
+<td>${x.category}</td>
+<td>${money(x.amount)}</td>
+<td>${x.comment||""}</td>
+<td>
+<button class="delete" onclick="deleteTransferExpense(${x.id})">Удалить</button>
+</td>
+</tr>
+
+`;
+
+});
+
+document.getElementById("teTable").innerHTML=
+
+`<div class="table-wrap"><table>
+<tr><th>Дата</th><th>Категория</th><th>Сумма</th><th>Комментарий</th><th></th></tr>
+${te}
+</table></div>`;
+
+}
+
+
+/* ================= ФИНАНСЫ РЕНДЕР ================= */
+
+function renderFinance(){
+
+let i="";
+
+incomes.forEach(x=>{
+
+i+=`
+
+<tr>
 <td>${x.date}</td>
 <td>${x.student}</td>
 <td>${x.group}</td>
 <td>${money(x.amount)}</td>
-
 <td>
-
-<button
-class="delete"
-onclick="deleteIncome(${x.id})">
-Удалить
-</button>
-
+<button class="delete" onclick="deleteIncome(${x.id})">Удалить</button>
 </td>
-
 </tr>
 
 `;
@@ -2084,28 +1500,10 @@ onclick="deleteIncome(${x.id})">
 
 document.getElementById("incomeTable").innerHTML=
 
-incomes.length?
-
-`<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Дата</th>
-<th>Ученик</th>
-<th>Группа</th>
-<th>Сумма</th>
-<th></th>
-</tr>
-
-${html}
-
-</table>
-</div>`
-
-:
-
-'<div class="empty">Доходов нет</div>';
+`<div class="table-wrap"><table>
+<tr><th>Дата</th><th>Ученик</th><th>Группа</th><th>Сумма</th><th></th></tr>
+${i}
+</table></div>`;
 
 
 let e="";
@@ -2115,22 +1513,13 @@ expenses.forEach(x=>{
 e+=`
 
 <tr>
-
 <td>${x.date}</td>
 <td>${x.category}</td>
 <td>${money(x.amount)}</td>
 <td>${x.comment||""}</td>
-
 <td>
-
-<button
-class="delete"
-onclick="deleteExpense(${x.id})">
-Удалить
-</button>
-
+<button class="delete" onclick="deleteExpense(${x.id})">Удалить</button>
 </td>
-
 </tr>
 
 `;
@@ -2139,252 +1528,347 @@ onclick="deleteExpense(${x.id})">
 
 document.getElementById("expenseTable").innerHTML=
 
-expenses.length?
-
-`<div class="table-wrapper">
-
-<table>
-
-<tr>
-<th>Дата</th>
-<th>Категория</th>
-<th>Сумма</th>
-<th>Комментарий</th>
-<th></th>
-</tr>
-
+`<div class="table-wrap"><table>
+<tr><th>Дата</th><th>Категория</th><th>Сумма</th><th>Комментарий</th><th></th></tr>
 ${e}
-
-</table>
-</div>`
-
-:
-
-'<div class="empty">Расходов нет</div>';
+</table></div>`;
 
 }
 
 
-/* ================= DASHBOARD ================= */
+/* ================= МЕСЯЧНЫЕ ДАННЫЕ ================= */
+
+function getMonthlyData(){
+
+let inc=incomes
+.filter(x=>inMonth(x.date))
+.reduce((a,x)=>a+x.amount,0);
+
+let exp=expenses
+.filter(x=>inMonth(x.date))
+.reduce((a,x)=>a+x.amount,0);
+
+let ti=transferIncome
+.filter(x=>inMonth(x.date))
+.reduce((a,x)=>a+x.amount,0);
+
+let te=transferExpense
+.filter(x=>inMonth(x.date))
+.reduce((a,x)=>a+x.amount,0);
+
+let totalIncome=inc+ti;
+let totalExpense=exp+te;
+
+let newStudents=students.filter(
+s=>s.start && inMonth(s.start)
+).length;
+
+let left=leavers.filter(
+x=>inMonth(x.date)
+).length;
+
+let active=students.filter(
+s=>s.status==="Учится"
+).length;
+
+let debt=students
+.filter(s=>s.status==="Учится")
+.reduce((a,x)=>a+(x.debt||0),0);
+
+let payments=incomes
+.filter(x=>inMonth(x.date));
+
+let average=payments.length?
+inc/payments.length:0;
+
+return {
+inc,
+exp,
+ti,
+te,
+totalIncome,
+totalExpense,
+profit:totalIncome-totalExpense,
+newStudents,
+left,
+active,
+debt,
+average
+};
+
+}
+
+
+/* ================= ГЛАВНАЯ ================= */
 
 function renderDashboard(){
 
-let ei=
-incomes.reduce((a,x)=>a+x.amount,0);
+let d=getMonthlyData();
 
-let ee=
-expenses.reduce((a,x)=>a+x.amount,0);
+let names=[
+"Январь","Февраль","Март","Апрель",
+"Май","Июнь","Июль","Август",
+"Сентябрь","Октябрь","Ноябрь","Декабрь"
+];
 
-let ti=
-transferIncomes.reduce((a,x)=>a+x.amount,0);
+let m=Number(document.getElementById("month").value)-1;
+let y=document.getElementById("year").value;
 
-let te=
-transferExpenses.reduce((a,x)=>a+x.amount,0);
+document.getElementById("periodName").textContent=
+names[m]+" "+y;
 
-let totalIncome=ei+ti;
+document.getElementById("dIncome").textContent=money(d.totalIncome);
+document.getElementById("dExpense").textContent=money(d.totalExpense);
+document.getElementById("dProfit").textContent=money(d.profit);
+document.getElementById("dStudents").textContent=d.active;
+document.getElementById("dNew").textContent=d.newStudents;
+document.getElementById("dLeft").textContent=d.left;
+document.getElementById("dDebt").textContent=money(d.debt);
+document.getElementById("dTransferProfit").textContent=money(d.ti-d.te);
 
-let totalExpense=ee+te;
+document.getElementById("rIncome").textContent=money(d.totalIncome);
+document.getElementById("rExpense").textContent=money(d.totalExpense);
+document.getElementById("rProfit").textContent=money(d.profit);
+document.getElementById("rBalance").textContent=money(d.profit);
+document.getElementById("rStudents").textContent=d.active;
+document.getElementById("rNew").textContent=d.newStudents;
+document.getElementById("rLeft").textContent=d.left;
+document.getElementById("rAverage").textContent=money(d.average);
 
-document.getElementById("dashIncome").textContent=
-money(totalIncome);
-
-document.getElementById("dashExpense").textContent=
-money(totalExpense);
-
-document.getElementById("dashProfit").textContent=
-money(totalIncome-totalExpense);
-
-document.getElementById("dashStudents").textContent=
-students.filter(x=>x.status=="Учится").length;
-
-document.getElementById("dashTransferIncome").textContent=
-money(ti);
-
-document.getElementById("dashTransferExpense").textContent=
-money(te);
-
-document.getElementById("dashTransferProfit").textContent=
-money(ti-te);
-
-document.getElementById("dashTransferStudents").textContent=
-transferStudents.length;
-
-document.getElementById("transferCount").textContent=
-transferStudents.length;
-
-document.getElementById("transferIncome").textContent=
-money(ti);
-
-document.getElementById("transferExpense").textContent=
-money(te);
-
-document.getElementById("transferProfit").textContent=
-money(ti-te);
+document.getElementById("mIncome").textContent=money(d.totalIncome);
+document.getElementById("mExpense").textContent=money(d.totalExpense);
+document.getElementById("mProfit").textContent=money(d.profit);
+document.getElementById("mBalance").textContent=money(d.profit);
+document.getElementById("mStudents").textContent=d.active;
+document.getElementById("mNew").textContent=d.newStudents;
+document.getElementById("mLeft").textContent=d.left;
+document.getElementById("mAverage").textContent=money(d.average);
 
 }
 
 
-/* ================= STATISTICS ================= */
+/* ================= СТАТИСТИКА ================= */
 
-function calculateStatistics(){
+function renderStatistics(){
 
-let month=
-document.getElementById("statMonth").value;
+let month=period();
 
-if(!month)return;
-
-let newStudents=
-students.filter(
-s=>s.start && s.start.startsWith(month)
-).length;
-
-let left=
-leavers.filter(
-s=>s.date && s.date.startsWith(month)
-);
-
-let active=
-students.filter(
-s=>s.status=="Учится"
-).length;
-
-let income=
-incomes
-.filter(
-x=>x.date && x.date.startsWith(month)
-)
-.reduce((a,x)=>a+x.amount,0);
-
-document.getElementById("statNew").textContent=
-newStudents;
-
-document.getElementById("statLeft").textContent=
-left.length;
-
-document.getElementById("statActive").textContent=
-active;
-
-document.getElementById("statIncome").textContent=
-money(income);
-
-
-/* teachers */
-
-let teacherHTML=`
-
-<table>
-
-<tr>
-<th>Преподаватель</th>
-<th>Активные</th>
-<th>Ушли за месяц</th>
-</tr>
-`;
+let html="";
 
 teachers.forEach(t=>{
 
-let activeCount=
-students.filter(
+let total=students.filter(
+s=>s.teacherId==t.id
+).length;
+
+let fresh=students.filter(
 s=>s.teacherId==t.id &&
-s.status=="Учится"
+s.start &&
+s.start.startsWith(month)
 ).length;
 
-let leftCount=
-left.filter(
-x=>x.teacher==t.name
+let left=leavers.filter(
+x=>x.teacher===t.name &&
+x.date &&
+x.date.startsWith(month)
 ).length;
 
-teacherHTML+=`
+html+=`
 
 <tr>
-
 <td>${t.name}</td>
-
-<td>${activeCount}</td>
-
-<td>${leftCount}</td>
-
+<td>${total}</td>
+<td>${fresh}</td>
+<td>${left}</td>
 </tr>
 
 `;
 
 });
 
-teacherHTML+=`</table>`;
+document.getElementById("teacherStats").innerHTML=
+html||`<tr><td colspan="4" class="empty">Нет данных</td></tr>`;
 
-document.getElementById("teacherStatistics").innerHTML=
-teacherHTML;
-
-
-/* reasons */
 
 let reasons={};
 
-left.forEach(x=>{
-
-reasons[x.reason]=
-(reasons[x.reason]||0)+1;
-
+leavers
+.filter(x=>inMonth(x.date))
+.forEach(x=>{
+reasons[x.reason]=(reasons[x.reason]||0)+1;
 });
 
 let reasonHTML="";
 
-Object.keys(reasons).forEach(reason=>{
+Object.entries(reasons).forEach(([r,n])=>{
 
 reasonHTML+=`
-
-<div class="summary-box" style="margin-top:10px">
-
-${reason}
-
-<strong>${reasons[reason]}</strong>
-
+<div class="stat" style="margin-bottom:8px">
+${r}
+<strong>${n}</strong>
 </div>
-
 `;
 
 });
 
-document.getElementById("reasonStatistics").innerHTML=
-reasonHTML||
-'<div class="empty">В этом месяце уходов нет</div>';
+document.getElementById("reasonStats").innerHTML=
+reasonHTML||'<div class="empty">В выбранном месяце уходов нет</div>';
 
 }
 
 
-function renderStatistics(){
+/* ================= ГРАФИКИ ================= */
 
-let month=
-document.getElementById("statMonth").value;
+function renderCharts(){
 
-if(month){
+let year=document.getElementById("year").value;
 
-calculateStatistics();
+let labels=[
+"Янв","Фев","Мар","Апр","Май","Июн",
+"Июл","Авг","Сен","Окт","Ноя","Дек"
+];
+
+let incomeData=[];
+let expenseData=[];
+let newData=[];
+let leftData=[];
+
+for(let i=1;i<=12;i++){
+
+let p=year+"-"+String(i).padStart(2,"0");
+
+let inc=incomes
+.filter(x=>x.date&&x.date.startsWith(p))
+.reduce((a,x)=>a+x.amount,0);
+
+let exp=expenses
+.filter(x=>x.date&&x.date.startsWith(p))
+.reduce((a,x)=>a+x.amount,0);
+
+let ti=transferIncome
+.filter(x=>x.date&&x.date.startsWith(p))
+.reduce((a,x)=>a+x.amount,0);
+
+let te=transferExpense
+.filter(x=>x.date&&x.date.startsWith(p))
+.reduce((a,x)=>a+x.amount,0);
+
+incomeData.push(inc+ti);
+expenseData.push(exp+te);
+
+newData.push(
+students.filter(
+s=>s.start&&s.start.startsWith(p)
+).length
+);
+
+leftData.push(
+leavers.filter(
+x=>x.date&&x.date.startsWith(p)
+).length
+);
 
 }
 
+
+/* финансы */
+
+if(financeChart)financeChart.destroy();
+
+financeChart=new Chart(
+document.getElementById("financeChart"),
+{
+type:"bar",
+data:{
+labels:labels,
+datasets:[
+{
+label:"Доход",
+data:incomeData
+},
+{
+label:"Расход",
+data:expenseData
+}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+}
+);
+
+
+/* ученики */
+
+if(studentsChart)studentsChart.destroy();
+
+studentsChart=new Chart(
+document.getElementById("studentsChart"),
+{
+type:"line",
+data:{
+labels:labels,
+datasets:[
+{
+label:"Новые ученики",
+data:newData
+},
+{
+label:"Ушедшие",
+data:leftData
+}
+]
+},
+options:{
+responsive:true,
+maintainAspectRatio:false
+}
+}
+);
+
 }
 
 
-/* ================= DATES ================= */
+/* ================= ОБНОВЛЕНИЕ ================= */
 
-let today=
-new Date().toISOString().split("T")[0];
+function refreshAll(){
 
-document.getElementById("incomeDate").value=today;
+renderSelects();
+renderStudents();
+renderTeachers();
+renderLeavers();
+renderTransfer();
+renderFinance();
+renderDashboard();
+renderStatistics();
+renderCharts();
 
-document.getElementById("expenseDate").value=today;
-
-document.getElementById("trIncomeDate").value=today;
-
-document.getElementById("trExpenseDate").value=today;
-
-document.getElementById("leaveDate").value=today;
+}
 
 
-/* ================= START ================= */
+/* ================= ДАТЫ ================= */
 
-render();
+document.getElementById("iDate").value=today();
+document.getElementById("eDate").value=today();
+document.getElementById("tiDate").value=today();
+document.getElementById("teDate").value=today();
+document.getElementById("lDate").value=today();
+document.getElementById("sStart").value=today();
+
+
+document.getElementById("year")
+.addEventListener("change",refreshAll);
+
+document.getElementById("month")
+.addEventListener("change",refreshAll);
+
+
+/* ================= ЗАПУСК ================= */
+
+initYears();
+refreshAll();
 
 </script>
 
