@@ -193,6 +193,67 @@ th{
     border-radius:10px;
     margin-top:10px
 }
+.teacher-name-btn{
+    border:0;
+    background:none;
+    padding:0;
+    font:inherit;
+    font-weight:bold;
+    color:#111827;
+    cursor:pointer;
+    text-align:left
+}
+.teacher-name-btn:hover{text-decoration:underline}
+.teacher-students{
+    display:none;
+    background:#f9fafb;
+    border-radius:12px;
+}
+.teacher-students.open{display:table-row}
+.teacher-students-cell{
+    padding:0 !important;
+    border-bottom:0 !important;
+}
+.teacher-group{
+    margin:14px 0;
+    padding:14px;
+    background:white;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+}
+.teacher-group:first-child{margin-top:10px}
+.teacher-group:last-child{margin-bottom:10px}
+.teacher-group h4{
+    margin:0 0 10px;
+    font-size:15px;
+}
+.teacher-student-table{
+    width:100%;
+    border-collapse:collapse;
+}
+.teacher-student-table th,
+.teacher-student-table td{
+    padding:9px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+}
+.teacher-student-table th{
+    color:#6b7280;
+    font-size:12px;
+}
+.teacher-student-table tr:last-child td{border-bottom:0}
+.teacher-status-active{
+    color:#15803d;
+    font-weight:bold;
+}
+.teacher-status-inactive{
+    color:#dc2626;
+    font-weight:bold;
+}
+.teacher-empty{
+    padding:14px;
+    color:#6b7280;
+}
 @media(max-width:900px){
     .cards{grid-template-columns:repeat(2,1fr)}
     .charts{grid-template-columns:1fr}
@@ -1741,70 +1802,200 @@ function renderTeachers(){
 
     DB.teachers.forEach((t,i)=>{
 
-        const count=DB.students.filter(s=>
-            (s.subjects||[]).some(
-                sub=>String(sub.teacherId)===String(t.id)
-            )
-        ).length;
+        const teacherStudents=[];
+
+        DB.students.forEach(s=>{
+            (s.subjects||[]).forEach(sub=>{
+                if(String(sub.teacherId)===String(t.id)){
+                    teacherStudents.push({
+                        student:s,
+                        subject:sub
+                    });
+                }
+            });
+        });
+
+        const count=[...new Set(
+            teacherStudents.map(x=>String(x.student.id))
+        )].length;
+
+        const groups={};
+
+        teacherStudents.forEach(item=>{
+            const group=item.student.group||"Без группы";
+
+            if(!groups[group]){
+                groups[group]=[];
+            }
+
+            groups[group].push(item);
+        });
+
+        let details="";
+
+        Object.keys(groups)
+        .sort((a,b)=>a.localeCompare(b,"ru",{numeric:true}))
+        .forEach(group=>{
+
+            details+=`
+                <div class="teacher-group">
+                    <h4>📚 ${group} — ${[...new Set(
+                        groups[group].map(x=>String(x.student.id))
+                    )].length} ученик(ов)</h4>
+
+                    <div class="table-wrap">
+                        <table class="teacher-student-table">
+                            <thead>
+                                <tr>
+                                    <th>Ф.И.О.</th>
+                                    <th>Группа</th>
+                                    <th>Предмет</th>
+                                    <th>Тариф</th>
+                                    <th>Оплатил</th>
+                                    <th>Осталось</th>
+                                    <th>Статус</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${groups[group].map(item=>{
+
+                                    const s=item.student;
+                                    const sub=item.subject;
+
+                                    const tariff=Number(sub.price||0);
+                                    const paid=Number(sub.paid||0);
+                                    const remaining=Math.max(tariff-paid,0);
+
+                                    return`
+                                        <tr>
+                                            <td><b>${s.name}</b></td>
+                                            <td>${s.group||"—"}</td>
+                                            <td>${sub.name||"—"}</td>
+                                            <td>${money(tariff)}</td>
+                                            <td class="${paid>0?"paid":""}">
+                                                ${money(paid)}
+                                            </td>
+                                            <td class="${remaining>0?"debt":"paid"}">
+                                                ${money(remaining)}
+                                            </td>
+                                            <td class="${
+                                                s.status==="active"
+                                                ?"teacher-status-active"
+                                                :"teacher-status-inactive"
+                                            }">
+                                                ${
+                                                    s.status==="active"
+                                                    ?"🟢 Активный — ходит"
+                                                    :"🔴 Неактивный — не ходит"
+                                                }
+                                            </td>
+                                        </tr>
+                                    `;
+
+                                }).join("")}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+        });
+
+        if(!details){
+            details=`
+                <div class="teacher-empty">
+                    У этого преподавателя пока нет учеников.
+                </div>
+            `;
+        }
 
         html+=`
+            <tr>
+                <td>${i+1}</td>
 
-        <tr>
-
-            <td>${i+1}</td>
-
-            <td><b>${t.name}</b></td>
-
-            <td>${t.subject||"—"}</td>
-
-            <td>${count}</td>
-
-            <td>
-
-                <select
-                onchange="changeTeacherStatus(${t.id},this.value)">
-
-                    <option value="active"
-                    ${t.status==="active"?"selected":""}>
-                    🟢 Активный
-                    </option>
-
-                    <option value="inactive"
-                    ${t.status==="inactive"?"selected":""}>
-                    🔴 Неактивный
-                    </option>
-
-                </select>
-
-            </td>
-
-            <td>
-
-                <div class="actions">
-
-                    <button class="secondary"
-                    onclick="editTeacher(${t.id})">
-                    ✏️
+                <td>
+                    <button
+                        class="teacher-name-btn"
+                        onclick="toggleTeacherStudents(${t.id})"
+                        title="Показать учеников">
+                        👩‍🏫 ${t.name}
                     </button>
+                </td>
 
-                    <button class="danger"
-                    onclick="deleteTeacher(${t.id})">
-                    🗑
+                <td>${t.subject||"—"}</td>
+
+                <td>
+                    <button
+                        class="secondary"
+                        onclick="toggleTeacherStudents(${t.id})">
+                        👨‍🎓 ${count}
                     </button>
+                </td>
 
-                </div>
+                <td>
+                    <select
+                        onchange="changeTeacherStatus(${t.id},this.value)">
 
-            </td>
+                        <option value="active"
+                        ${t.status==="active"?"selected":""}>
+                        🟢 Активный
+                        </option>
 
-        </tr>
+                        <option value="inactive"
+                        ${t.status==="inactive"?"selected":""}>
+                        🔴 Неактивный
+                        </option>
 
+                    </select>
+                </td>
+
+                <td>
+                    <div class="actions">
+
+                        <button
+                            class="secondary"
+                            onclick="editTeacher(${t.id})">
+                            ✏️
+                        </button>
+
+                        <button
+                            class="danger"
+                            onclick="deleteTeacher(${t.id})">
+                            🗑
+                        </button>
+
+                    </div>
+                </td>
+            </tr>
+
+            <tr
+                id="teacherStudents-${t.id}"
+                class="teacher-students">
+
+                <td
+                    colspan="6"
+                    class="teacher-students-cell">
+
+                    ${details}
+
+                </td>
+            </tr>
         `;
-
     });
 
     $("teachersTable").innerHTML=
         html||
         `<tr><td colspan="6">Нет преподавателей</td></tr>`;
+}
+
+
+function toggleTeacherStudents(id){
+
+    const row=$("teacherStudents-"+id);
+
+    if(!row)return;
+
+    row.classList.toggle("open");
 }
 
 
