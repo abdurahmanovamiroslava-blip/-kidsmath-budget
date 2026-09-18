@@ -2035,7 +2035,7 @@ async function clearJournal(){
     if(status)status.textContent="Очистка журнала...";
 
     try{
-        const {data,error}=await sb.rpc("kidsmath_clear_audit_log");
+        const {data,error}=await sb.rpc("kidsmath_clear_audit_log", {});
 
         if(error)throw error;
         await loadAuditLog();
