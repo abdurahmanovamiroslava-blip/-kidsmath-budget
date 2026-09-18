@@ -398,6 +398,7 @@ th{
 <button onclick="showPage('leavers',this)">🚪 Уходы</button>
 <button onclick="showPage('finance',this)">💰 Финансы</button>
 <button id="usersTab" style="display:none" onclick="showPage('users',this)">👤 Доступы</button>
+<button onclick="showPage('journal',this)">📋 Журнал</button>
 </div>
 
 
@@ -1326,6 +1327,30 @@ th{
 
 </section>
 
+<section id="journal" class="page">
+
+<div class="section">
+<h2>📋 Журнал действий</h2>
+<div class="info">Здесь фиксируется, кто из администраторов и менеджеров добавлял, изменял или удалял данные в системе. Журнал общий для всех устройств.</div>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <button class="primary" onclick="loadAuditLog()">🔄 Обновить журнал</button>
+    <span id="journalStatus" style="color:#6b7280;font-size:13px"></span>
+</div>
+</div>
+
+<div class="section">
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>№</th><th>Дата и время</th><th>Пользователь</th><th>Роль</th><th>Действие</th><th>Раздел</th><th>Объект</th><th>Детали</th></tr>
+</thead>
+<tbody id="journalTable"></tbody>
+</table>
+</div>
+</div>
+
+</section>
+
 </div>
 
 
@@ -1412,6 +1437,7 @@ let cloudSaveTimer=null;
 let cloudSaveInProgress=false;
 let cloudSaveQueued=false;
 let cloudPollTimer=null;
+let realtimeChannel=null;
 let lastCloudUpdatedAt=null;
 
 function saveLocal(){
@@ -1693,6 +1719,10 @@ async function handleAuthSession(session){
         clearInterval(accessPollTimer);
         accessPollTimer=null;
     }
+    if(realtimeChannel){
+        sb.removeChannel(realtimeChannel);
+        realtimeChannel=null;
+    }
 
     if(!currentUser){
         currentProfile=null;
@@ -1840,7 +1870,146 @@ async function setManagerApproval(userId,approved){
         return;
     }
 
+    const target=await sb
+        .from("kidsmath_profiles")
+        .select("username,full_name")
+        .eq("id",userId)
+        .maybeSingle();
+
+    const targetName=target.data?.full_name||target.data?.username||userId;
+    await logAudit(approved?"Разрешил доступ":"Заблокировал доступ","Доступы",userId,targetName,approved?"Менеджер получил доступ к системе":"Доступ менеджера заблокирован");
     await loadAdminUsers();
+}
+
+/* ======================================================
+ЖУРНАЛ ДЕЙСТВИЙ — ОБЩИЙ ДЛЯ ВСЕХ УСТРОЙСТВ
+====================================================== */
+
+async function logAudit(action,entity,recordId=null,recordName="",details=""){
+    if(!authReady || !hasAppAccess())return false;
+    try{
+        const {error}=await sb.rpc("kidsmath_log_audit",{
+            p_action:String(action||""),
+            p_entity:String(entity||""),
+            p_record_id:recordId==null?null:String(recordId),
+            p_record_name:String(recordName||""),
+            p_details:String(details||"")
+        });
+        if(error)throw error;
+        return true;
+    }catch(error){
+        console.error("Audit log error:",error);
+        return false;
+    }
+}
+
+function auditMeta(key,item){
+    const x=item||{};
+    const map={
+        students:{entity:"Ученики",name:x.name||"Ученик"},
+        teachers:{entity:"Учителя",name:x.name||"Учитель"},
+        staff:{entity:"Персонал",name:x.name||x.fullName||"Сотрудник"},
+        transfers:{entity:"Трансфер",name:x.studentName||x.name||`Запись ${x.month||""}`},
+        salaries:{entity:"Зарплаты",name:x.teacherName||x.staffName||x.name||"Зарплата"},
+        salaryPayments:{entity:"Выплаты зарплат",name:x.teacherName||x.staffName||x.name||"Выплата"},
+        leavers:{entity:"Уходы",name:x.studentName||x.name||"Уход"},
+        incomes:{entity:"Финансы",name:`${x.studentName||"Ученик"}${x.subjectName?" · "+x.subjectName:""}`},
+        expenses:{entity:"Расходы",name:x.comment||x.name||"Расход"}
+    };
+    return map[key]||{entity:key,name:x.name||x.studentName||"Запись"};
+}
+
+function auditActionForChange(key,beforeExists){
+    const sectionMap={
+        students:"Ученики",teachers:"Учителя",staff:"Персонал",transfers:"Трансфер",
+        salaries:"Зарплаты",salaryPayments:"Выплаты зарплат",leavers:"Уходы",
+        incomes:"Финансы",expenses:"Расходы"
+    };
+    const entity=sectionMap[key]||key;
+    return {entity,verb:beforeExists?"Изменил":"Добавил"};
+}
+
+async function auditChanges(localChanges,cloudBefore){
+    const tasks=[];
+    DB_ARRAY_KEYS.forEach(key=>{
+        const change=localChanges[key]||{changed:[],deleted:[]};
+        const before=Array.isArray(cloudBefore?.[key])?cloudBefore[key]:[];
+        const beforeMap=new Map(before.map(item=>[recordId(item),item]));
+
+        (change.changed||[]).forEach(item=>{
+            const id=recordId(item);
+            const meta=auditMeta(key,item);
+            const oldItem=beforeMap.get(id);
+            const action=oldItem?`Изменил`:`Добавил`;
+            tasks.push(logAudit(
+                action,
+                meta.entity,
+                id||null,
+                meta.name,
+                oldItem?"Изменение записи":"Новая запись"
+            ));
+        });
+
+        (change.deleted||[]).forEach(id=>{
+            const oldItem=beforeMap.get(String(id))||{};
+            const meta=auditMeta(key,oldItem);
+            tasks.push(logAudit(
+                "Удалил",
+                meta.entity,
+                id,
+                meta.name,
+                "Запись удалена"
+            ));
+        });
+    });
+
+    if(tasks.length)await Promise.allSettled(tasks);
+}
+
+async function loadAuditLog(){
+    if(!hasAppAccess())return;
+    const status=$("journalStatus");
+    const table=$("journalTable");
+    if(status)status.textContent="Загрузка...";
+    if(table)table.innerHTML='<tr><td colspan="8">Загрузка журнала...</td></tr>';
+
+    try{
+        const {data,error}=await sb
+            .from("kidsmath_audit_log")
+            .select("id,created_at,username,full_name,role,action,entity,record_name,details")
+            .order("created_at",{ascending:false})
+            .limit(500);
+
+        if(error)throw error;
+
+        const rows=data||[];
+        if(!rows.length){
+            table.innerHTML='<tr><td colspan="8">Журнал пока пуст.</td></tr>';
+            if(status)status.textContent="Записей: 0";
+            return;
+        }
+
+        table.innerHTML=rows.map((row,i)=>{
+            const dt=row.created_at?new Date(row.created_at).toLocaleString("ru-RU"):"—";
+            const role=row.role==="admin"?"Администратор":"Менеджер";
+            const user=row.full_name||row.username||"—";
+            return `<tr>
+                <td>${i+1}</td>
+                <td>${escapeHtml(dt)}</td>
+                <td><b>${escapeHtml(user)}</b><br><small>${escapeHtml(row.username||"")}</small></td>
+                <td>${escapeHtml(role)}</td>
+                <td>${escapeHtml(row.action||"—")}</td>
+                <td>${escapeHtml(row.entity||"—")}</td>
+                <td>${escapeHtml(row.record_name||"—")}</td>
+                <td>${escapeHtml(row.details||"—")}</td>
+            </tr>`;
+        }).join("");
+        if(status)status.textContent=`Записей: ${rows.length}`;
+    }catch(error){
+        console.error("Audit load error:",error);
+        if(table)table.innerHTML=`<tr><td colspan="8">Ошибка загрузки журнала: ${escapeHtml(error.message||error)}</td></tr>`;
+        if(status)status.textContent="Ошибка";
+    }
 }
 
 async function getCloudRow(){
@@ -1917,34 +2086,44 @@ async function saveToSupabase(){
         return false;
     }
 
+    const localChanges=snapshotDiff(LAST_SYNC_DB,DB);
+    const hasChanges=DB_ARRAY_KEYS.some(key=>
+        localChanges[key].changed.length || localChanges[key].deleted.length
+    );
+
+    if(!hasChanges){
+        setSyncStatus("ok","Синхронизировано");
+        return true;
+    }
+
     cloudSaveInProgress=true;
     setSyncStatus("sync","Синхронизация...");
 
     try{
-        const localChanges=snapshotDiff(LAST_SYNC_DB,DB);
-        const row=await getCloudRow();
+        /*
+        Изменения отправляются в серверную RPC-функцию.
+        Она ставит блокировку строки budget_data и объединяет изменения
+        внутри самой БД. Поэтому два устройства, отправившие данные
+        практически одновременно, не затирают друг друга.
+        */
+        const {data,error}=await sb.rpc("kidsmath_apply_changes",{
+            p_changes:localChanges
+        });
 
-        let merged;
-        let updatedAt;
+        if(error)throw error;
+        if(!data?.data)throw new Error("Supabase не вернул обновлённую базу");
 
-        if(row?.data){
-            /*
-            Берём последнюю облачную версию и накладываем только те
-            изменения, которые были сделаны на этом устройстве после
-            последней успешной синхронизации.
-            */
-            merged=applyLocalChangesToCloud(row.data,localChanges);
-            updatedAt=await writeCloudDB(merged);
-        }else{
-            merged=normalizeDB(DB);
-            updatedAt=await createCloudDB(merged);
-        }
-
-        DB=normalizeDB(merged);
+        const cloudBefore=cloneData(LAST_SYNC_DB);
+        DB=normalizeDB(data.data);
         LAST_SYNC_DB=cloneData(DB);
-        lastCloudUpdatedAt=updatedAt;
+        lastCloudUpdatedAt=data.updated_at||null;
         saveLocal();
+
+        /* Журналируем именно изменения этого устройства. */
+        await auditChanges(localChanges,cloudBefore);
+
         setSyncStatus("ok","Синхронизировано");
+        renderAll();
         return true;
     }catch(error){
         console.error("Supabase save error:",error);
@@ -1971,40 +2150,58 @@ async function loadFromSupabase(){
 
     try{
         const localBefore=normalizeDB(DB);
+        const localChanges=snapshotDiff(LAST_SYNC_DB,localBefore);
         const row=await getCloudRow();
 
         if(row?.data){
             const cloud=normalizeDB(row.data);
-            const merged=mergeLocalAndCloud(localBefore,cloud);
+            const hasLocalChanges=DB_ARRAY_KEYS.some(key=>
+                localChanges[key].changed.length || localChanges[key].deleted.length
+            );
 
             /*
-            После первичного объединения считаем облачную версию
-            отправной точкой и отдельно отправляем на сервер только
-            локальные записи, которых там не было.
+            Сначала принимаем свежую облачную базу.
+            Затем, если на этом устройстве были ещё не отправленные
+            изменения, накладываем их поверх облачной версии и отправляем
+            через атомарную RPC-функцию.
             */
-            DB=merged;
+            DB=cloud;
             LAST_SYNC_DB=cloneData(cloud);
             lastCloudUpdatedAt=row.updated_at||null;
             saveLocal();
 
-            const changes=snapshotDiff(LAST_SYNC_DB,DB);
-            const hasLocalChanges=DB_ARRAY_KEYS.some(key=>
-                changes[key].changed.length || changes[key].deleted.length
-            );
-
             if(hasLocalChanges){
+                DB=applyLocalChangesToCloud(cloud,localChanges);
                 await saveToSupabase();
             }else{
-                LAST_SYNC_DB=cloneData(DB);
                 setSyncStatus("ok","Синхронизировано");
+                renderAll();
             }
 
             return true;
         }
 
-        /* Первое создание общей базы. */
-        LAST_SYNC_DB=cloneData(emptyDB());
-        await saveToSupabase();
+        /* Общей строки ещё нет: серверная функция создаст её при первой записи. */
+        if(DB_ARRAY_KEYS.some(key=>localBefore[key].length)){
+            DB=localBefore;
+            LAST_SYNC_DB=cloneData(emptyDB());
+            await saveToSupabase();
+        }else{
+            const {data,error}=await sb.rpc("kidsmath_apply_changes",{
+                p_changes:Object.fromEntries(DB_ARRAY_KEYS.map(key=>[
+                    key,{changed:[],deleted:[]}
+                ]))
+            });
+            if(error)throw error;
+            if(data?.data){
+                DB=normalizeDB(data.data);
+                LAST_SYNC_DB=cloneData(DB);
+                lastCloudUpdatedAt=data.updated_at||null;
+                saveLocal();
+            }
+            setSyncStatus("ok","Синхронизировано");
+            renderAll();
+        }
         return true;
     }catch(error){
         console.error("Supabase load error:",error);
@@ -2027,8 +2224,11 @@ async function syncFromCloud(){
         );
 
         if(hasLocalChanges){
-            /* Есть несохранённые локальные изменения — сохраняем их поверх
-               последней облачной версии, не затрагивая чужие записи. */
+            /*
+            Даже если облако изменилось на другом устройстве, локальные
+            изменения отправляются в серверную merge-функцию и не затирают
+            чужие записи.
+            */
             await saveToSupabase();
             return;
         }
@@ -2049,7 +2249,59 @@ async function syncFromCloud(){
     }
 }
 
+async function handleRealtimeBudgetUpdate(payload){
+    if(!authReady || cloudSaveInProgress)return;
+    try{
+        const row=payload?.new;
+        if(!row?.data)return;
+
+        const localChanges=snapshotDiff(LAST_SYNC_DB,DB);
+        const hasLocalChanges=DB_ARRAY_KEYS.some(key=>
+            localChanges[key].changed.length || localChanges[key].deleted.length
+        );
+
+        if(hasLocalChanges){
+            await saveToSupabase();
+            return;
+        }
+
+        DB=normalizeDB(row.data);
+        LAST_SYNC_DB=cloneData(DB);
+        lastCloudUpdatedAt=row.updated_at||null;
+        saveLocal();
+        renderAll();
+        setSyncStatus("ok","Синхронизировано");
+    }catch(error){
+        console.error("Realtime sync error:",error);
+        setSyncStatus("error","Ошибка синхронизации");
+    }
+}
+
+function startRealtimeSync(){
+    if(realtimeChannel){
+        sb.removeChannel(realtimeChannel);
+        realtimeChannel=null;
+    }
+
+    realtimeChannel=sb.channel("kidsmath-budget-realtime")
+        .on(
+            "postgres_changes",
+            {
+                event:"*",
+                schema:"public",
+                table:SUPABASE_TABLE,
+                filter:`id=eq.${SUPABASE_ROW_ID}`
+            },
+            payload=>handleRealtimeBudgetUpdate(payload)
+        )
+        .subscribe(status=>{
+            if(status==="SUBSCRIBED")setSyncStatus("ok","Онлайн-синхронизация");
+        });
+}
+
+
 function startCloudSync(){
+    startRealtimeSync();
     if(cloudPollTimer)clearInterval(cloudPollTimer);
     cloudPollTimer=setInterval(async()=>{
         await syncFromCloud();
@@ -2130,6 +2382,7 @@ function showPage(id,button){
     button.classList.add("active");
 
     renderAll();
+    if(id==="journal")loadAuditLog();
 }
 
 
