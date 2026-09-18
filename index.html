@@ -398,7 +398,7 @@ th{
 <button onclick="showPage('leavers',this)">🚪 Уходы</button>
 <button onclick="showPage('finance',this)">💰 Финансы</button>
 <button id="usersTab" style="display:none" onclick="showPage('users',this)">👤 Доступы</button>
-<button onclick="showPage('journal',this)">📋 Журнал</button>
+<button id="journalTab" style="display:none" onclick="showPage('journal',this)">📋 Журнал</button>
 </div>
 
 
@@ -1331,9 +1331,10 @@ th{
 
 <div class="section">
 <h2>📋 Журнал действий</h2>
-<div class="info">Здесь фиксируется, кто из администраторов и менеджеров добавлял, изменял или удалял данные в системе. Журнал общий для всех устройств.</div>
+<div class="info">Здесь фиксируется, кто из администраторов и менеджеров добавлял, изменял или удалял данные в системе. Журнал доступен только администратору.</div>
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
     <button class="primary" onclick="loadAuditLog()">🔄 Обновить журнал</button>
+    <button id="clearJournalBtn" class="danger" type="button" onclick="clearJournal()" style="display:none">🗑️ Очистить журнал</button>
     <span id="journalStatus" style="color:#6b7280;font-size:13px"></span>
 </div>
 </div>
@@ -1633,8 +1634,12 @@ function updateUserBadge(){
 }
 
 function applyRoleUI(){
-    const tab=$("usersTab");
-    if(tab)tab.style.display=isAdmin()?"block":"none";
+    const usersTab=$("usersTab");
+    const journalTab=$("journalTab");
+    if(usersTab)usersTab.style.display=isAdmin()?"block":"none";
+    if(journalTab)journalTab.style.display=isAdmin()?"block":"none";
+    const clearJournalBtn=$("clearJournalBtn");
+    if(clearJournalBtn)clearJournalBtn.style.display=isAdmin()?"inline-flex":"none";
     updateUserBadge();
 }
 
@@ -1976,7 +1981,7 @@ async function auditChanges(localChanges,cloudBefore){
 }
 
 async function loadAuditLog(){
-    if(!hasAppAccess())return;
+    if(!isAdmin())return;
     const status=$("journalStatus");
     const table=$("journalTable");
     if(status)status.textContent="Загрузка...";
@@ -2018,6 +2023,30 @@ async function loadAuditLog(){
         console.error("Audit load error:",error);
         if(table)table.innerHTML=`<tr><td colspan="8">Ошибка загрузки журнала: ${escapeHtml(error.message||error)}</td></tr>`;
         if(status)status.textContent="Ошибка";
+    }
+}
+
+async function clearJournal(){
+    if(!isAdmin())return;
+    const ok=window.confirm("Вы действительно хотите очистить весь журнал действий?\n\nВсе записи будут удалены без возможности восстановления.");
+    if(!ok)return;
+
+    const status=$("journalStatus");
+    if(status)status.textContent="Очистка журнала...";
+
+    try{
+        const {error}=await sb
+            .from("kidsmath_audit_log")
+            .delete()
+            .not("id","is",null);
+
+        if(error)throw error;
+        await loadAuditLog();
+        alert("Журнал очищен.");
+    }catch(error){
+        console.error("Journal clear error:",error);
+        if(status)status.textContent="Ошибка очистки";
+        alert("Не удалось очистить журнал: " + (error.message||error));
     }
 }
 
@@ -2380,6 +2409,8 @@ NAVIGATION
 
 function showPage(id,button){
 
+    if(id==="journal" && !isAdmin())return;
+
     document.querySelectorAll(".page")
     .forEach(x=>x.classList.remove("active"));
 
@@ -2391,7 +2422,7 @@ function showPage(id,button){
     button.classList.add("active");
 
     renderAll();
-    if(id==="journal")loadAuditLog();
+    if(id==="journal" && isAdmin())loadAuditLog();
 }
 
 
