@@ -2035,14 +2035,11 @@ async function clearJournal(){
     if(status)status.textContent="Очистка журнала...";
 
     try{
-        const {error}=await sb
-            .from("kidsmath_audit_log")
-            .delete()
-            .not("id","is",null);
+        const {data,error}=await sb.rpc("kidsmath_clear_audit_log");
 
         if(error)throw error;
         await loadAuditLog();
-        alert("Журнал очищен.");
+        alert(`Журнал очищен. Удалено записей: ${Number(data||0)}.`);
     }catch(error){
         console.error("Journal clear error:",error);
         if(status)status.textContent="Ошибка очистки";
