@@ -1651,9 +1651,18 @@ async function loginUser(){
     }
 
     setAuthMessage("Выполняется вход...","success");
-    const {error}=await sb.auth.signInWithPassword({email:authEmailFromUsername(username),password});
+    const email=authEmailFromUsername(username);
+    const {error}=await sb.auth.signInWithPassword({email,password});
     if(error){
-        setAuthMessage("Неверный логин или пароль, либо доступ ещё не разрешён.");
+        console.error("KidsMath login error:", error);
+        const msg=String(error.message||"Неизвестная ошибка");
+        if(/email not confirmed/i.test(msg)){
+            setAuthMessage("Email аккаунта не подтверждён в Supabase. Открой Authentication → Users → mira и подтверди пользователя.");
+        }else if(/invalid login credentials/i.test(msg)){
+            setAuthMessage("Supabase не принял логин/пароль. Проверь, что аккаунт mira создан с email " + email + " и введён правильный пароль.");
+        }else{
+            setAuthMessage("Ошибка входа Supabase: " + msg);
+        }
         return;
     }
     setAuthMessage("Вход выполнен.","success");
